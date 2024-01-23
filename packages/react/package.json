@@ -30,7 +30,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@lazyauth/core": "file:../core"
+    "@fullauth/core": "file:../core"
   },
   "peerDependencies": {
     "react": "^18.2.0",
