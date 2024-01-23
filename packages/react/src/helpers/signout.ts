@@ -11,7 +11,7 @@ const signOut = async (): Promise<SignOutResp> => {
   try {
     const resp = await fetch(
       `${
-        process.env.NEXT_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
+        process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
       }/api/auth/signout`,
       {
         method: 'POST',

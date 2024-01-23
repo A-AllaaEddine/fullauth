@@ -1,5 +1,5 @@
-import { AuthOptions, JWT, Session } from '@lazyauth/core';
-import { verifyToken } from '@lazyauth/core/utils';
+import { AuthOptions, JWT, Session } from '@fullauth/core';
+import { verifyToken } from '@fullauth/core/utils';
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
@@ -52,8 +52,8 @@ const getSession = async (
       }
       console.log('case 1');
       // case 2: there is no token in headers: check cookies
-      const cookie = cookies().get('lazyauth-session-token');
-      const csrfCookie = cookies().get('lazyauth-session-csrf-token');
+      const cookie = cookies().get('fullauth-session-token');
+      const csrfCookie = cookies().get('fullauth-session-csrf-token');
 
       if (!cookie?.value) {
         console.log('Invalid cookie');
@@ -87,8 +87,8 @@ const getSession = async (
       return session;
     }
 
-    const cookie = cookies().get('lazyauth-session-token');
-    const csrfCookie = cookies().get('lazyauth-session-csrf-token');
+    const cookie = cookies().get('fullauth-session-token');
+    const csrfCookie = cookies().get('fullauth-session-csrf-token');
 
     if (!cookie?.value) {
       console.log('Invalid cookie');

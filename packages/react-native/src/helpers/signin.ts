@@ -1,5 +1,5 @@
 // import { JWT } from '../..';
-import { Session } from '@lazyauth/core';
+import { Session } from '@fullauth/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type SigninResp =
@@ -20,7 +20,7 @@ const signIn = async <P extends string>(
   try {
     const providersResp = await fetch(
       `${
-        process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
+        process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
       }/api/auth/providers`,
       {
         method: 'POST',
@@ -57,37 +57,13 @@ const signIn = async <P extends string>(
 
     const isCredentials = providers[provider].type === 'credentials';
 
-    // const csrfResp = await fetch(
-    //   `${
-    //     process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
-    //   }/api/auth/csrf`,
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ isMobile: true }),
-    //   }
-    // );
-
-    // if (!csrfResp.ok) {
-    //   const data = await csrfResp.json();
-    //   return {
-    //     ok: csrfResp.ok,
-    //     status: csrfResp.status,
-    //     error: data.message,
-    //   };
-    // }
-
-    // const csrfToken = await csrfResp.json();
-
     const url = `${
-      process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
+      process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
     }/
       ${isCredentials ? 'callback' : 'signin'}/${provider}`;
 
-    const token = await AsyncStorage.getItem('lazyauth-session-token');
-    const csrfToken = await AsyncStorage.getItem('lazyauth-session-csrf-token');
+    const token = await AsyncStorage.getItem('fullauth-session-token');
+    const csrfToken = await AsyncStorage.getItem('fullauth-session-csrf-token');
 
     const signInResp = await fetch(
       isCredentials
@@ -120,13 +96,13 @@ const signIn = async <P extends string>(
         return null;
       }
       if (data.message === 'jwt expired') {
-        await AsyncStorage.removeItem('lazyauth-session-token');
+        await AsyncStorage.removeItem('fullauth-session-token');
         throw new Error('Session expired.');
       }
       throw new Error(data.message);
     }
-    await AsyncStorage.setItem('lazyauth-session-token', data.token);
-    await AsyncStorage.setItem('lazyauth-session-csrf-token', data.csrfToken);
+    await AsyncStorage.setItem('fullauth-session-token', data.token);
+    await AsyncStorage.setItem('fullauth-session-csrf-token', data.csrfToken);
 
     return { ok: true, session: data.session };
   } catch (error: any) {

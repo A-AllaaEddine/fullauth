@@ -11,7 +11,7 @@ const signOut = async (): Promise<SignOutResp> => {
   try {
     const resp = await fetch(
       `${
-        process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
+        process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
       }/api/auth/signout`,
       {
         method: 'POST',
@@ -28,8 +28,8 @@ const signOut = async (): Promise<SignOutResp> => {
       };
     }
 
-    await AsyncStorage.removeItem('lazyauth-session-token');
-    await AsyncStorage.removeItem('lazyauth-session-csrf-token');
+    await AsyncStorage.removeItem('fullauth-session-token');
+    await AsyncStorage.removeItem('fullauth-session-csrf-token');
   } catch (error: any) {
     console.log(error);
     throw error;

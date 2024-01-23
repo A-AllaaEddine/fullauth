@@ -1,6 +1,6 @@
 'use client';
 
-import { Session } from '@lazyauth/core';
+import { Session } from '@fullauth/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {
   Dispatch,
@@ -36,7 +36,7 @@ export const SessionProvider = ({ children }: { children: any }) => {
   const getSession = async () => {
     try {
       setStatus('loading');
-      const token = await AsyncStorage.getItem('lazyauth-session-token');
+      const token = await AsyncStorage.getItem('fullauth-session-token');
 
       if (!token) {
         setSession(null);
@@ -45,7 +45,7 @@ export const SessionProvider = ({ children }: { children: any }) => {
 
       const resp = await fetch(
         `${
-          process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
+          process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
         }/api/auth/session`,
         {
           method: 'POST',
@@ -61,13 +61,13 @@ export const SessionProvider = ({ children }: { children: any }) => {
       }
       if (data.message === 'No Session') {
         setSession(null);
-        await AsyncStorage.removeItem('lazyauth-session-token');
-        await AsyncStorage.removeItem('lazyauth-session-csrf-token');
+        await AsyncStorage.removeItem('fullauth-session-token');
+        await AsyncStorage.removeItem('fullauth-session-csrf-token');
         return null;
       }
       if (data.message === 'jwt expired') {
-        await AsyncStorage.removeItem('lazyauth-session-token');
-        await AsyncStorage.removeItem('lazyauth-session-csrf-token');
+        await AsyncStorage.removeItem('fullauth-session-token');
+        await AsyncStorage.removeItem('fullauth-session-csrf-token');
         return null;
       }
       //   console.log(data);
@@ -77,15 +77,15 @@ export const SessionProvider = ({ children }: { children: any }) => {
       } else {
         setStatus('unauthenticated');
         setSession(null);
-        await AsyncStorage.removeItem('lazyauth-session-token');
-        await AsyncStorage.removeItem('lazyauth-session-csrf-token');
+        await AsyncStorage.removeItem('fullauth-session-token');
+        await AsyncStorage.removeItem('fullauth-session-csrf-token');
       }
       return data.session as null | Session;
     } catch (error: any) {
       console.log(error);
       if (error.message === 'jwt expired') {
-        await AsyncStorage.removeItem('lazyauth-session-token');
-        await AsyncStorage.removeItem('lazyauth-session-csrf-token');
+        await AsyncStorage.removeItem('fullauth-session-token');
+        await AsyncStorage.removeItem('fullauth-session-csrf-token');
         return null;
       }
       throw error;
@@ -96,15 +96,15 @@ export const SessionProvider = ({ children }: { children: any }) => {
   }, []);
 
   const update = async (data?: any): Promise<Update> => {
-    const token = await AsyncStorage.getItem('lazyauth-session-token');
+    const token = await AsyncStorage.getItem('fullauth-session-token');
     if (!token) {
       setSession(null);
       return null;
     }
-    const csrfToken = await AsyncStorage.getItem('lazyauth-session-csrf-token');
+    const csrfToken = await AsyncStorage.getItem('fullauth-session-csrf-token');
     const resp = await fetch(
       `${
-        process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
+        process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
       }/api/auth/update`,
       {
         method: 'POST',
@@ -125,7 +125,7 @@ export const SessionProvider = ({ children }: { children: any }) => {
     }
 
     const newToken = await resp.json();
-    await AsyncStorage.setItem('lazyauth-session-token', newToken.token);
+    await AsyncStorage.setItem('fullauth-session-token', newToken.token);
     getSession();
   };
 

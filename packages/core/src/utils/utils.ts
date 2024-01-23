@@ -58,8 +58,8 @@ export type ResponseProvider = {
 };
 export async function getProviders(options: AuthOptions) {
   const url =
-    process.env.NEXT_PUBLIC_LAZYAUTH_URL ??
-    process.env.EXPO_PUBLIC_LAZYAUTH_URL ??
+    process.env.NEXT_PUBLIC_FULLAUTH_URL ??
+    process.env.EXPO_PUBLIC_FULLAUTH_URL ??
     'http://localhost:3000';
 
   const providers: ResponseProvider[] = options.providers.reduce(

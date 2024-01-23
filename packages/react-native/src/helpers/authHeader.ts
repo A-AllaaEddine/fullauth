@@ -5,8 +5,8 @@ export type AuthHeaders = {
   csrfToken: string;
 };
 const authHeaders = async (): Promise<AuthHeaders> => {
-  const token = await AsyncStorage.getItem('lazyauth-session-token');
-  const csrfToken = await AsyncStorage.getItem('lazyauth-session-csrf-token');
+  const token = await AsyncStorage.getItem('fullauth-session-token');
+  const csrfToken = await AsyncStorage.getItem('fullauth-session-csrf-token');
   return { token: token ?? '', csrfToken: csrfToken ?? '' };
 };
 

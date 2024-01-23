@@ -1,6 +1,6 @@
 'use client';
 
-import { Session } from '@lazyauth/core';
+import { Session } from '@fullauth/core';
 import React, {
   Dispatch,
   SetStateAction,
@@ -45,7 +45,7 @@ export const SessionProvider = ({
       setStatus('loading');
       const resp = await fetch(
         `${
-          process.env.NEXT_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
+          process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
         }/api/auth/session`,
         {
           method: 'POST',
@@ -83,7 +83,7 @@ export const SessionProvider = ({
   async function update(data?: any): Promise<Update> {
     const resp = await fetch(
       `${
-        process.env.NEXT_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
+        process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
       }/api/auth/update`,
       {
         method: 'POST',

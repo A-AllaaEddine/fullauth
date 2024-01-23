@@ -41,7 +41,8 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "@types/jsonwebtoken": "^9.0.2"
   },
   "gitHead": "df009b9adb59317481e3ecd0c7b1df403d67e78a"
 }
