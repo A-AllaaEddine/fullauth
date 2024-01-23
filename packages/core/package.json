@@ -1,0 +1,46 @@
+{
+  "name": "@fullauth/core",
+  "version": "0.0.3",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.js",
+      "types": "./dist/types/utils/index.d.ts"
+    },
+    "./providers": {
+      "import": "./dist/providers/index.js",
+      "require": "./dist/providers/index.js",
+      "types": "./dist/types/providers/index.d.ts"
+    }
+  },
+  "author": "lazydev",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.3",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  }
+}
