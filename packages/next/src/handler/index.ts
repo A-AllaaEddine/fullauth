@@ -320,8 +320,9 @@ async function NextAppRouteHandler(
             return NextResponse.json({
               session: {
                 ...jwt,
+                user: jwt.user ?? {},
                 expiresAt: exp,
-              },
+              } as Session,
             });
           } catch (error: any) {
             console.log(error);
@@ -362,8 +363,9 @@ async function NextAppRouteHandler(
           return NextResponse.json({
             session: {
               ...jwt,
+              user: jwt.user ?? {},
               expiresAt: exp,
-            },
+            } as Session,
           });
         } catch (error: any) {
           console.log(error);

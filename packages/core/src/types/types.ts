@@ -1,6 +1,18 @@
 import { CredentialsConfig, ProviderType } from '../providers/credentials';
 
 export type CallbackOptions = {
+  /**
+   * A Callback that runs on first sign in and  every session request.
+   * only when using token strategy
+   *
+   * @param {JWT | null} token -The session jwt.
+   * @param {any} udpate - The object sent from update function).
+   * @param {'update' | 'signin' | undefined} trigger - The operation trigger.
+   * @param {User | null} user - The user object returned from provider.
+   * @param {Auth | null} auth - The object containing information about the provider.
+   * @returns {Promise<any>} A promise that returns object for the session jwt.
+   * @throws {AuthenticationError} If authentication fails, return error object.
+   */
   token: ({
     token,
     updates,
@@ -14,6 +26,7 @@ export type CallbackOptions = {
     user: User | null;
     auth: Auth | null;
   }) => Promise<any>;
+
   database: ({
     updates,
     data,
@@ -33,7 +46,7 @@ export type Provider = CredentialsConfig;
 
 export type SessionStrategy = 'token' | 'database';
 export type SessionOptions = {
-  strategry: SessionStrategy;
+  strategy: SessionStrategy;
   maxAge?: number;
   updateAge?: number;
 };

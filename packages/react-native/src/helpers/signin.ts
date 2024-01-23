@@ -13,6 +13,15 @@ export type SigninResp =
     }
   | null;
 
+/**
+ * Authenticates a user based on the selected provider.
+ *
+ * @param {string} provider -The id of the provider.
+ * @param {string} credentials - The credentials for the provider (only for credentials provider).
+ * @returns {Promise<SigninResp>} A promise that returns session object on success.
+ * @throws {AuthenticationError} If authentication fails, return error object.
+ */
+
 const signIn = async <P extends string>(
   provider: 'credentials' | 'google' | 'github' | P,
   credentials?: Record<string, string>

@@ -3,6 +3,15 @@ import { verifyToken } from '@fullauth/core/utils';
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
+/**
+ * Functuion that returns session object on server side
+ *
+ * @param {AuthOptions} authOptions - The options  used to inialize the handler
+ * @param {Requesr | NextRequest} req (optional) - The request object
+ * @returns {Promise<session>} The session object.bject.
+ * @throws {AuthenticationError} If error occurs, return error object.
+ */
+
 const getSession = async (
   options: AuthOptions,
   req?: Request | NextRequest
@@ -18,22 +27,21 @@ const getSession = async (
 
       // case 1: there is token in headers: use that token to get session data
       if (sessionToken) {
-        console.log('case 1');
         const csrfToken = headers.get('csrfToken');
         // check for csrf token
         if (!csrfToken) {
-          console.log('Invalid csrf token');
+          console.log('Fullauth: Invalid csrf token');
           return null;
         }
 
         token = await verifyToken(sessionToken, options?.secret!);
 
         if (!token) {
-          console.log('Invalid JWT');
+          console.log('Fullauth: Invalid JWT');
           return null;
         }
         if (token.csrfToken !== csrfToken) {
-          console.log('Invalid csrf token');
+          console.log('Fullauth: Invalid csrf token');
           return null;
         }
 
@@ -50,28 +58,27 @@ const getSession = async (
         // return session object
         return session;
       }
-      console.log('case 1');
       // case 2: there is no token in headers: check cookies
       const cookie = cookies().get('fullauth-session-token');
       const csrfCookie = cookies().get('fullauth-session-csrf-token');
 
       if (!cookie?.value) {
-        console.log('Invalid cookie');
+        console.log('Fullauth: Invalid cookie');
         return null;
       }
       if (!csrfCookie?.value) {
-        console.log('Invalid crsf cookie');
+        console.log('Fullauth: Invalid crsf cookie');
         return null;
       }
 
       token = await verifyToken(cookie?.value!, options?.secret!);
       if (!token) {
-        console.log('Invalid token');
+        console.log('Fullauth: Invalid token');
         return null;
       }
 
       if (token.csrfToken !== csrfCookie?.value) {
-        console.log('Invalid csrf token');
+        console.log('Fullauth: Invalid csrf token');
         return null;
       }
 
@@ -91,7 +98,7 @@ const getSession = async (
     const csrfCookie = cookies().get('fullauth-session-csrf-token');
 
     if (!cookie?.value) {
-      console.log('Invalid cookie');
+      console.log('Fullauth: Invalid cookie');
       return null;
     }
     if (!csrfCookie?.value) {
@@ -101,12 +108,12 @@ const getSession = async (
 
     token = await verifyToken(cookie?.value!, options?.secret!);
     if (!token) {
-      console.log('Invalid token');
+      console.log('Fullauth: Invalid token');
       return null;
     }
 
     if (token.csrfToken !== csrfCookie?.value) {
-      console.log('Invalid csrf token');
+      console.log('Fullauth: Invalid csrf token');
       return null;
     }
 
@@ -131,12 +138,12 @@ const getSession = async (
   }
 };
 
-function getServerSession(options: AuthOptions): any;
+function getServerSession(options: AuthOptions): Promise<Session | null>;
 
 function getServerSession(
   req: Request | NextRequest,
   options: AuthOptions
-): any;
+): Promise<Session | null>;
 
 async function getServerSession(
   ...args: [AuthOptions] | [Request | NextRequest, AuthOptions]
