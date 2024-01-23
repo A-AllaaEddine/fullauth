@@ -1,6 +1,6 @@
 {
   "name": "@fullauth/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -42,5 +42,6 @@
   },
   "dependencies": {
     "jsonwebtoken": "^9.0.2"
-  }
+  },
+  "gitHead": "df009b9adb59317481e3ecd0c7b1df403d67e78a"
 }
