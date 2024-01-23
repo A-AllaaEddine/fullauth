@@ -1,4 +1,4 @@
-import { Session } from '@lazyauth/core';
+import { Session } from '@fullauth/core';
 import React, { Dispatch, SetStateAction } from 'react';
 export type Update = {
     ok: boolean;

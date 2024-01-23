@@ -1,4 +1,4 @@
-import { Session } from '@lazyauth/core';
+import { Session } from '@fullauth/core';
 export type SigninResp = {
     ok: boolean;
     error: string;

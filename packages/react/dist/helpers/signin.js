@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const signIn = async (provider, credentials) => {
     try {
-        const providersResp = await fetch(`${process.env.NEXT_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/api/auth/providers`, {
+        const providersResp = await fetch(`${process.env.NEXT_PUBLIC_FULLATH_URL ?? 'http://localhost:3000'}/api/auth/providers`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,27 +24,7 @@ const signIn = async (provider, credentials) => {
             };
         }
         const isCredentials = providers[provider].type === 'credentials';
-        // const csrfResp = await fetch(
-        //   `${
-        //     process.env.NEXT_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
-        //   }/api/auth/csrf`,
-        //   {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({ isMobile: false }),
-        //   }
-        // );
-        // if (!csrfResp.ok) {
-        //   const data = await csrfResp.json();
-        //   return {
-        //     ok: csrfResp.ok,
-        //     status: csrfResp.status,
-        //     error: data.message,
-        //   };
-        // }
-        const url = `${process.env.NEXT_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/
+        const url = `${process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/
       ${isCredentials ? 'callback' : 'signin'}/${provider}`;
         const signInResp = await fetch(isCredentials
             ? providers[provider].signInUrl
@@ -61,9 +41,8 @@ const signIn = async (provider, credentials) => {
                 return null;
             }
             if (data.message === 'jwt expired') {
-                // await cookies().delete('lazyauth-session-token');
                 document.cookie =
-                    'lazyauth-session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    'fullauth-session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 // return null;
                 throw new Error('Session expired.');
             }

@@ -37,8 +37,8 @@ export const verifyToken = async (token, secret) => {
     }
 };
 export async function getProviders(options) {
-    const url = process.env.NEXT_PUBLIC_LAZYAUTH_URL ??
-        process.env.EXPO_PUBLIC_LAZYAUTH_URL ??
+    const url = process.env.NEXT_PUBLIC_FULLAUTH_URL ??
+        process.env.EXPO_PUBLIC_FULLAUTH_URL ??
         'http://localhost:3000';
     const providers = options.providers.reduce((acc, provider) => {
         acc[provider.id] = {

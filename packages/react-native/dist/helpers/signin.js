@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const async_storage_1 = __importDefault(require("@react-native-async-storage/async-storage"));
 const signIn = async (provider, credentials) => {
     try {
-        const providersResp = await fetch(`${process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/api/auth/providers`, {
+        const providersResp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/providers`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,31 +27,10 @@ const signIn = async (provider, credentials) => {
             };
         }
         const isCredentials = providers[provider].type === 'credentials';
-        // const csrfResp = await fetch(
-        //   `${
-        //     process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'
-        //   }/api/auth/csrf`,
-        //   {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({ isMobile: true }),
-        //   }
-        // );
-        // if (!csrfResp.ok) {
-        //   const data = await csrfResp.json();
-        //   return {
-        //     ok: csrfResp.ok,
-        //     status: csrfResp.status,
-        //     error: data.message,
-        //   };
-        // }
-        // const csrfToken = await csrfResp.json();
-        const url = `${process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/
+        const url = `${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/
       ${isCredentials ? 'callback' : 'signin'}/${provider}`;
-        const token = await async_storage_1.default.getItem('lazyauth-session-token');
-        const csrfToken = await async_storage_1.default.getItem('lazyauth-session-csrf-token');
+        const token = await async_storage_1.default.getItem('fullauth-session-token');
+        const csrfToken = await async_storage_1.default.getItem('fullauth-session-csrf-token');
         const signInResp = await fetch(isCredentials
             ? providers[provider].signInUrl
             : providers[provider].callbackUrl, {
@@ -73,13 +52,13 @@ const signIn = async (provider, credentials) => {
                 return null;
             }
             if (data.message === 'jwt expired') {
-                await async_storage_1.default.removeItem('lazyauth-session-token');
+                await async_storage_1.default.removeItem('fullauth-session-token');
                 throw new Error('Session expired.');
             }
             throw new Error(data.message);
         }
-        await async_storage_1.default.setItem('lazyauth-session-token', data.token);
-        await async_storage_1.default.setItem('lazyauth-session-csrf-token', data.csrfToken);
+        await async_storage_1.default.setItem('fullauth-session-token', data.token);
+        await async_storage_1.default.setItem('fullauth-session-csrf-token', data.csrfToken);
         return { ok: true, session: data.session };
     }
     catch (error) {

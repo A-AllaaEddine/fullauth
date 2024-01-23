@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("next/server");
 const headers_1 = require("next/headers");
-const utils_1 = require("@lazyauth/core/utils");
+const utils_1 = require("@fullauth/core/utils");
 async function NextAppRouteHandler(req, res, options) {
     const sessionStrategry = {
         maxAge: 60 * 60 * 24 * 7,
@@ -14,7 +14,7 @@ async function NextAppRouteHandler(req, res, options) {
         const body = await (0, utils_1.getBodyData)(req);
         const params = res.params;
         // return the available providers
-        if (params.lazyauth.includes('providers')) {
+        if (params.fullauth.includes('providers')) {
             try {
                 const providers = await (0, utils_1.getProviders)(options);
                 return server_1.NextResponse.json({ ...providers });
@@ -24,19 +24,19 @@ async function NextAppRouteHandler(req, res, options) {
                 return server_1.NextResponse.json({ ok: false, message: error.message });
             }
         }
-        if (params.lazyauth.includes('signout')) {
+        if (params.fullauth.includes('signout')) {
             if (body.isMobile) {
                 return server_1.NextResponse.json({ ok: true, message: 'Session Deleted.' });
             }
-            await (0, headers_1.cookies)().delete('lazyauth-session-token');
-            await (0, headers_1.cookies)().delete('lazyauth-session-csrf-token');
+            await (0, headers_1.cookies)().delete('fullauth-session-token');
+            await (0, headers_1.cookies)().delete('fullauth-session-csrf-token');
             return server_1.NextResponse.json({ ok: true, message: 'Session Deleted.' });
         }
         // if provider is not provided
-        if (params.lazyauth.includes('callback')) {
+        if (params.fullauth.includes('callback')) {
             // TODO: add OAuth providers
         }
-        if (params.lazyauth.includes('signin')) {
+        if (params.fullauth.includes('signin')) {
             try {
                 // no provider
                 if (!body.provider) {
@@ -64,7 +64,7 @@ async function NextAppRouteHandler(req, res, options) {
                         }
                     }
                     // web session exist
-                    const cookie = (0, headers_1.cookies)().get('lazyauth-session-token');
+                    const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
                     if (cookie?.value) {
                         return server_1.NextResponse.json({
                             ok: false,
@@ -127,7 +127,7 @@ async function NextAppRouteHandler(req, res, options) {
                     });
                     // setting the cookie
                     response.cookies.set({
-                        name: 'lazyauth-session-token',
+                        name: 'fullauth-session-token',
                         value: tokenString,
                         httpOnly: true,
                         maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
@@ -135,7 +135,7 @@ async function NextAppRouteHandler(req, res, options) {
                         sameSite: process.env.NODE_ENV === 'development' ? false : true,
                     });
                     response.cookies.set({
-                        name: 'lazyauth-session-csrf-token',
+                        name: 'fullauth-session-csrf-token',
                         value: csrfToken,
                         httpOnly: true,
                         maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
@@ -150,7 +150,7 @@ async function NextAppRouteHandler(req, res, options) {
                 return server_1.NextResponse.json({ ok: false, message: error.message });
             }
         }
-        if (params.lazyauth.includes('update')) {
+        if (params.fullauth.includes('update')) {
             // Mobile
             if (sessionStrategry?.strategry === 'token') {
                 if (body.isMobile) {
@@ -179,7 +179,7 @@ async function NextAppRouteHandler(req, res, options) {
                     return server_1.NextResponse.json({ token: sessionJwt });
                 }
                 // verify the csrf token
-                const csrfCookie = await (0, headers_1.cookies)().get('lazyauth-session-csrf-token');
+                const csrfCookie = await (0, headers_1.cookies)().get('fullauth-session-csrf-token');
                 if (!csrfCookie) {
                     return server_1.NextResponse.json({
                         ok: false,
@@ -188,7 +188,7 @@ async function NextAppRouteHandler(req, res, options) {
                 }
                 // await verifyToken(csrfCookie.value!, options?.secret!);
                 // get the session cookie
-                const cookie = await (0, headers_1.cookies)().get('lazyauth-session-token');
+                const cookie = await (0, headers_1.cookies)().get('fullauth-session-token');
                 if (!cookie) {
                     return server_1.NextResponse.json({
                         ok: false,
@@ -222,7 +222,7 @@ async function NextAppRouteHandler(req, res, options) {
                     message: 'Session updated.',
                 });
                 response.cookies.set({
-                    name: 'lazyauth-session-token',
+                    name: 'fullauth-session-token',
                     value: sessionJwt,
                     httpOnly: true,
                     maxAge: cookieData.exp - Math.floor(Date.now() / 1000) ?? 60 * 60 * 24 * 7,
@@ -232,7 +232,7 @@ async function NextAppRouteHandler(req, res, options) {
                 return response;
             }
         }
-        if (params.lazyauth.includes('session')) {
+        if (params.fullauth.includes('session')) {
             if (sessionStrategry?.strategry === 'token') {
                 // mobile
                 if (body.isMobile) {
@@ -267,12 +267,12 @@ async function NextAppRouteHandler(req, res, options) {
                         return server_1.NextResponse.json({ message: error.message });
                     }
                 }
-                const cookie = (0, headers_1.cookies)().get('lazyauth-session-token');
+                const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
                 if (!cookie) {
                     const response = server_1.NextResponse.json({
                         message: 'No Session',
                     });
-                    response.cookies.delete('lazyauth-session-token');
+                    response.cookies.delete('fullauth-session-token');
                     return response;
                 }
                 // await verifyCsrfToken(cookie.value, options.secret!);
@@ -304,12 +304,12 @@ async function NextAppRouteHandler(req, res, options) {
                     const response = server_1.NextResponse.json({
                         error: error.message,
                     });
-                    response.cookies.delete('lazyauth-session-token');
+                    response.cookies.delete('fullauth-session-token');
                     return response;
                 }
             }
         }
-        if (params.lazyauth.includes('csrf')) {
+        if (params.fullauth.includes('csrf')) {
             // Generate csrf token
             const csrfToken = await (0, utils_1.generateToken)({}, options.secret);
             if (body.isMobile) {
@@ -319,7 +319,7 @@ async function NextAppRouteHandler(req, res, options) {
                 message: 'Csrf Token generated.',
             });
             response.cookies.set({
-                name: 'lazyauth-session-csrf-token',
+                name: 'fullauth-session-csrf-token',
                 value: csrfToken,
                 httpOnly: true,
                 maxAge: undefined,

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = require("@lazyauth/core/utils");
+const utils_1 = require("@fullauth/core/utils");
 const headers_1 = require("next/headers");
 const getSession = async (options, req) => {
     try {
@@ -41,8 +41,8 @@ const getSession = async (options, req) => {
             }
             console.log('case 1');
             // case 2: there is no token in headers: check cookies
-            const cookie = (0, headers_1.cookies)().get('lazyauth-session-token');
-            const csrfCookie = (0, headers_1.cookies)().get('lazyauth-session-csrf-token');
+            const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
+            const csrfCookie = (0, headers_1.cookies)().get('fullauth-session-csrf-token');
             if (!cookie?.value) {
                 console.log('Invalid cookie');
                 return null;
@@ -70,8 +70,8 @@ const getSession = async (options, req) => {
             };
             return session;
         }
-        const cookie = (0, headers_1.cookies)().get('lazyauth-session-token');
-        const csrfCookie = (0, headers_1.cookies)().get('lazyauth-session-csrf-token');
+        const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
+        const csrfCookie = (0, headers_1.cookies)().get('fullauth-session-csrf-token');
         if (!cookie?.value) {
             console.log('Invalid cookie');
             return null;

@@ -33,7 +33,7 @@ const SessionProvider = ({ children, session, }) => {
     const getSession = async () => {
         try {
             setStatus('loading');
-            const resp = await fetch(`${process.env.NEXT_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/api/auth/session`, {
+            const resp = await fetch(`${process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/session`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const SessionProvider = ({ children, session, }) => {
         getSession();
     }, []);
     async function update(data) {
-        const resp = await fetch(`${process.env.NEXT_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/api/auth/update`, {
+        const resp = await fetch(`${process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/update`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

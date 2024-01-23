@@ -37,12 +37,12 @@ const SessionProvider = ({ children }) => {
     const getSession = async () => {
         try {
             setStatus('loading');
-            const token = await async_storage_1.default.getItem('lazyauth-session-token');
+            const token = await async_storage_1.default.getItem('fullauth-session-token');
             if (!token) {
                 setSession(null);
                 return null;
             }
-            const resp = await fetch(`${process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/api/auth/session`, {
+            const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/session`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,13 +55,13 @@ const SessionProvider = ({ children }) => {
             }
             if (data.message === 'No Session') {
                 setSession(null);
-                await async_storage_1.default.removeItem('lazyauth-session-token');
-                await async_storage_1.default.removeItem('lazyauth-session-csrf-token');
+                await async_storage_1.default.removeItem('fullauth-session-token');
+                await async_storage_1.default.removeItem('fullauth-session-csrf-token');
                 return null;
             }
             if (data.message === 'jwt expired') {
-                await async_storage_1.default.removeItem('lazyauth-session-token');
-                await async_storage_1.default.removeItem('lazyauth-session-csrf-token');
+                await async_storage_1.default.removeItem('fullauth-session-token');
+                await async_storage_1.default.removeItem('fullauth-session-csrf-token');
                 return null;
             }
             //   console.log(data);
@@ -72,16 +72,16 @@ const SessionProvider = ({ children }) => {
             else {
                 setStatus('unauthenticated');
                 setSession(null);
-                await async_storage_1.default.removeItem('lazyauth-session-token');
-                await async_storage_1.default.removeItem('lazyauth-session-csrf-token');
+                await async_storage_1.default.removeItem('fullauth-session-token');
+                await async_storage_1.default.removeItem('fullauth-session-csrf-token');
             }
             return data.session;
         }
         catch (error) {
             console.log(error);
             if (error.message === 'jwt expired') {
-                await async_storage_1.default.removeItem('lazyauth-session-token');
-                await async_storage_1.default.removeItem('lazyauth-session-csrf-token');
+                await async_storage_1.default.removeItem('fullauth-session-token');
+                await async_storage_1.default.removeItem('fullauth-session-csrf-token');
                 return null;
             }
             throw error;
@@ -91,13 +91,13 @@ const SessionProvider = ({ children }) => {
         getSession();
     }, []);
     const update = async (data) => {
-        const token = await async_storage_1.default.getItem('lazyauth-session-token');
+        const token = await async_storage_1.default.getItem('fullauth-session-token');
         if (!token) {
             setSession(null);
             return null;
         }
-        const csrfToken = await async_storage_1.default.getItem('lazyauth-session-csrf-token');
-        const resp = await fetch(`${process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/api/auth/update`, {
+        const csrfToken = await async_storage_1.default.getItem('fullauth-session-csrf-token');
+        const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/update`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ const SessionProvider = ({ children }) => {
             };
         }
         const newToken = await resp.json();
-        await async_storage_1.default.setItem('lazyauth-session-token', newToken.token);
+        await async_storage_1.default.setItem('fullauth-session-token', newToken.token);
         getSession();
     };
     return (react_1.default.createElement(exports.sessionContext.Provider, { value: {

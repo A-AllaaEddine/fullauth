@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const async_storage_1 = __importDefault(require("@react-native-async-storage/async-storage"));
 const signOut = async () => {
     try {
-        const resp = await fetch(`${process.env.EXPO_PUBLIC_LAZYAUTH_URL ?? 'http://localhost:3000'}/api/auth/signout`, {
+        const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/signout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -19,8 +19,8 @@ const signOut = async () => {
                 error: 'Internal Server Error',
             };
         }
-        await async_storage_1.default.removeItem('lazyauth-session-token');
-        await async_storage_1.default.removeItem('lazyauth-session-csrf-token');
+        await async_storage_1.default.removeItem('fullauth-session-token');
+        await async_storage_1.default.removeItem('fullauth-session-csrf-token');
     }
     catch (error) {
         console.log(error);
