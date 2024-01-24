@@ -35,6 +35,39 @@ Explore the [examples](https://github.com/A-AllaaEddine/fullauth/tree/main/examp
 - Add support for express servers.
 
 
+## Keywords
+
+- Authentication
+- Authorization
+- Web
+- Next.js
+- React
+- React Native
+- TypeScript
+- Security
+- User Management
+- Login
+- Registration
+- Multi-Factor Authentication (MFA)
+- Session Management
+- Access Control
+- JWT (JSON Web Tokens)
+- OAuth
+- OpenID Connect
+- FullStack
+- Mobile Authentication
+- SSR (Server-Side Rendering)
+- API Authentication
+- Customizable
+- Fine-Grained Permissions
+- User Roles
+- Cross-Platform
+- Integration
+- Seamless Authentication
+- Development
+- Frontend
+- Backend
+- Node.js
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
