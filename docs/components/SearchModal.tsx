@@ -66,9 +66,10 @@ const SearchModal = () => {
           />
         </div>
         <div className="w-full max-h-[300px] bg-[#0f0f0f] px-2 overflow-y-auto rounded-md flex flex-col justify-start items-center gap-2">
-          {resutls?.map((obj) => {
+          {resutls?.map((obj, index) => {
             return (
               <Link
+                key={index}
                 href={obj?.redirect}
                 className="w-full h-12 rounded-md hover:bg-[#383838] hover:text-gray-300
                 hover:border-gray-300

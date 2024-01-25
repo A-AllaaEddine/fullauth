@@ -23,7 +23,6 @@ const ReactNativeInstallation = () => {
           </p>
           <SyntaxHighlighter
             language="javascript"
-            // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
             style={atomDark}
             customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
           >
@@ -37,7 +36,6 @@ const ReactNativeInstallation = () => {
           <p className="text-start text-lg text-gray-300">Install Packages:</p>
           <SyntaxHighlighter
             language="javascript"
-            // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
             style={atomDark}
             customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
           >
@@ -62,11 +60,10 @@ const ReactNativeInstallation = () => {
           </p>
           <SyntaxHighlighter
             language="javascript"
-            // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
             style={atomDark}
             customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
           >
-            EXPO_PUBLIC_FULLAUTH_URL= "your-backend-url"
+            EXPO_PUBLIC_FULLAUTH_URL= your-backend-url
           </SyntaxHighlighter>
         </div>
         <div

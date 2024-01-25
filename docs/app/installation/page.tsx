@@ -8,9 +8,9 @@ const Installation = () => {
         Installation
       </p>
       <p className="w-2/3 text-start">
-        Below, you'll find instructions on how to install FullAuth based on your
-        development platform. Choose the platform that matches your project, and
-        follow the provided steps to get started quickly.
+        Below, you will find instructions on how to install FullAuth based on
+        your development platform. Choose the platform that matches your
+        project, and follow the provided steps to get started quickly.
       </p>
       <div className="w-full h-full flex flex-wrap justify-start items-center gap-5 mt-10">
         <Link

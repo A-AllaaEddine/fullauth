@@ -21,7 +21,6 @@ const NextInstallation = () => {
           <p className="text-start text-lg text-gray-300">Install Packages:</p>
           <SyntaxHighlighter
             language="javascript"
-            // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
             style={atomDark}
             customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
           >
@@ -30,7 +29,6 @@ const NextInstallation = () => {
           <p>or</p>
           <SyntaxHighlighter
             language="javascript"
-            // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
             style={atomDark}
             customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
           >
@@ -46,11 +44,10 @@ const NextInstallation = () => {
           </p>
           <SyntaxHighlighter
             language="javascript"
-            // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
             style={atomDark}
             customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
           >
-            NEXT_PUBLIC_FULLAUTH_URL= "your-backend-url"
+            NEXT_PUBLIC_FULLAUTH_URL= your-backend-url
           </SyntaxHighlighter>
         </div>
         <div

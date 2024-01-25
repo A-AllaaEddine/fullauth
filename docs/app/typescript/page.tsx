@@ -22,9 +22,9 @@ const Typescript = () => {
             Module Augmentaion:
           </p>
           <p>
-            <span className="text-gray-300">FullAuth</span> supports
-            TypeScript's module augmentation, allowing you to extend existing
-            types with additional properties or methods
+            <span className="text-gray-300">FullAuth</span> supports TypeScript
+            module augmentation, allowing you to extend existing types with
+            additional properties or methods
           </p>
           <p>
             Create a <span className="text-gray-300">fullauth.d.ts</span> file
