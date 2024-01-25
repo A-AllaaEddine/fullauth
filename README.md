@@ -1,10 +1,6 @@
-
 # Fullauth
 
 FullAuth is a versatile and comprehensive authentication library designed for seamless integration into web and mobile applications. With a focus on security, simplicity, and extensibility, FullAuth provides a robust set of features to handle user authentication, authorization, and session management.
-
-
-
 
 ## Features
 
@@ -14,16 +10,12 @@ FullAuth is a versatile and comprehensive authentication library designed for se
 - Currently support NextJs 13 only (more coming soon).
 - Email/Password sign in method (more coming soon).
 
-
-
 ## Documentation
 
-To get started with Fullauth, please visit 
-[Documentations](https://linktodocumentation).
-
+To get started with Fullauth, please visit
+[Documentations](https://full-auth.vercel.app/).
 
 ## Examples
-
 
 Explore the [examples](https://github.com/A-AllaaEddine/fullauth/tree/main/examples) folder to see how to integrate and use FullAuth in your projects.
 
@@ -33,7 +25,6 @@ Explore the [examples](https://github.com/A-AllaaEddine/fullauth/tree/main/examp
 
 - Add database support with different adapters.
 - Add support for express servers.
-
 
 ## Keywords
 
@@ -68,7 +59,7 @@ Explore the [examples](https://github.com/A-AllaaEddine/fullauth/tree/main/examp
 - Frontend
 - Backend
 - Node.js
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
