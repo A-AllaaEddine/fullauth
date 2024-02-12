@@ -7,7 +7,7 @@ const ChangeLog = () => {
         </p>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">
-            v0.0.8
+            v1.0.0
           </p>
           <p className=" h-8 ">- Reworked internal functions.</p>
           <p className=" h-8 ">- Add: Google Provider.</p>
