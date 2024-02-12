@@ -8,14 +8,12 @@ const signOut = async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ isMobile: false }),
+            body: JSON.stringify({}),
         });
         if (!resp.ok) {
-            return {
-                ok: false,
-                error: 'Internal Server Error',
-            };
+            throw new Error('Internal Server Error');
         }
+        window.location.reload();
     }
     catch (error) {
         console.log(error);

@@ -30,24 +30,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SessionProvider = exports.sessionContext = void 0;
 const async_storage_1 = __importDefault(require("@react-native-async-storage/async-storage"));
 const react_1 = __importStar(require("react"));
+const authHeader_1 = require("./authHeader");
 exports.sessionContext = (0, react_1.createContext)(undefined);
 const SessionProvider = ({ children }) => {
     const [currentSession, setSession] = (0, react_1.useState)(null);
-    const [status, setStatus] = (0, react_1.useState)('loading');
+    const [status, setStatus] = (0, react_1.useState)('unauthenticated');
     const getSession = async () => {
         try {
-            setStatus('loading');
-            const token = await async_storage_1.default.getItem('fullauth-session-token');
-            if (!token) {
-                setSession(null);
-                return null;
-            }
-            const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/session`, {
-                method: 'POST',
+            // setStatus('authenticating');
+            // const token = await AsyncStorage.getItem('fullauth-session-token');
+            // if (!token) {
+            //   setSession(null);
+            //   return null;
+            // }
+            const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/mobile/session`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(await (0, authHeader_1.authHeaders)()),
                 },
-                body: JSON.stringify({ isMobile: true, token }),
             });
             const data = await resp.json();
             if (!resp.ok) {
@@ -65,16 +66,15 @@ const SessionProvider = ({ children }) => {
                 return null;
             }
             //   console.log(data);
-            if (data.session) {
-                setStatus('authenticated');
-                setSession(data.session);
-            }
-            else {
+            if (!data.session) {
                 setStatus('unauthenticated');
                 setSession(null);
                 await async_storage_1.default.removeItem('fullauth-session-token');
                 await async_storage_1.default.removeItem('fullauth-session-csrf-token');
+                return null;
             }
+            setStatus('authenticated');
+            setSession(data.session);
             return data.session;
         }
         catch (error) {
@@ -90,31 +90,31 @@ const SessionProvider = ({ children }) => {
     (0, react_1.useEffect)(() => {
         getSession();
     }, []);
-    const update = async (data) => {
+    const update = async (data = {}) => {
         const token = await async_storage_1.default.getItem('fullauth-session-token');
         if (!token) {
             setSession(null);
             return null;
         }
-        const csrfToken = await async_storage_1.default.getItem('fullauth-session-csrf-token');
-        const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/update`, {
+        const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/mobile/update`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                ...(await (0, authHeader_1.authHeaders)()),
             },
-            body: JSON.stringify({ data, token, csrfToken, isMobile: true }),
+            body: JSON.stringify(data),
         });
+        const returnData = await resp.json();
         if (!resp.ok) {
-            const data = await resp.json();
             return {
                 ok: resp.ok,
-                status: resp.status,
-                error: data.message,
+                status: returnData.status,
+                error: returnData.message,
             };
         }
-        const newToken = await resp.json();
-        await async_storage_1.default.setItem('fullauth-session-token', newToken.token);
-        getSession();
+        // const newToken = await resp.json();
+        await async_storage_1.default.setItem('fullauth-session-token', returnData.token);
+        await getSession();
     };
     return (react_1.default.createElement(exports.sessionContext.Provider, { value: {
             session: currentSession,

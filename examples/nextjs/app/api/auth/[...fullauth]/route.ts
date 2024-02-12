@@ -1,10 +1,10 @@
 import { AuthOptions } from '@fullauth/core';
 import { NextHandler } from '@fullauth/next';
-import { CredentialProvider } from '@fullauth/core/providers';
+import { CredentialsProvider } from '@fullauth/core/providers';
 
 export const authOptions: AuthOptions = {
   providers: [
-    CredentialProvider({
+    CredentialsProvider({
       name: 'credentials',
       credentials: {
         email: { type: 'text', placeholder: 'Email' },
@@ -34,7 +34,7 @@ export const authOptions: AuthOptions = {
   ],
   session: {
     // session strategy default to 'token'
-    strategry: 'token',
+    strategy: 'token',
     // you can set the max age of the session
     maxAge: 60 * 60 * 24 * 7,
   },

@@ -1,1 +1,2 @@
-export { CredentialProvider } from './credentials';
+export { CredentialsProvider } from './credentials';
+export { GoogleProvider } from './google';

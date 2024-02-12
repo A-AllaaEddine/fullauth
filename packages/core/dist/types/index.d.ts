@@ -1,1 +1,1 @@
-export { AuthOptions, JWT, Session, DbData } from './types/types';
+export { AuthOptions, JWT, Session, DbData, DefaultSession, DefaultJWT, } from './types/types';

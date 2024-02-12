@@ -2,5 +2,10 @@ export type AuthHeaders = {
     token: string;
     csrfToken: string;
 };
-declare const authHeaders: () => Promise<AuthHeaders>;
-export default authHeaders;
+/**
+ * Function that return session token and csrf token for the headers
+ *
+ * @returns {string} token -  The session token.
+ * @returns {string} csrfToken -  The csrf token.
+ */
+export declare const authHeaders: () => Promise<AuthHeaders>;

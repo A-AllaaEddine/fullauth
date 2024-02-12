@@ -4,46 +4,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const async_storage_1 = __importDefault(require("@react-native-async-storage/async-storage"));
+const authHeader_1 = require("./authHeader");
+const utils_1 = require("../utils/utils");
+/**
+ * Authenticates a user based on the selected provider.
+ *
+ * @param {string} provider -The id of the provider.
+ * @param {string} credentials - The credentials for the provider (only for credentials provider).
+ * @returns {Promise<SigninResp>} A promise that returns session object on success.
+ * @throws {AuthenticationError} If authentication fails, return error object.
+ */
 const signIn = async (provider, credentials) => {
     try {
-        const providersResp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/providers`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ provider, credentials, isMobile: false }),
-        });
-        if (!providersResp.ok) {
-            return {
-                ok: false,
-                error: 'Internal Server Error',
-            };
-        }
-        const providers = await providersResp.json();
+        const providers = await (0, utils_1.getProviders)();
         if (!providers[provider]) {
-            return {
-                ok: false,
-                error: 'Invalid provider',
-            };
+            throw new Error('Invalid provider');
         }
         const isCredentials = providers[provider].type === 'credentials';
-        const url = `${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/
-      ${isCredentials ? 'callback' : 'signin'}/${provider}`;
-        const token = await async_storage_1.default.getItem('fullauth-session-token');
-        const csrfToken = await async_storage_1.default.getItem('fullauth-session-csrf-token');
         const signInResp = await fetch(isCredentials
-            ? providers[provider].signInUrl
-            : providers[provider].callbackUrl, {
+            ? providers[provider].callbackUrl
+            : providers[provider].signInUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                ...(await (0, authHeader_1.authHeaders)()),
             },
             body: JSON.stringify({
                 provider,
                 credentials,
-                isMobile: true,
-                token: token,
-                csrfToken: csrfToken,
             }),
         });
         const data = await signInResp.json();
@@ -53,16 +41,17 @@ const signIn = async (provider, credentials) => {
             }
             if (data.message === 'jwt expired') {
                 await async_storage_1.default.removeItem('fullauth-session-token');
+                await async_storage_1.default.removeItem('fullauth-session-csrf-token');
                 throw new Error('Session expired.');
             }
             throw new Error(data.message);
         }
-        await async_storage_1.default.setItem('fullauth-session-token', data.token);
-        await async_storage_1.default.setItem('fullauth-session-csrf-token', data.csrfToken);
-        return { ok: true, session: data.session };
+        await async_storage_1.default.setItem('fullauth-session-token', data.token ?? '');
+        await async_storage_1.default.setItem('fullauth-session-csrf-token', data.csrfToken ?? '');
+        return { session: data.session };
     }
     catch (error) {
-        // console.log(error);
+        console.log('signin error: ', error);
         throw error;
     }
 };

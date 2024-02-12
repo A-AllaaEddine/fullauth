@@ -1,13 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { authHeaders } from './authHeader';
 
-export type SignOutResp =
-  | {
-      ok: boolean;
-      error: string;
-    }
-  | undefined;
-
-const signOut = async (): Promise<SignOutResp> => {
+const signOut = async () => {
   try {
     const resp = await fetch(
       `${
@@ -17,15 +11,13 @@ const signOut = async (): Promise<SignOutResp> => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(await authHeaders()),
         },
-        body: JSON.stringify({ isMobile: false }),
+        body: JSON.stringify({}),
       }
     );
     if (!resp.ok) {
-      return {
-        ok: false,
-        error: 'Internal Server Error',
-      };
+      throw new Error('Internal Server Error');
     }
 
     await AsyncStorage.removeItem('fullauth-session-token');

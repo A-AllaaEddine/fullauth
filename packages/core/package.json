@@ -31,6 +31,11 @@
       "import": "./dist/providers/index.js",
       "require": "./dist/providers/index.js",
       "types": "./dist/types/providers/index.d.ts"
+    },
+    "./providers/*": {
+      "import": "./dist/providers/*.js",
+      "require": "./dist/providers/*.js",
+      "types": "./dist/types/providers/*.d.ts"
     }
   },
   "author": "lazydev",

@@ -9,6 +9,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { authHeaders } from './authHeader';
 
 export type Update =
   | {
@@ -31,28 +32,28 @@ export const sessionContext = createContext<
 
 export const SessionProvider = ({ children }: { children: any }) => {
   const [currentSession, setSession] = useState<null | Session>(null);
-  const [status, setStatus] = useState('loading');
+  const [status, setStatus] = useState('unauthenticated');
 
   const getSession = async () => {
     try {
-      setStatus('loading');
-      const token = await AsyncStorage.getItem('fullauth-session-token');
+      // setStatus('authenticating');
+      // const token = await AsyncStorage.getItem('fullauth-session-token');
 
-      if (!token) {
-        setSession(null);
-        return null;
-      }
+      // if (!token) {
+      //   setSession(null);
+      //   return null;
+      // }
 
       const resp = await fetch(
         `${
           process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
-        }/api/auth/session`,
+        }/api/auth/mobile/session`,
         {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            ...(await authHeaders()),
           },
-          body: JSON.stringify({ isMobile: true, token }),
         }
       );
       const data = await resp.json();
@@ -71,15 +72,15 @@ export const SessionProvider = ({ children }: { children: any }) => {
         return null;
       }
       //   console.log(data);
-      if (data.session) {
-        setStatus('authenticated');
-        setSession(data.session);
-      } else {
+      if (!data.session) {
         setStatus('unauthenticated');
         setSession(null);
         await AsyncStorage.removeItem('fullauth-session-token');
         await AsyncStorage.removeItem('fullauth-session-csrf-token');
+        return null;
       }
+      setStatus('authenticated');
+      setSession(data.session);
       return data.session as null | Session;
     } catch (error: any) {
       console.log(error);
@@ -95,38 +96,38 @@ export const SessionProvider = ({ children }: { children: any }) => {
     getSession();
   }, []);
 
-  const update = async (data?: any): Promise<Update> => {
+  const update = async (data: any = {}): Promise<Update> => {
     const token = await AsyncStorage.getItem('fullauth-session-token');
     if (!token) {
       setSession(null);
       return null;
     }
-    const csrfToken = await AsyncStorage.getItem('fullauth-session-csrf-token');
     const resp = await fetch(
       `${
         process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
-      }/api/auth/update`,
+      }/api/auth/mobile/update`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(await authHeaders()),
         },
-        body: JSON.stringify({ data, token, csrfToken, isMobile: true }),
+        body: JSON.stringify(data),
       }
     );
 
+    const returnData = await resp.json();
     if (!resp.ok) {
-      const data = await resp.json();
       return {
         ok: resp.ok,
-        status: resp.status,
-        error: data.message,
+        status: returnData.status,
+        error: returnData.message,
       };
     }
 
-    const newToken = await resp.json();
-    await AsyncStorage.setItem('fullauth-session-token', newToken.token);
-    getSession();
+    // const newToken = await resp.json();
+    await AsyncStorage.setItem('fullauth-session-token', returnData.token);
+    await getSession();
   };
 
   return (

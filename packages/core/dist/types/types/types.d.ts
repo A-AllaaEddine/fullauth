@@ -1,5 +1,18 @@
-import { CredentialsConfig, ProviderType } from '../providers/credentials';
+import { CredentialsConfig } from '../providers/credentials';
+export type ProviderType = 'oauth' | 'credentials';
 export type CallbackOptions = {
+    /**
+     * A Callback that runs on first sign in and  every session request.
+     * only when using token strategy
+     *
+     * @param {JWT | null} token -The session jwt.
+     * @param {any} udpate - The object sent from update function).
+     * @param {'update' | 'signin' | undefined} trigger - The operation trigger.
+     * @param {User | null} user - The user object returned from provider.
+     * @param {Auth | null} auth - The object containing information about the provider.
+     * @returns {Promise<any>} A promise that returns object for the session jwt.
+     * @throws {AuthenticationError} If authentication fails, return error object.
+     */
     token: ({ token, updates, trigger, user, auth, }: {
         token: JWT | null;
         updates: any;
@@ -15,18 +28,55 @@ export type CallbackOptions = {
         auth: Auth | null;
     }) => Promise<any>;
 };
-export type Provider = CredentialsConfig;
+export interface CommonProviderOptions {
+    id: string;
+    name: string;
+    type: ProviderType;
+}
+export interface OAuthConfig {
+    id?: string;
+    clientId: string;
+    clientSecret: string;
+}
+export interface OAuthProvider extends CommonProviderOptions {
+    type: 'oauth';
+    clientId: string;
+    clientSecret: string;
+    ProviderSignin: ({ isMobile, clientId, clientSecret, redirectUrl, }: {
+        isMobile: boolean;
+        clientId: string;
+        clientSecret: string;
+        redirectUrl: string;
+    }) => {
+        redirectURL: string;
+    };
+    ProviderCallback: ({ code, clientId, clientSecret, isMobile, }: {
+        code: string;
+        clientId: string;
+        clientSecret: string;
+        isMobile: boolean;
+    }) => Promise<{
+        user: User;
+        auth: Auth;
+    }>;
+}
+export type Provider = CredentialsConfig | OAuthProvider;
 export type SessionStrategy = 'token' | 'database';
 export type SessionOptions = {
-    strategry: SessionStrategy;
+    strategy: SessionStrategy;
     maxAge?: number;
     updateAge?: number;
 };
-export type Auth = {
+export interface DefaultAuth {
     providerId?: string | null;
     providerType?: ProviderType | null;
     email?: string | undefined;
-};
+}
+export interface Auth extends DefaultAuth {
+    accessToken?: string | null;
+    refreshToken?: string | null;
+    accessTokenExpires?: number;
+}
 export type AuthOptions = {
     providers: Provider[];
     secret?: string;
@@ -37,6 +87,7 @@ export interface DefaultUser {
     id?: string;
     name?: string;
     email?: string;
+    picture?: string;
 }
 export interface User extends DefaultUser {
 }

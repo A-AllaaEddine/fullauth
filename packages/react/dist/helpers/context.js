@@ -29,16 +29,15 @@ const react_1 = __importStar(require("react"));
 exports.sessionContext = (0, react_1.createContext)(undefined);
 const SessionProvider = ({ children, session, }) => {
     const [currentSession, setSession] = (0, react_1.useState)(session ?? null);
-    const [status, setStatus] = (0, react_1.useState)('loading');
+    const [status, setStatus] = (0, react_1.useState)('unauthenticated');
     const getSession = async () => {
         try {
-            setStatus('loading');
+            // setStatus('authenticating');
             const resp = await fetch(`${process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/session`, {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ isMobile: false }),
             });
             const data = await resp.json();
             if (!resp.ok) {
@@ -48,15 +47,13 @@ const SessionProvider = ({ children, session, }) => {
                 setSession(null);
                 return null;
             }
-            //   console.log(data);
-            if (data.session) {
-                setStatus('authenticated');
-                setSession(data.session);
-            }
-            else {
+            if (!data.session) {
                 setStatus('unauthenticated');
                 setSession(null);
+                return null;
             }
+            setStatus('authenticated');
+            setSession(data.session);
             return data.session;
         }
         catch (error) {
@@ -66,7 +63,7 @@ const SessionProvider = ({ children, session, }) => {
     (0, react_1.useEffect)(() => {
         getSession();
     }, []);
-    async function update(data) {
+    async function update(data = {}) {
         const resp = await fetch(`${process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/update`, {
             method: 'POST',
             headers: {
@@ -82,7 +79,7 @@ const SessionProvider = ({ children, session, }) => {
                 error: data.message,
             };
         }
-        getSession();
+        await getSession();
     }
     return (react_1.default.createElement(exports.sessionContext.Provider, { value: { session: currentSession, status, update, setSession } }, children));
 };

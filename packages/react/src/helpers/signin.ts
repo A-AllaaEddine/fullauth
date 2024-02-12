@@ -1,17 +1,11 @@
 'use client';
 
 import { Session } from '@fullauth/core';
+import { getProviders } from '../utils/utils';
 
-export type SigninResp =
-  | {
-      ok: boolean;
-      error: string;
-    }
-  | {
-      ok: boolean;
-      session: Session;
-    }
-  | null;
+export type SigninResp = {
+  session: Session | null;
+} | null;
 
 /**
  * Authenticates a user based on the selected provider.
@@ -24,69 +18,48 @@ export type SigninResp =
 
 const signIn = async <P extends string>(
   provider: 'credentials' | 'google' | 'github' | P,
-  credentials?: Record<string, string>
+  options?: {
+    credentials?: Record<string, string>;
+    redirect?: boolean;
+    redirectUrl?: string;
+  }
 ): Promise<SigninResp> => {
   try {
-    const providersResp = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
-      }/api/auth/providers`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ provider, isMobile: false }),
-      }
-    );
-
-    if (!providersResp.ok) {
-      return {
-        ok: false,
-        error: 'Error while getting providers',
-      };
-    }
-    const providers: Record<
-      string,
-      {
-        id: string;
-        name: string;
-        type: string;
-        callbackUrl: string;
-        signInUrl: string;
-      }
-    > = await providersResp.json();
+    const {
+      credentials,
+      redirect = true,
+      redirectUrl = window.location.href,
+    } = options ?? {};
+    const providers = await getProviders();
 
     if (!providers[provider]) {
-      return {
-        ok: false,
-        error: 'Invalid provider',
-      };
+      throw new Error('Invalid provider');
     }
 
     const isCredentials = providers[provider].type === 'credentials';
 
-    const url = `${
-      process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
-    }/
-      ${isCredentials ? 'callback' : 'signin'}/${provider}`;
     const signInResp = await fetch(
       isCredentials
-        ? providers[provider].signInUrl
-        : providers[provider].callbackUrl,
+        ? providers[provider].callbackUrl
+        : providers[provider].signInUrl,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ provider, credentials, isMobile: false }),
+        body: JSON.stringify({
+          provider,
+          credentials,
+          ...(redirect && { redirectUrl }),
+        }),
       }
     );
 
     const data: {
       ok: boolean;
       message: string;
-      session: Session;
+      session?: Session;
+      redirect?: string;
     } = await signInResp.json();
 
     if (!data.ok) {
@@ -101,13 +74,20 @@ const signIn = async <P extends string>(
       }
 
       throw new Error(data.message);
-      // return {
-      //   ok: false,
-      //   message: data?.message,
-      // };
     }
 
-    return { ok: true, session: data.session };
+    if (data?.redirect) {
+      window.location.href = data.redirect;
+      return null;
+    }
+
+    // if (redirect) {
+    //   window.location.href = redirectUrl;
+    // } else {
+    //   window.location.reload();
+    // }
+
+    return { session: data.session ?? null };
   } catch (error: any) {
     // console.log('Sign in: ', error);
     throw error;

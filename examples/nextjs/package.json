@@ -9,9 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fullauth/core": "^0.0.5",
-    "@fullauth/next": "^0.0.5",
-    "@fullauth/react": "^0.0.5",
     "next": "^13.5.6",
     "react": "^18",
     "react-dom": "^18"

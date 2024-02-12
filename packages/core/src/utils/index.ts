@@ -6,5 +6,7 @@ export {
   getProviders,
   databaseCallback,
   tokenCallback,
-  callProvider,
+  ProviderCallback,
+  ProviderSignin,
+  redirectCallback,
 } from './utils';

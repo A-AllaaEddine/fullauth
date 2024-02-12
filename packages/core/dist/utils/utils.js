@@ -36,17 +36,19 @@ export const verifyToken = async (token, secret) => {
         throw error;
     }
 };
-export async function getProviders(options) {
-    const url = process.env.NEXT_PUBLIC_FULLAUTH_URL ??
-        process.env.EXPO_PUBLIC_FULLAUTH_URL ??
-        'http://localhost:3000';
+export async function getProviders(options, isMobile) {
+    const url = process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000';
     const providers = options.providers.reduce((acc, provider) => {
         acc[provider.id] = {
             id: provider.id,
             name: provider.name,
             type: provider.type,
-            callbackUrl: `${url}/api/auth/callback/${provider.id?.toLowerCase()}`,
-            signInUrl: `${url}/api/auth/signin/${provider.id?.toLowerCase()}`,
+            callbackUrl: isMobile
+                ? `${url}/api/auth/callback/mobile/${provider.id?.toLowerCase()}`
+                : `${url}/api/auth/callback/${provider.id?.toLowerCase()}`,
+            signInUrl: isMobile
+                ? `${url}/api/auth/signin/mobile/${provider.id?.toLowerCase()}`
+                : `${url}/api/auth/signin/${provider.id?.toLowerCase()}`,
         };
         return acc;
     }, {});
@@ -76,16 +78,20 @@ export const tokenCallback = async ({ options, token, updates, trigger, user, au
         token;
     return newJwt;
 };
-export async function callProvider({ options, provider, credentials, }) {
+export async function ProviderCallback({ options, provider, credentials, code, isMobile, redirectUrl, }) {
     const selectedProvider = options.providers.find((prov) => prov.id === provider);
-    let user = null;
-    let auth = {
-        providerId: selectedProvider?.type ?? null,
-        providerType: selectedProvider?.type ?? null,
-    };
-    if (selectedProvider?.type === 'credentials' && credentials) {
+    if (selectedProvider?.type === 'credentials') {
         try {
+            // if credentials are not provided when calling credentials provider
+            if (!credentials) {
+                throw new Error('Credentials must be valid when using Credentials Provider.');
+            }
             const data = await selectedProvider.signIn(credentials);
+            let user = null;
+            let auth = {
+                providerId: selectedProvider?.id ?? null,
+                providerType: selectedProvider?.type ?? null,
+            };
             if (data) {
                 user = {
                     id: data?.id,
@@ -97,11 +103,60 @@ export async function callProvider({ options, provider, credentials, }) {
                     email: data?.email,
                 };
             }
+            return { user, auth };
         }
         catch (error) {
             console.log('Provider: ', error);
             throw error;
         }
     }
-    return { user, auth };
+    if (selectedProvider?.type === 'oauth') {
+        try {
+            if (!code) {
+                throw new Error('Invalid authorization code');
+            }
+            const { user, auth } = await selectedProvider.ProviderCallback({
+                clientId: selectedProvider.clientId,
+                clientSecret: selectedProvider.clientSecret,
+                code,
+                isMobile,
+            });
+            return {
+                user,
+                auth: {
+                    ...auth,
+                    providerId: selectedProvider?.id ?? null,
+                    providerType: selectedProvider?.type ?? null,
+                },
+            };
+        }
+        catch (error) {
+            console.log('oauth provider: ', error);
+            throw error;
+        }
+    }
+    throw new Error('Invalid Provider');
 }
+export async function ProviderSignin({ options, provider, isMobile, redirectUrl, }) {
+    const selectedProvider = options.providers.find((prov) => prov.id === provider);
+    if (selectedProvider?.type === 'oauth') {
+        const { clientId, clientSecret } = selectedProvider;
+        const { redirectURL } = selectedProvider.ProviderSignin({
+            isMobile,
+            clientId,
+            clientSecret,
+            redirectUrl,
+        });
+        return { redirectURL };
+    }
+    return { redirectURL: null };
+}
+export const redirectCallback = (redirectUrl) => {
+    if (redirectUrl?.startsWith('/')) {
+        return { url: `${process.env.NEXT_PUBLIC_FULLAUTH_URL}${redirectUrl}` };
+    }
+    if (new URL(redirectUrl).origin === process.env.NEXT_PUBLIC_FULLAUTH_URL) {
+        return { url: redirectUrl };
+    }
+    return { url: process.env.NEXT_PUBLIC_FULLAUTH_URL };
+};

@@ -45,8 +45,14 @@ export default function Home() {
             <button
             onClick={async () =>
                 await signIn('credentials', {
-                  email: 'test@test.com',
-                  password: 'test12345',
+                  credentials: {
+                    email: data.email,
+                    password: data.password,
+                  },
+                  // enable redirection after signining (default to true)
+                  redirect: true,
+                  // the url to redirect to after signing in
+                  redirectUrl: \`${'${process.env.NEXT_PUBLIC_BASEURL}'}/\`
                 })
             }
             ></button>

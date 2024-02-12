@@ -10,7 +10,7 @@ export type ResponseProvider = {
     callbackUrl: string;
     signInUrl: string;
 };
-export declare function getProviders(options: AuthOptions): Promise<ResponseProvider[]>;
+export declare function getProviders(options: AuthOptions, isMobile: boolean): Promise<ResponseProvider[]>;
 export type DatabaseCallbackProps = {
     options: AuthOptions;
     updates: any;
@@ -29,14 +29,29 @@ export type TokenCallbackProps = {
     auth: Auth | null;
 };
 export declare const tokenCallback: ({ options, token, updates, trigger, user, auth, }: TokenCallbackProps) => Promise<any>;
-type providerParams = {
+export type ProviderCallbackProps = {
     options: AuthOptions;
     provider: string;
     credentials?: Record<string, string>;
+    code?: string;
+    redirectUrl?: string;
+    isMobile: boolean;
 };
-export type ProviderResp = {
+export type ProviderCallbackResp = {
     user: User | null;
-    auth: Auth;
+    auth: Auth | null;
 };
-export declare function callProvider({ options, provider, credentials, }: providerParams): Promise<ProviderResp>;
-export {};
+export declare function ProviderCallback({ options, provider, credentials, code, isMobile, redirectUrl, }: ProviderCallbackProps): Promise<ProviderCallbackResp>;
+export type ProviderSigninProps = {
+    options: AuthOptions;
+    provider: string;
+    isMobile: boolean;
+    redirectUrl: string;
+};
+export type ProviderSigninResp = {
+    redirectURL?: string | null;
+};
+export declare function ProviderSignin({ options, provider, isMobile, redirectUrl, }: ProviderSigninProps): Promise<ProviderSigninResp>;
+export declare const redirectCallback: (redirectUrl: string) => {
+    url: string | undefined;
+};

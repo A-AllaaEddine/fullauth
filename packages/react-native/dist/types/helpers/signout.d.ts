@@ -1,6 +1,2 @@
-export type SignOutResp = {
-    ok: boolean;
-    error: string;
-} | undefined;
-declare const signOut: () => Promise<SignOutResp>;
+declare const signOut: () => Promise<void>;
 export default signOut;

@@ -1,4 +1,7 @@
-import { CredentialsConfig, ProviderType } from '../providers/credentials';
+import { CredentialsConfig } from '../providers/credentials';
+import { GoogleConfig } from '../providers/google';
+
+export type ProviderType = 'oauth' | 'credentials';
 
 export type CallbackOptions = {
   /**
@@ -42,7 +45,45 @@ export type CallbackOptions = {
   }) => Promise<any>;
 };
 
-export type Provider = CredentialsConfig;
+export interface CommonProviderOptions {
+  id: string;
+  name: string;
+  type: ProviderType;
+}
+
+export interface OAuthConfig {
+  id?: string;
+  clientId: string;
+  clientSecret: string;
+}
+export interface OAuthProvider extends CommonProviderOptions {
+  type: 'oauth';
+  clientId: string;
+  clientSecret: string;
+  ProviderSignin: ({
+    isMobile,
+    clientId,
+    clientSecret,
+    redirectUrl,
+  }: {
+    isMobile: boolean;
+    clientId: string;
+    clientSecret: string;
+    redirectUrl: string;
+  }) => { redirectURL: string };
+  ProviderCallback: ({
+    code,
+    clientId,
+    clientSecret,
+    isMobile,
+  }: {
+    code: string;
+    clientId: string;
+    clientSecret: string;
+    isMobile: boolean;
+  }) => Promise<{ user: User; auth: Auth }>;
+}
+export type Provider = CredentialsConfig | OAuthProvider;
 
 export type SessionStrategy = 'token' | 'database';
 export type SessionOptions = {
@@ -51,11 +92,16 @@ export type SessionOptions = {
   updateAge?: number;
 };
 
-export type Auth = {
+export interface DefaultAuth {
   providerId?: string | null;
   providerType?: ProviderType | null;
   email?: string | undefined;
-};
+}
+export interface Auth extends DefaultAuth {
+  accessToken?: string | null;
+  refreshToken?: string | null;
+  accessTokenExpires?: number;
+}
 export type AuthOptions = {
   providers: Provider[];
   secret?: string;
@@ -67,6 +113,7 @@ export interface DefaultUser {
   id?: string;
   name?: string;
   email?: string;
+  picture?: string;
 }
 
 export interface User extends DefaultUser {}

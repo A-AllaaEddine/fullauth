@@ -3,40 +3,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("next/server");
 const headers_1 = require("next/headers");
 const utils_1 = require("@fullauth/core/utils");
+const navigation_1 = require("next/navigation");
+const utils_2 = require("@fullauth/core/utils");
 async function NextAppRouteHandler(req, res, options) {
     const sessionStrategry = {
         maxAge: 60 * 60 * 24 * 7,
-        strategry: 'token',
+        strategy: 'token',
         ...options.session,
     };
     const method = await req.method;
     if (method === 'POST') {
         const body = await (0, utils_1.getBodyData)(req);
         const params = res.params;
-        // return the available providers
-        if (params.fullauth.includes('providers')) {
-            try {
-                const providers = await (0, utils_1.getProviders)(options);
-                return server_1.NextResponse.json({ ...providers });
-            }
-            catch (error) {
-                console.log('Providers: ', error);
-                return server_1.NextResponse.json({ ok: false, message: error.message });
-            }
-        }
         if (params.fullauth.includes('signout')) {
-            if (body.isMobile) {
+            const isMobile = params.fullauth.includes('mobile');
+            if (isMobile) {
                 return server_1.NextResponse.json({ ok: true, message: 'Session Deleted.' });
             }
-            await (0, headers_1.cookies)().delete('fullauth-session-token');
-            await (0, headers_1.cookies)().delete('fullauth-session-csrf-token');
+            (0, headers_1.cookies)().delete('fullauth-session-token');
+            (0, headers_1.cookies)().delete('fullauth-session-csrf-token');
             return server_1.NextResponse.json({ ok: true, message: 'Session Deleted.' });
         }
-        // if provider is not provided
-        if (params.fullauth.includes('callback')) {
-            // TODO: add OAuth providers
-        }
         if (params.fullauth.includes('signin')) {
+            // DOING: add OAuth providers
+            const isMobile = params.fullauth.includes('mobile');
+            const redirectUrl = body.redirectUrl;
             try {
                 // no provider
                 if (!body.provider) {
@@ -45,18 +36,12 @@ async function NextAppRouteHandler(req, res, options) {
                         message: 'Provider must be specified',
                     });
                 }
-                // if credentials are not provided when calling credentials provider
-                if (!body.credentials) {
-                    return server_1.NextResponse.json({
-                        ok: false,
-                        message: 'Credentials must be valid when using Credentials Provider.',
-                    });
-                }
-                if (sessionStrategry?.strategry === 'token') {
+                if (sessionStrategry?.strategy === 'token') {
                     // mobile session exist
-                    if (body.isMobile) {
-                        const token = body.token;
-                        if (token) {
+                    if (isMobile) {
+                        const head = (0, headers_1.headers)();
+                        const sessionTtoken = head.get('token');
+                        if (sessionTtoken) {
                             return Response.json({
                                 ok: false,
                                 message: 'Session already exist',
@@ -73,76 +58,23 @@ async function NextAppRouteHandler(req, res, options) {
                     }
                     // otherwise create new session
                     // call the provider to receive the user
-                    const { user, auth } = await (0, utils_1.callProvider)({
+                    const { redirectURL } = await (0, utils_1.ProviderSignin)({
                         options,
                         provider: body.provider,
-                        credentials: body.credentials,
+                        isMobile,
+                        redirectUrl,
                     });
-                    if (!user) {
+                    if (!navigation_1.redirect) {
                         return server_1.NextResponse.json({
                             ok: false,
-                            message: 'Internal Server Err',
+                            message: 'Internal Server Error',
                         });
                     }
-                    const jwt = await (0, utils_1.tokenCallback)({
-                        options,
-                        token: null,
-                        trigger: 'signin',
-                        updates: null,
-                        user: user,
-                        auth,
-                    });
-                    // Generate csrf token to storeit in cookie
-                    const csrfToken = await (0, utils_1.generateCsrfToken)(options.secret, options?.session?.maxAge);
-                    // generate token to store in cookie
-                    const tokenString = await (0, utils_1.generateToken)({ ...jwt, csrfToken: csrfToken }, options?.secret, options?.session?.maxAge);
-                    // get data from generated token to send to client on first sign in
-                    const returnJwt = await (0, utils_1.verifyToken)(tokenString, options?.secret);
-                    // remove unnecessary fields
-                    const exp = returnJwt?.exp;
-                    delete returnJwt.csrfToken;
-                    delete returnJwt.iat;
-                    delete returnJwt.exp;
-                    // generate the session that gets returned to the client
-                    const session = {
-                        // user: returnJwt.user,
-                        ...returnJwt,
-                        expiresAt: exp ?? options?.session?.maxAge ?? 60 * 60 * 24 * 7,
-                    };
-                    // For Mobile
-                    if (body.isMobile) {
-                        return Response.json({
-                            ok: true,
-                            message: 'Session created.',
-                            token: tokenString,
-                            csrfToken: csrfToken,
-                            session: session,
-                        });
+                    if (!redirectURL) {
+                        throw new Error('Invalid Google Redirect Url');
                     }
-                    // For Web
-                    const response = server_1.NextResponse.json({
-                        ok: true,
-                        message: 'Session created.',
-                        session: session,
-                    });
-                    // setting the cookie
-                    response.cookies.set({
-                        name: 'fullauth-session-token',
-                        value: tokenString,
-                        httpOnly: true,
-                        maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
-                        secure: process.env.NODE_ENV === 'development' ? false : true,
-                        sameSite: process.env.NODE_ENV === 'development' ? false : true,
-                    });
-                    response.cookies.set({
-                        name: 'fullauth-session-csrf-token',
-                        value: csrfToken,
-                        httpOnly: true,
-                        maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
-                        secure: process.env.NODE_ENV === 'development' ? false : true,
-                        sameSite: process.env.NODE_ENV === 'development' ? false : true,
-                    });
-                    return response;
+                    // return Response.redirect(redirectURL);
+                    return server_1.NextResponse.json({ ok: true, redirect: redirectURL });
                 }
             }
             catch (error) {
@@ -151,17 +83,27 @@ async function NextAppRouteHandler(req, res, options) {
             }
         }
         if (params.fullauth.includes('update')) {
-            // Mobile
-            if (sessionStrategry?.strategry === 'token') {
-                if (body.isMobile) {
-                    const jwt = await (0, utils_1.verifyToken)(body.token, options?.secret);
-                    if (!body.csrfToken) {
+            const isMobile = params.fullauth.includes('mobile');
+            if (sessionStrategry?.strategy === 'token') {
+                // Mobile
+                if (isMobile) {
+                    const head = (0, headers_1.headers)();
+                    const sessionTtoken = head.get('token');
+                    const csrfToken = head.get('csrftoken');
+                    if (!sessionTtoken) {
+                        return server_1.NextResponse.json({
+                            ok: false,
+                            message: 'Invalid Session Token',
+                        });
+                    }
+                    if (!csrfToken) {
                         return server_1.NextResponse.json({
                             ok: false,
                             message: 'Invalid CSRF Token',
                         });
                     }
-                    if (jwt.csrfToken !== body.csrfToken) {
+                    const jwt = await (0, utils_1.verifyToken)(sessionTtoken, options?.secret);
+                    if (jwt.csrfToken !== csrfToken) {
                         server_1.NextResponse.json({
                             ok: false,
                             message: 'Invalid CSRF Token',
@@ -180,7 +122,7 @@ async function NextAppRouteHandler(req, res, options) {
                 }
                 // verify the csrf token
                 const csrfCookie = await (0, headers_1.cookies)().get('fullauth-session-csrf-token');
-                if (!csrfCookie) {
+                if (!csrfCookie?.value) {
                     return server_1.NextResponse.json({
                         ok: false,
                         message: 'Invalid CSRF Token',
@@ -189,7 +131,7 @@ async function NextAppRouteHandler(req, res, options) {
                 // await verifyToken(csrfCookie.value!, options?.secret!);
                 // get the session cookie
                 const cookie = await (0, headers_1.cookies)().get('fullauth-session-token');
-                if (!cookie) {
+                if (!cookie?.value) {
                     return server_1.NextResponse.json({
                         ok: false,
                         message: 'Invalid Session Token',
@@ -217,11 +159,7 @@ async function NextAppRouteHandler(req, res, options) {
                 // geenrate  new session jwt
                 const sessionJwt = await (0, utils_1.generateToken)(token, options?.secret);
                 // set new cookie
-                const response = server_1.NextResponse.json({
-                    ok: true,
-                    message: 'Session updated.',
-                });
-                response.cookies.set({
+                (0, headers_1.cookies)().set({
                     name: 'fullauth-session-token',
                     value: sessionJwt,
                     httpOnly: true,
@@ -229,20 +167,204 @@ async function NextAppRouteHandler(req, res, options) {
                     secure: process.env.NODE_ENV === 'development' ? false : true,
                     sameSite: process.env.NODE_ENV === 'development' ? false : true,
                 });
-                return response;
+                return server_1.NextResponse.json({
+                    ok: true,
+                    message: 'Session updated.',
+                });
+            }
+        }
+        if (params.fullauth.includes('callback')) {
+            try {
+                const isMobile = params.fullauth.includes('mobile');
+                const provider = isMobile ? params.fullauth[2] : params.fullauth[1];
+                const redirectUrl = body.redirectUrl;
+                const { user, auth } = await (0, utils_1.ProviderCallback)({
+                    options,
+                    provider: provider,
+                    credentials: body.credentials,
+                    isMobile,
+                });
+                if (!user) {
+                    return server_1.NextResponse.json({
+                        ok: false,
+                        message: 'Internal Server Error',
+                    });
+                }
+                const jwt = await (0, utils_1.tokenCallback)({
+                    options,
+                    token: null,
+                    trigger: 'signin',
+                    updates: null,
+                    user,
+                    auth,
+                });
+                // Generate csrf token to storeit in cookie
+                const csrfToken = await (0, utils_1.generateCsrfToken)(options.secret, options?.session?.maxAge);
+                // generate token to store in cookie
+                const tokenString = await (0, utils_1.generateToken)({ ...jwt, csrfToken: csrfToken }, options?.secret, options?.session?.maxAge);
+                // get data from generated token to send to client on first sign in
+                const returnJwt = await (0, utils_1.verifyToken)(tokenString, options?.secret);
+                // remove unnecessary fields
+                const exp = returnJwt?.exp;
+                delete returnJwt.csrfToken;
+                delete returnJwt.iat;
+                delete returnJwt.exp;
+                // generate the session that gets returned to the client
+                const session = {
+                    // user: returnJwt.user,
+                    ...returnJwt,
+                    expiresAt: exp ?? options?.session?.maxAge ?? 60 * 60 * 24 * 7,
+                };
+                // For Mobile
+                if (isMobile) {
+                    return Response.json({
+                        ok: true,
+                        message: 'Session created.',
+                        token: tokenString,
+                        csrfToken: csrfToken,
+                        session: session,
+                    });
+                }
+                // For Web
+                (0, headers_1.cookies)().set({
+                    name: 'fullauth-session-token',
+                    value: tokenString,
+                    httpOnly: true,
+                    maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
+                    secure: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                });
+                (0, headers_1.cookies)().set({
+                    name: 'fullauth-session-csrf-token',
+                    value: csrfToken,
+                    httpOnly: true,
+                    maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
+                    secure: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                });
+                const { url } = (0, utils_2.redirectCallback)(redirectUrl);
+                return Response.json({
+                    ok: true,
+                    message: 'Session created.',
+                    redirect: url,
+                });
+            }
+            catch (error) {
+                console.log(error);
+                return server_1.NextResponse.json({ ok: false, message: error.message });
+            }
+        }
+    }
+    if (method === 'GET') {
+        const params = res.params;
+        // return the available providers
+        if (params.fullauth.includes('providers')) {
+            try {
+                const isMobile = params.fullauth.includes('mobile');
+                const providers = await (0, utils_1.getProviders)(options, isMobile);
+                return server_1.NextResponse.json({ ...providers });
+            }
+            catch (error) {
+                console.log('Providers: ', error);
+                return server_1.NextResponse.json({ ok: false, message: error.message });
+            }
+        }
+        if (params.fullauth.includes('callback')) {
+            try {
+                const { searchParams } = new URL(req.url);
+                const code = searchParams.get('code');
+                const isMobile = params.fullauth.includes('mobile');
+                const provider = isMobile ? params.fullauth[2] : params.fullauth[1];
+                const state = searchParams.get('state');
+                let redirectUrl = '';
+                if (state)
+                    redirectUrl = decodeURIComponent(state);
+                const { user, auth } = await (0, utils_1.ProviderCallback)({
+                    options,
+                    provider: provider,
+                    code: code ?? '',
+                    isMobile,
+                });
+                if (!user) {
+                    return server_1.NextResponse.json({
+                        ok: false,
+                        message: 'Internal Server Error',
+                    });
+                }
+                const jwt = await (0, utils_1.tokenCallback)({
+                    options,
+                    token: null,
+                    trigger: 'signin',
+                    updates: null,
+                    user,
+                    auth,
+                });
+                // Generate csrf token to storeit in cookie
+                const csrfToken = await (0, utils_1.generateCsrfToken)(options.secret, options?.session?.maxAge);
+                // generate token to store in cookie
+                const tokenString = await (0, utils_1.generateToken)({ ...jwt, csrfToken: csrfToken }, options?.secret, options?.session?.maxAge);
+                // get data from generated token to send to client on first sign in
+                const returnJwt = await (0, utils_1.verifyToken)(tokenString, options?.secret);
+                // remove unnecessary fields
+                const exp = returnJwt?.exp;
+                delete returnJwt.csrfToken;
+                delete returnJwt.iat;
+                delete returnJwt.exp;
+                // generate the session that gets returned to the client
+                const session = {
+                    // user: returnJwt.user,
+                    ...returnJwt,
+                    expiresAt: exp ?? options?.session?.maxAge ?? 60 * 60 * 24 * 7,
+                };
+                // For Mobile
+                if (isMobile) {
+                    return Response.json({
+                        ok: true,
+                        message: 'Session created.',
+                        token: tokenString,
+                        csrfToken: csrfToken,
+                        session: session,
+                    });
+                }
+                // For Web
+                (0, headers_1.cookies)().set({
+                    name: 'fullauth-session-token',
+                    value: tokenString,
+                    httpOnly: true,
+                    maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
+                    secure: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                });
+                (0, headers_1.cookies)().set({
+                    name: 'fullauth-session-csrf-token',
+                    value: csrfToken,
+                    httpOnly: true,
+                    maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
+                    secure: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                });
+                const { url } = (0, utils_2.redirectCallback)(redirectUrl);
+                return Response.redirect(url ?? `${process.env.NEXT_PUBLIC_FULLAUTH_URL}`);
+            }
+            catch (error) {
+                console.log(error);
+                return server_1.NextResponse.json({ ok: false, message: error.message });
             }
         }
         if (params.fullauth.includes('session')) {
-            if (sessionStrategry?.strategry === 'token') {
+            const isMobile = params.fullauth.includes('mobile');
+            if (sessionStrategry?.strategy === 'token') {
                 // mobile
-                if (body.isMobile) {
-                    if (!body.token) {
+                if (isMobile) {
+                    const head = (0, headers_1.headers)();
+                    const sessionTtoken = head.get('token');
+                    if (!sessionTtoken) {
                         return server_1.NextResponse.json({
                             message: 'No Session',
                         });
                     }
                     try {
-                        const token = await (0, utils_1.verifyToken)(body.token, options?.secret);
+                        const token = await (0, utils_1.verifyToken)(sessionTtoken, options?.secret);
                         const jwt = await (0, utils_1.tokenCallback)({
                             options,
                             token: token,
@@ -258,6 +380,7 @@ async function NextAppRouteHandler(req, res, options) {
                         return server_1.NextResponse.json({
                             session: {
                                 ...jwt,
+                                user: jwt.user ?? {},
                                 expiresAt: exp,
                             },
                         });
@@ -269,13 +392,11 @@ async function NextAppRouteHandler(req, res, options) {
                 }
                 const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
                 if (!cookie) {
-                    const response = server_1.NextResponse.json({
+                    (0, headers_1.cookies)().delete('fullauth-session-token');
+                    return server_1.NextResponse.json({
                         message: 'No Session',
                     });
-                    response.cookies.delete('fullauth-session-token');
-                    return response;
                 }
-                // await verifyCsrfToken(cookie.value, options.secret!);
                 if (!cookie.value)
                     return server_1.NextResponse.json({ message: 'Invalid Cookie' });
                 try {
@@ -301,36 +422,13 @@ async function NextAppRouteHandler(req, res, options) {
                 }
                 catch (error) {
                     console.log(error);
-                    const response = server_1.NextResponse.json({
+                    (0, headers_1.cookies)().delete('fullauth-session-token');
+                    return server_1.NextResponse.json({
                         error: error.message,
                     });
-                    response.cookies.delete('fullauth-session-token');
-                    return response;
                 }
             }
         }
-        if (params.fullauth.includes('csrf')) {
-            // Generate csrf token
-            const csrfToken = await (0, utils_1.generateToken)({}, options.secret);
-            if (body.isMobile) {
-                return server_1.NextResponse.json({ token: csrfToken });
-            }
-            const response = server_1.NextResponse.json({
-                message: 'Csrf Token generated.',
-            });
-            response.cookies.set({
-                name: 'fullauth-session-csrf-token',
-                value: csrfToken,
-                httpOnly: true,
-                maxAge: undefined,
-                secure: process.env.NODE_ENV === 'development' ? false : true,
-                sameSite: process.env.NODE_ENV === 'development' ? false : true,
-            });
-            return response;
-        }
-    }
-    if (method === 'GET') {
-        const params = res.params;
     }
     return server_1.NextResponse.json({ message: 'Method Unauthorised' });
 }

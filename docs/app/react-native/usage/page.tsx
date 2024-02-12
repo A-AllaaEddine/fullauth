@@ -191,10 +191,10 @@ export default function Screen() {
             >
               {`import { authHeaders } from '@fullauth/react-native';
 
-await fetch(\`${process.env.EXPO_PUBLIC_FULLAUTH_URL}/your/api/route\`, {
+await fetch(\`${'${process.env.EXPO_PUBLIC_FULLAUTH_URL}'}/your/api/route\`, {
 method: 'POST',
 headers: {
-    ...authHeaders,
+   ...(await authHeaders()),
 },
 body: JSON.stringify(data)
 })`}

@@ -13,4 +13,4 @@ Object.defineProperty(exports, "useSession", { enumerable: true, get: function (
 var context_1 = require("./helpers/context");
 Object.defineProperty(exports, "SessionProvider", { enumerable: true, get: function () { return context_1.SessionProvider; } });
 var authHeader_1 = require("./helpers/authHeader");
-Object.defineProperty(exports, "authHeaders", { enumerable: true, get: function () { return __importDefault(authHeader_1).default; } });
+Object.defineProperty(exports, "authHeaders", { enumerable: true, get: function () { return authHeader_1.authHeaders; } });

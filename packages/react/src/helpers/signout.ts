@@ -1,13 +1,6 @@
 'use client';
 
-export type SignOutResp =
-  | {
-      ok: boolean;
-      error: string;
-    }
-  | undefined;
-
-const signOut = async (): Promise<SignOutResp> => {
+const signOut = async () => {
   try {
     const resp = await fetch(
       `${
@@ -18,15 +11,13 @@ const signOut = async (): Promise<SignOutResp> => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ isMobile: false }),
+        body: JSON.stringify({}),
       }
     );
     if (!resp.ok) {
-      return {
-        ok: false,
-        error: 'Internal Server Error',
-      };
+      throw new Error('Internal Server Error');
     }
+    window.location.reload();
   } catch (error: any) {
     console.log(error);
     throw error;

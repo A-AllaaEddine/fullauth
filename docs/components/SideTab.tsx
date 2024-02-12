@@ -111,6 +111,36 @@ const SideTab = () => {
             </Link>
           </AccordionContent>
         </AccordionItem>
+      </Accordion>{' '}
+      <Accordion
+        className="w-full"
+        defaultValue={path.includes('/react-native') ? 'item-3' : undefined}
+        type="single"
+        collapsible
+      >
+        <AccordionItem className="w-full " value="item-3">
+          <AccordionTrigger className="w-full h-14 p-3 hover:bg-[#1d1d1d] hover:text-white  rounded-lg">
+            Auth Providers
+          </AccordionTrigger>
+          <AccordionContent
+            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
+              path === '/providers/credentials' ? 'bg-[#1d1d1d] text-white' : ''
+            }`}
+          >
+            <Link href={'/providers/credentials'} className="w-full h-full">
+              Credentials
+            </Link>
+          </AccordionContent>
+          <AccordionContent
+            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
+              path === '/providers/google' ? 'bg-[#1d1d1d] text-white' : ''
+            }`}
+          >
+            <Link href={'/providers/google'} className="w-full h-full">
+              Google
+            </Link>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
       <Link
         href={'/examples'}
@@ -127,6 +157,14 @@ const SideTab = () => {
           `}
       >
         Typescript
+      </Link>
+      <Link
+        href={'/changelog'}
+        className={`w-full h-12 text-start font-semibold p-3 flex justify-start items-center hover:bg-[#1d1d1d] hover:text-white  rounded-lg 
+          ${path === '/typescript' ? 'bg-[#1d1d1d] text-white' : ''}
+          `}
+      >
+        Changelog
       </Link>
     </div>
   );

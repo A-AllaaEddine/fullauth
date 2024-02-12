@@ -1,39 +1,35 @@
 'use client';
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const signIn = async (provider, credentials) => {
+const utils_1 = require("../utils/utils");
+/**
+ * Authenticates a user based on the selected provider.
+ *
+ * @param {string} provider -The id of the provider.
+ * @param {string} credentials - The credentials for the provider (only for credentials provider).
+ * @returns {Promise<SigninResp>} A promise that returns session object on success.
+ * @throws {AuthenticationError} If authentication fails, return error object.
+ */
+const signIn = async (provider, options) => {
     try {
-        const providersResp = await fetch(`${process.env.NEXT_PUBLIC_FULLATH_URL ?? 'http://localhost:3000'}/api/auth/providers`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ provider, isMobile: false }),
-        });
-        if (!providersResp.ok) {
-            return {
-                ok: false,
-                error: 'Error while getting providers',
-            };
-        }
-        const providers = await providersResp.json();
+        const { credentials, redirect = true, redirectUrl = window.location.href, } = options ?? {};
+        const providers = await (0, utils_1.getProviders)();
         if (!providers[provider]) {
-            return {
-                ok: false,
-                error: 'Invalid provider',
-            };
+            throw new Error('Invalid provider');
         }
         const isCredentials = providers[provider].type === 'credentials';
-        const url = `${process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/
-      ${isCredentials ? 'callback' : 'signin'}/${provider}`;
         const signInResp = await fetch(isCredentials
-            ? providers[provider].signInUrl
-            : providers[provider].callbackUrl, {
+            ? providers[provider].callbackUrl
+            : providers[provider].signInUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ provider, credentials, isMobile: false }),
+            body: JSON.stringify({
+                provider,
+                credentials,
+                ...(redirect && { redirectUrl }),
+            }),
         });
         const data = await signInResp.json();
         if (!data.ok) {
@@ -47,12 +43,17 @@ const signIn = async (provider, credentials) => {
                 throw new Error('Session expired.');
             }
             throw new Error(data.message);
-            // return {
-            //   ok: false,
-            //   message: data?.message,
-            // };
         }
-        return { ok: true, session: data.session };
+        if (data?.redirect) {
+            window.location.href = data.redirect;
+            return null;
+        }
+        // if (redirect) {
+        //   window.location.href = redirectUrl;
+        // } else {
+        //   window.location.reload();
+        // }
+        return { session: data.session ?? null };
     }
     catch (error) {
         // console.log('Sign in: ', error);

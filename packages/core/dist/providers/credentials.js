@@ -1,4 +1,4 @@
-export function CredentialProvider(options) {
+export function CredentialsProvider(options) {
     return {
         id: options.id ?? 'credentials',
         name: 'credentials',

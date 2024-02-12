@@ -12,10 +12,8 @@ export type AuthHeaders = {
  * @returns {string} csrfToken -  The csrf token.
  */
 
-const authHeaders = async (): Promise<AuthHeaders> => {
+export const authHeaders = async (): Promise<AuthHeaders> => {
   const token = await AsyncStorage.getItem('fullauth-session-token');
   const csrfToken = await AsyncStorage.getItem('fullauth-session-csrf-token');
   return { token: token ?? '', csrfToken: csrfToken ?? '' };
 };
-
-export default authHeaders;

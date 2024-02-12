@@ -38,21 +38,20 @@ export const SessionProvider = ({
   const [currentSession, setSession] = useState<null | Session>(
     session ?? null
   );
-  const [status, setStatus] = useState('loading');
+  const [status, setStatus] = useState('unauthenticated');
 
   const getSession = async () => {
     try {
-      setStatus('loading');
+      // setStatus('authenticating');
       const resp = await fetch(
         `${
           process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
         }/api/auth/session`,
         {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ isMobile: false }),
         }
       );
       const data = await resp.json();
@@ -63,14 +62,13 @@ export const SessionProvider = ({
         setSession(null);
         return null;
       }
-      //   console.log(data);
-      if (data.session) {
-        setStatus('authenticated');
-        setSession(data.session);
-      } else {
+      if (!data.session) {
         setStatus('unauthenticated');
         setSession(null);
+        return null;
       }
+      setStatus('authenticated');
+      setSession(data.session);
       return data.session as Session;
     } catch (error: any) {
       console.log(error);
@@ -80,7 +78,7 @@ export const SessionProvider = ({
     getSession();
   }, []);
 
-  async function update(data?: any): Promise<Update> {
+  async function update(data: any = {}): Promise<Update> {
     const resp = await fetch(
       `${
         process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
@@ -102,7 +100,7 @@ export const SessionProvider = ({
         error: data.message,
       };
     }
-    getSession();
+    await getSession();
   }
 
   return (

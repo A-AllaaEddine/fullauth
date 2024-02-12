@@ -1,6 +1,6 @@
-import { Awaitable, User } from '../types/types';
+import { Awaitable, CommonProviderOptions, User } from '../types/types';
 
-export function CredentialProvider<
+export function CredentialsProvider<
   C extends Record<string, CredentialInput> = Record<string, CredentialInput>
 >(options: UserCredentialsConfig<C>): CredentialsConfig<C> {
   return {
@@ -13,15 +13,6 @@ export function CredentialProvider<
   };
 }
 
-export type ProviderType = 'oauth' | 'credentials';
-
-export interface CommonProviderOptions {
-  id: string;
-  name: string;
-  type: ProviderType;
-  options?: any;
-}
-
 export type CredentialInput = {
   type: 'text' | 'password';
 };
@@ -32,12 +23,13 @@ export interface CredentialsConfig<
   type: 'credentials';
   credentials: C;
   signIn: (credentials: Record<keyof C, string>) => Awaitable<User | null>;
+  options: UserCredentialsConfig<C>;
 }
 
 export type UserCredentialsConfig<C extends Record<string, CredentialInput>> =
   Partial<Omit<CredentialsConfig<C>, 'options'>> &
     Pick<CredentialsConfig<C>, 'signIn' | 'credentials'>;
 
-export type CredentialProvider = <C extends Record<string, CredentialInput>>(
+export type CredentialsProvider = <C extends Record<string, CredentialInput>>(
   options: Partial<CredentialsConfig<C>>
 ) => CredentialsConfig<C>;
