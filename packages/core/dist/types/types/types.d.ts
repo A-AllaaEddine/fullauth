@@ -13,12 +13,13 @@ export type CallbackOptions = {
      * @returns {Promise<any>} A promise that returns object for the session jwt.
      * @throws {AuthenticationError} If authentication fails, return error object.
      */
-    token: ({ token, updates, trigger, user, auth, }: {
+    token: ({ token, updates, trigger, user, auth, platform, }: {
         token: JWT | null;
         updates: any;
         trigger: 'update' | 'signin' | undefined;
         user: User | null;
         auth: Auth | null;
+        platform: string;
     }) => Promise<any>;
     database: ({ updates, data, trigger, user, auth, }: {
         updates: any;

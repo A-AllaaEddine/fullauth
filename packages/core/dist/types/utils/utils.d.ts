@@ -27,8 +27,9 @@ export type TokenCallbackProps = {
     trigger: 'signin' | 'update' | undefined;
     user: User | null;
     auth: Auth | null;
+    isMobile: boolean;
 };
-export declare const tokenCallback: ({ options, token, updates, trigger, user, auth, }: TokenCallbackProps) => Promise<any>;
+export declare const tokenCallback: ({ options, token, updates, trigger, user, auth, isMobile, }: TokenCallbackProps) => Promise<any>;
 export type ProviderCallbackProps = {
     options: AuthOptions;
     provider: string;

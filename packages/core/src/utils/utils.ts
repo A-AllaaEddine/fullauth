@@ -117,6 +117,7 @@ export type TokenCallbackProps = {
   trigger: 'signin' | 'update' | undefined;
   user: User | null;
   auth: Auth | null;
+  isMobile: boolean;
 };
 export const tokenCallback = async ({
   options,
@@ -125,6 +126,7 @@ export const tokenCallback = async ({
   trigger,
   user,
   auth,
+  isMobile,
 }: TokenCallbackProps): Promise<any> => {
   const newJwt =
     (options.callbacks?.token &&
@@ -134,6 +136,7 @@ export const tokenCallback = async ({
         trigger,
         user,
         auth,
+        platform: isMobile ? 'mobile' : 'web',
       }))) ??
     token;
 

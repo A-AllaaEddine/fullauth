@@ -22,12 +22,14 @@ export type CallbackOptions = {
     trigger,
     user,
     auth,
+    platform,
   }: {
     token: JWT | null;
     updates: any;
     trigger: 'update' | 'signin' | undefined;
     user: User | null;
     auth: Auth | null;
+    platform: string;
   }) => Promise<any>;
 
   database: ({

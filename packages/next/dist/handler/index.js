@@ -116,6 +116,7 @@ async function NextAppRouteHandler(req, res, options) {
                         updates: body.data,
                         user: null,
                         auth: null,
+                        isMobile,
                     });
                     const sessionJwt = await (0, utils_1.generateToken)(token, options?.secret);
                     return server_1.NextResponse.json({ token: sessionJwt });
@@ -154,6 +155,7 @@ async function NextAppRouteHandler(req, res, options) {
                     updates: data,
                     user: null,
                     auth: null,
+                    isMobile,
                 });
                 // const newSessionData = DeepMerge(token, data as JWT);
                 // geenrate  new session jwt
@@ -197,6 +199,7 @@ async function NextAppRouteHandler(req, res, options) {
                     updates: null,
                     user,
                     auth,
+                    isMobile,
                 });
                 // Generate csrf token to storeit in cookie
                 const csrfToken = await (0, utils_1.generateCsrfToken)(options.secret, options?.session?.maxAge);
@@ -298,6 +301,7 @@ async function NextAppRouteHandler(req, res, options) {
                     updates: null,
                     user,
                     auth,
+                    isMobile,
                 });
                 // Generate csrf token to storeit in cookie
                 const csrfToken = await (0, utils_1.generateCsrfToken)(options.secret, options?.session?.maxAge);
@@ -372,6 +376,7 @@ async function NextAppRouteHandler(req, res, options) {
                             updates: null,
                             user: null,
                             auth: null,
+                            isMobile,
                         });
                         const exp = jwt?.exp;
                         delete jwt.csrfToken;
@@ -408,6 +413,7 @@ async function NextAppRouteHandler(req, res, options) {
                         updates: null,
                         user: null,
                         auth: null,
+                        isMobile,
                     });
                     const exp = jwt?.exp;
                     delete jwt.csrfToken;

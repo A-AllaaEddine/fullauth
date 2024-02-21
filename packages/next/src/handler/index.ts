@@ -147,6 +147,7 @@ async function NextAppRouteHandler(
             updates: (body as any).data,
             user: null,
             auth: null,
+            isMobile,
           });
           const sessionJwt = await generateToken(token, options?.secret!);
           return NextResponse.json({ token: sessionJwt });
@@ -192,6 +193,7 @@ async function NextAppRouteHandler(
           updates: data,
           user: null,
           auth: null,
+          isMobile,
         });
         // const newSessionData = DeepMerge(token, data as JWT);
 
@@ -241,6 +243,7 @@ async function NextAppRouteHandler(
           updates: null,
           user,
           auth,
+          isMobile,
         });
 
         // Generate csrf token to storeit in cookie
@@ -363,6 +366,7 @@ async function NextAppRouteHandler(
           updates: null,
           user,
           auth,
+          isMobile,
         });
 
         // Generate csrf token to storeit in cookie
@@ -459,6 +463,7 @@ async function NextAppRouteHandler(
               updates: null,
               user: null,
               auth: null,
+              isMobile,
             });
 
             const exp = jwt?.exp;
@@ -500,6 +505,7 @@ async function NextAppRouteHandler(
             updates: null,
             user: null,
             auth: null,
+            isMobile,
           });
           const exp = jwt?.exp;
           delete jwt.csrfToken;

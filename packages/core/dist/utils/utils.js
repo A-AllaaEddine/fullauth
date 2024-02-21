@@ -66,7 +66,7 @@ export const databaseCallback = async ({ options, updates, data, trigger, auth, 
         data;
     return newSession;
 };
-export const tokenCallback = async ({ options, token, updates, trigger, user, auth, }) => {
+export const tokenCallback = async ({ options, token, updates, trigger, user, auth, isMobile, }) => {
     const newJwt = (options.callbacks?.token &&
         (await options.callbacks?.token({
             token: token,
@@ -74,6 +74,7 @@ export const tokenCallback = async ({ options, token, updates, trigger, user, au
             trigger,
             user,
             auth,
+            platform: isMobile ? 'mobile' : 'web',
         }))) ??
         token;
     return newJwt;
