@@ -18,6 +18,40 @@ const Google = () => {
           className="w-full h-auto scroll-m-20  flex flex-col justify-start items-start gap-3 mt-10"
         >
           <p className="text-start text-lg text-gray-300 font-semibold">
+            Follow google docs here:
+          </p>
+          <Link
+            href={'https://developers.google.com/identity/protocols/oauth2'}
+            className="text-blue-500"
+            target="_blank"
+          >
+            https://developers.google.com/identity/protocols/oauth2
+          </Link>
+          <p className="text-start text-lg text-gray-300 font-semibold mt-4">
+            Then add the following Authorized redirect URIs in your credentials
+            configuration:
+          </p>
+          <Link
+            href={'https://console.developers.google.com/apis/credentials'}
+            className="text-blue-500"
+            target="_blank"
+          >
+            https://console.developers.google.com/apis/credentials
+          </Link>
+          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 mt-4 rounded-xl bg-[#1d1d1d]">
+            <p className="text-start text-lg text-gray-400 font-semibold">
+              http://your-domain/api/auth/callback/google
+            </p>
+            <p className="text-start text-lg text-gray-400 font-semibold">
+              http://your-domain/api/auth/callback/mobile/google
+            </p>
+          </div>
+        </div>
+        <div
+          id="route"
+          className="w-full h-auto scroll-m-20  flex flex-col justify-start items-start gap-3 mt-10"
+        >
+          <p className="text-start text-lg text-gray-300 font-semibold">
             Route Handler:
           </p>
           <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
