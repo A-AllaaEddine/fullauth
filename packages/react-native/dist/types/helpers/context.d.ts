@@ -11,6 +11,7 @@ export declare const sessionContext: React.Context<{
     setSession: Dispatch<SetStateAction<any>>;
     update: (data?: any) => Promise<Update>;
 } | undefined>;
-export declare const SessionProvider: ({ children }: {
+export declare const SessionProvider: ({ children, baseUrl, }: {
     children: any;
+    baseUrl?: string | undefined;
 }) => React.JSX.Element;

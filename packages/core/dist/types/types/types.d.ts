@@ -19,7 +19,7 @@ export type CallbackOptions = {
         trigger: 'update' | 'signin' | undefined;
         user: User | null;
         auth: Auth | null;
-        platform: string;
+        platform: 'mobile' | 'web';
     }) => Promise<any>;
     database: ({ updates, data, trigger, user, auth, }: {
         updates: any;

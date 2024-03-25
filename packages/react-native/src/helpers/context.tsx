@@ -30,7 +30,13 @@ export const sessionContext = createContext<
   | undefined
 >(undefined);
 
-export const SessionProvider = ({ children }: { children: any }) => {
+export const SessionProvider = ({
+  children,
+  baseUrl,
+}: {
+  children: any;
+  baseUrl?: string;
+}) => {
   const [currentSession, setSession] = useState<null | Session>(null);
   const [status, setStatus] = useState('unauthenticated');
 
@@ -44,9 +50,12 @@ export const SessionProvider = ({ children }: { children: any }) => {
       //   return null;
       // }
 
+      console.log('baseUrl: ', baseUrl);
       const resp = await fetch(
         `${
-          process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
+          baseUrl ??
+          process.env.EXPO_PUBLIC_FULLAUTH_URL ??
+          'http://localhost:3000'
         }/api/auth/mobile/session`,
         {
           method: 'GET',
@@ -104,7 +113,9 @@ export const SessionProvider = ({ children }: { children: any }) => {
     }
     const resp = await fetch(
       `${
-        process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
+        baseUrl ??
+        process.env.EXPO_PUBLIC_FULLAUTH_URL ??
+        'http://localhost:3000'
       }/api/auth/mobile/update`,
       {
         method: 'POST',

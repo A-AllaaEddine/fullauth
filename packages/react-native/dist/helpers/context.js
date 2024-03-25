@@ -32,7 +32,7 @@ const async_storage_1 = __importDefault(require("@react-native-async-storage/asy
 const react_1 = __importStar(require("react"));
 const authHeader_1 = require("./authHeader");
 exports.sessionContext = (0, react_1.createContext)(undefined);
-const SessionProvider = ({ children }) => {
+const SessionProvider = ({ children, baseUrl, }) => {
     const [currentSession, setSession] = (0, react_1.useState)(null);
     const [status, setStatus] = (0, react_1.useState)('unauthenticated');
     const getSession = async () => {
@@ -43,7 +43,10 @@ const SessionProvider = ({ children }) => {
             //   setSession(null);
             //   return null;
             // }
-            const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/mobile/session`, {
+            console.log('baseUrl: ', baseUrl);
+            const resp = await fetch(`${baseUrl ??
+                process.env.EXPO_PUBLIC_FULLAUTH_URL ??
+                'http://localhost:3000'}/api/auth/mobile/session`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -96,7 +99,9 @@ const SessionProvider = ({ children }) => {
             setSession(null);
             return null;
         }
-        const resp = await fetch(`${process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/mobile/update`, {
+        const resp = await fetch(`${baseUrl ??
+            process.env.EXPO_PUBLIC_FULLAUTH_URL ??
+            'http://localhost:3000'}/api/auth/mobile/update`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
