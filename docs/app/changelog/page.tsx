@@ -7,7 +7,7 @@ const ChangeLog = () => {
         </p>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">
-            v1.1.0
+            v1.1.1
           </p>
           <p>React Native:</p>
           <p className=" h-8 ">

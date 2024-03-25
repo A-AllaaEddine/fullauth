@@ -41,9 +41,13 @@ export default function Screen() {
       <View>
           <Pressable
           onPress={async () =>
-              await signIn('credentials', {
-                email: 'test@test.com',
-                password: 'test12345',
+              await signIn({
+                baseUrl: "your-backend-url",
+                provider: 'credentials',
+                credentials: {
+                  email: 'test@test.com',
+                  password: 'test12345',
+                },
               })
           }
           >
@@ -80,7 +84,7 @@ export default function Screen() {
     return (
         <View>
             <Pressable
-            onPress={async () => await signOut()}
+            onPress={async () => await signOut({ baseUrl: "your-backend-url"})}
             >
             <Text>Sign Out</Text>
             </Pressable>

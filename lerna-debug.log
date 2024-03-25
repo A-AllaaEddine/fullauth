@@ -1,0 +1,8 @@
+56 error Error: Command failed with exit code 128: git tag v1.1.0 -m v1.1.0
+56 error fatal: tag 'v1.1.0' already exists
+56 error     at makeError (D:\Coding\code\auth\fullauth\node_modules\execa\lib\error.js:59:11)
+56 error     at handlePromise (D:\Coding\code\auth\fullauth\node_modules\execa\index.js:114:26)
+56 error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+56 error     at async VersionCommand.gitCommitAndTagVersion (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:8529:9)
+56 error     at async VersionCommand.commitAndTagUpdates (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:8494:18)
+56 error     at async Promise.all (index 0)

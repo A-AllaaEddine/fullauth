@@ -90,7 +90,7 @@ const ReactNativeInstallation = () => {
 
 export default function App() {
   return (
-      <SessionProvider>
+      <SessionProvider  baseUrl= "your-backend-url",>
           // your app code
       </SessionProvider>
   );
