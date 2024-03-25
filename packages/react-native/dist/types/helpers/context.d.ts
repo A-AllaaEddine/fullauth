@@ -10,6 +10,7 @@ export declare const sessionContext: React.Context<{
     session: null | Session;
     setSession: Dispatch<SetStateAction<any>>;
     update: (data?: any) => Promise<Update>;
+    baseUrl?: string | undefined;
 } | undefined>;
 export declare const SessionProvider: ({ children, baseUrl, }: {
     children: any;

@@ -26,6 +26,7 @@ export const sessionContext = createContext<
       session: null | Session;
       setSession: Dispatch<SetStateAction<any>>;
       update: (data?: any) => Promise<Update>;
+      baseUrl?: string;
     }
   | undefined
 >(undefined);
@@ -50,7 +51,6 @@ export const SessionProvider = ({
       //   return null;
       // }
 
-      console.log('baseUrl: ', baseUrl);
       const resp = await fetch(
         `${
           baseUrl ??
@@ -148,6 +148,7 @@ export const SessionProvider = ({
         status,
         update,
         setSession,
+        baseUrl,
       }}
     >
       {children}

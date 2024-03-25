@@ -14,9 +14,9 @@ const utils_1 = require("../utils/utils");
  * @returns {Promise<SigninResp>} A promise that returns session object on success.
  * @throws {AuthenticationError} If authentication fails, return error object.
  */
-const signIn = async (provider, credentials) => {
+const signIn = async ({ baseUrl, provider, credentials, }) => {
     try {
-        const providers = await (0, utils_1.getProviders)();
+        const providers = await (0, utils_1.getProviders)({ baseUrl: baseUrl });
         if (!providers[provider]) {
             throw new Error('Invalid provider');
         }

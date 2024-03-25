@@ -10,18 +10,24 @@ export type SigninResp = {
 /**
  * Authenticates a user based on the selected provider.
  *
+ * @param {string} baseUrl -The url for your fullauth backend.
  * @param {string} provider -The id of the provider.
  * @param {string} credentials - The credentials for the provider (only for credentials provider).
  * @returns {Promise<SigninResp>} A promise that returns session object on success.
  * @throws {AuthenticationError} If authentication fails, return error object.
  */
 
-const signIn = async <P extends string>(
-  provider: 'credentials' | 'google' | 'github' | P,
-  credentials?: Record<string, string>
-): Promise<SigninResp> => {
+const signIn = async <P extends string>({
+  baseUrl,
+  provider,
+  credentials,
+}: {
+  baseUrl: string;
+  provider: 'credentials' | 'google' | 'github' | P;
+  credentials?: Record<string, string>;
+}): Promise<SigninResp> => {
   try {
-    const providers = await getProviders();
+    const providers = await getProviders({ baseUrl: baseUrl });
 
     if (!providers[provider]) {
       throw new Error('Invalid provider');

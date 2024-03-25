@@ -1,11 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authHeaders } from './authHeader';
 
-const signOut = async () => {
+/**
+ * Destory user session.
+ *
+ * @param {string} baseUrl -The url for your fullauth backend.
+ */
+
+const signOut = async ({ baseUrl }: { baseUrl: string }) => {
   try {
     const resp = await fetch(
       `${
-        process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
+        baseUrl ??
+        process.env.EXPO_PUBLIC_FULLAUTH_URL ??
+        'http://localhost:3000'
       }/api/auth/signout`,
       {
         method: 'POST',

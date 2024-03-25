@@ -1,7 +1,7 @@
-export const getProviders = async () => {
+export const getProviders = async ({ baseUrl }: { baseUrl?: string }) => {
   const providersResp = await fetch(
     `${
-      process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
+      baseUrl ?? process.env.EXPO_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
     }/api/auth/mobile/providers`,
     {
       method: 'GET',

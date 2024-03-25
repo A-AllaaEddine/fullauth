@@ -7,12 +7,25 @@ const ChangeLog = () => {
         </p>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">
+            v1.1.0
+          </p>
+          <p>React Native:</p>
+          <p className=" h-8 ">
+            - Add: `baseUrl` is now a REQUIRED argument in Session Provider,
+            signIn and signOut functions (Set the fullauth backend url) .
+          </p>
+        </div>{' '}
+        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
+          <p className="text-start text-lg text-gray-300 font-semibold">
             v1.0.2
           </p>
           <p className=" h-8 ">
             - Add: Optional `baseUrl` props to Session Provider in react native
-            package (Helps with setting the backend url) . - Fix: Token callback
-            `platform` prop now has correct types (web/mobile)
+            package (Helps with setting the backend url) .
+          </p>
+          <p className=" h-8 ">
+            - Fix: Token callback `platform` prop now has correct types
+            (web/mobile)
           </p>
         </div>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">

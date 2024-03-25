@@ -43,7 +43,6 @@ const SessionProvider = ({ children, baseUrl, }) => {
             //   setSession(null);
             //   return null;
             // }
-            console.log('baseUrl: ', baseUrl);
             const resp = await fetch(`${baseUrl ??
                 process.env.EXPO_PUBLIC_FULLAUTH_URL ??
                 'http://localhost:3000'}/api/auth/mobile/session`, {
@@ -126,6 +125,7 @@ const SessionProvider = ({ children, baseUrl, }) => {
             status,
             update,
             setSession,
+            baseUrl,
         } }, children));
 };
 exports.SessionProvider = SessionProvider;

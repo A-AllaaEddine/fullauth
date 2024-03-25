@@ -1,4 +1,6 @@
-export declare const getProviders: () => Promise<Record<string, {
+export declare const getProviders: ({ baseUrl }: {
+    baseUrl?: string | undefined;
+}) => Promise<Record<string, {
     id: string;
     name: string;
     type: string;

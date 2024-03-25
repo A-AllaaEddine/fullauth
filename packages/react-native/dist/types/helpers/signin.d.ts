@@ -10,5 +10,9 @@ export type SigninResp = {
  * @returns {Promise<SigninResp>} A promise that returns session object on success.
  * @throws {AuthenticationError} If authentication fails, return error object.
  */
-declare const signIn: <P extends string>(provider: "credentials" | P | "google" | "github", credentials?: Record<string, string>) => Promise<SigninResp>;
+declare const signIn: <P extends string>({ baseUrl, provider, credentials, }: {
+    baseUrl: string;
+    provider: "credentials" | P | "google" | "github";
+    credentials?: Record<string, string> | undefined;
+}) => Promise<SigninResp>;
 export default signIn;
