@@ -103,7 +103,7 @@ async function NextAppRouteHandler(req, res, options) {
                         });
                     }
                     const jwt = await (0, utils_1.verifyToken)(sessionTtoken, options?.secret);
-                    if (jwt.csrfToken !== csrfToken) {
+                    if (jwt.payload.csrfToken !== csrfToken) {
                         server_1.NextResponse.json({
                             ok: false,
                             message: 'Invalid CSRF Token',
@@ -111,14 +111,14 @@ async function NextAppRouteHandler(req, res, options) {
                     }
                     const token = await (0, utils_1.tokenCallback)({
                         options,
-                        token: jwt,
+                        token: jwt.payload,
                         trigger: 'update',
                         updates: body.data,
                         user: null,
                         auth: null,
                         isMobile,
                     });
-                    const sessionJwt = await (0, utils_1.generateToken)(token, options?.secret);
+                    const sessionJwt = await (0, utils_1.generateToken)(token ?? {}, options?.secret);
                     return server_1.NextResponse.json({ token: sessionJwt });
                 }
                 // verify the csrf token
@@ -142,7 +142,7 @@ async function NextAppRouteHandler(req, res, options) {
                 // get session data from cookie
                 const cookieData = await (0, utils_1.verifyToken)(cookie.value, options?.secret);
                 // check if csrfToken from cookie match the one in the session token
-                if (cookieData.csrfToken !== csrfCookie.value) {
+                if (cookieData.payload.csrfToken !== csrfCookie.value) {
                     server_1.NextResponse.json({
                         ok: false,
                         message: 'Invalid CSRF Token',
@@ -150,7 +150,7 @@ async function NextAppRouteHandler(req, res, options) {
                 }
                 const token = await (0, utils_1.tokenCallback)({
                     options,
-                    token: cookieData,
+                    token: cookieData.payload,
                     trigger: 'update',
                     updates: data,
                     user: null,
@@ -159,13 +159,14 @@ async function NextAppRouteHandler(req, res, options) {
                 });
                 // const newSessionData = DeepMerge(token, data as JWT);
                 // geenrate  new session jwt
-                const sessionJwt = await (0, utils_1.generateToken)(token, options?.secret);
+                const sessionJwt = await (0, utils_1.generateToken)(token ?? {}, options?.secret);
                 // set new cookie
                 (0, headers_1.cookies)().set({
                     name: 'fullauth-session-token',
                     value: sessionJwt,
                     httpOnly: true,
-                    maxAge: cookieData.exp - Math.floor(Date.now() / 1000) ?? 60 * 60 * 24 * 7,
+                    maxAge: cookieData.payload.exp - Math.floor(Date.now() / 1000) ??
+                        60 * 60 * 24 * 7,
                     secure: process.env.NODE_ENV === 'development' ? false : true,
                     sameSite: process.env.NODE_ENV === 'development' ? false : true,
                 });
@@ -208,13 +209,12 @@ async function NextAppRouteHandler(req, res, options) {
                 // get data from generated token to send to client on first sign in
                 const returnJwt = await (0, utils_1.verifyToken)(tokenString, options?.secret);
                 // remove unnecessary fields
-                const exp = returnJwt?.exp;
-                delete returnJwt.csrfToken;
-                delete returnJwt.iat;
-                delete returnJwt.exp;
+                const exp = returnJwt?.payload.exp;
+                // delete returnJwt.payload.csrfToken;
+                // delete returnJwt.payload.iat;
+                // delete returnJwt.payload.exp;
                 // generate the session that gets returned to the client
                 const session = {
-                    // user: returnJwt.user,
                     ...returnJwt,
                     expiresAt: exp ?? options?.session?.maxAge ?? 60 * 60 * 24 * 7,
                 };
@@ -310,10 +310,10 @@ async function NextAppRouteHandler(req, res, options) {
                 // get data from generated token to send to client on first sign in
                 const returnJwt = await (0, utils_1.verifyToken)(tokenString, options?.secret);
                 // remove unnecessary fields
-                const exp = returnJwt?.exp;
-                delete returnJwt.csrfToken;
-                delete returnJwt.iat;
-                delete returnJwt.exp;
+                const exp = returnJwt?.payload.exp;
+                // delete returnJwt.csrfToken;
+                // delete returnJwt.iat;
+                // delete returnJwt.exp;
                 // generate the session that gets returned to the client
                 const session = {
                     // user: returnJwt.user,
@@ -371,7 +371,7 @@ async function NextAppRouteHandler(req, res, options) {
                         const token = await (0, utils_1.verifyToken)(sessionTtoken, options?.secret);
                         const jwt = await (0, utils_1.tokenCallback)({
                             options,
-                            token: token,
+                            token: token.payload,
                             trigger: undefined,
                             updates: null,
                             user: null,
@@ -379,20 +379,23 @@ async function NextAppRouteHandler(req, res, options) {
                             isMobile,
                         });
                         const exp = jwt?.exp;
-                        delete jwt.csrfToken;
-                        delete jwt.exp;
-                        delete jwt.iat;
+                        // delete jwt.csrfToken;
+                        // delete jwt.exp;
+                        // delete jwt.iat;
                         return server_1.NextResponse.json({
                             session: {
                                 ...jwt,
-                                user: jwt.user ?? {},
                                 expiresAt: exp,
                             },
                         });
                     }
                     catch (error) {
                         console.log(error);
-                        return server_1.NextResponse.json({ message: error.message });
+                        return server_1.NextResponse.json({
+                            ok: false,
+                            error: error.message,
+                            message: 'Session Deleted.',
+                        });
                     }
                 }
                 const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
@@ -408,7 +411,7 @@ async function NextAppRouteHandler(req, res, options) {
                     const decoded = await (0, utils_1.verifyToken)(cookie.value, options.secret);
                     const jwt = await (0, utils_1.tokenCallback)({
                         options,
-                        token: decoded,
+                        token: decoded.payload,
                         trigger: undefined,
                         updates: null,
                         user: null,
@@ -416,9 +419,9 @@ async function NextAppRouteHandler(req, res, options) {
                         isMobile,
                     });
                     const exp = jwt?.exp;
-                    delete jwt.csrfToken;
-                    delete jwt.exp;
-                    delete jwt.iat;
+                    // delete jwt.csrfToken;
+                    // delete jwt.exp;
+                    // delete jwt.iat;
                     return server_1.NextResponse.json({
                         session: {
                             ...jwt,
@@ -429,8 +432,10 @@ async function NextAppRouteHandler(req, res, options) {
                 catch (error) {
                     console.log(error);
                     (0, headers_1.cookies)().delete('fullauth-session-token');
+                    (0, headers_1.cookies)().delete('fullauth-session-csrf-token');
                     return server_1.NextResponse.json({
                         error: error.message,
+                        message: 'Session Deleted.',
                     });
                 }
             }

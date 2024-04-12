@@ -37,7 +37,7 @@ const SessionProvider = ({ children, baseUrl, }) => {
     const [status, setStatus] = (0, react_1.useState)('unauthenticated');
     const getSession = async () => {
         try {
-            // setStatus('authenticating');
+            setStatus('authenticating');
             // const token = await AsyncStorage.getItem('fullauth-session-token');
             // if (!token) {
             //   setSession(null);
@@ -56,13 +56,22 @@ const SessionProvider = ({ children, baseUrl, }) => {
             if (!resp.ok) {
                 throw data.error;
             }
+            if (data.message === 'Session Deleted.') {
+                setStatus('unauthenticated');
+                setSession(null);
+                await async_storage_1.default.removeItem('fullauth-session-token');
+                await async_storage_1.default.removeItem('fullauth-session-csrf-token');
+                return null;
+            }
             if (data.message === 'No Session') {
+                setStatus('unauthenticated');
                 setSession(null);
                 await async_storage_1.default.removeItem('fullauth-session-token');
                 await async_storage_1.default.removeItem('fullauth-session-csrf-token');
                 return null;
             }
             if (data.message === 'jwt expired') {
+                setStatus('unauthenticated');
                 await async_storage_1.default.removeItem('fullauth-session-token');
                 await async_storage_1.default.removeItem('fullauth-session-csrf-token');
                 return null;
@@ -81,11 +90,8 @@ const SessionProvider = ({ children, baseUrl, }) => {
         }
         catch (error) {
             console.log(error);
-            if (error.message === 'jwt expired') {
-                await async_storage_1.default.removeItem('fullauth-session-token');
-                await async_storage_1.default.removeItem('fullauth-session-csrf-token');
-                return null;
-            }
+            await async_storage_1.default.removeItem('fullauth-session-token');
+            await async_storage_1.default.removeItem('fullauth-session-csrf-token');
             throw error;
         }
     };

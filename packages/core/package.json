@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.2",
+    "jose": "^5.2.4",
     "jsonwebtoken": "^9.0.2"
   },
   "gitHead": "df009b9adb59317481e3ecd0c7b1df403d67e78a"

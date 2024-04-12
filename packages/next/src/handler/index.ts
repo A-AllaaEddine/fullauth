@@ -13,7 +13,7 @@ import {
   verifyToken,
 } from '@fullauth/core/utils';
 
-import { AuthOptions, Session } from '@fullauth/core';
+import { AuthOptions, JWT, Session } from '@fullauth/core';
 import { redirect } from 'next/navigation';
 import { redirectCallback } from '@fullauth/core/utils';
 
@@ -133,7 +133,7 @@ async function NextAppRouteHandler(
           }
 
           const jwt = await verifyToken(sessionTtoken, options?.secret!);
-          if (jwt.csrfToken !== csrfToken) {
+          if (jwt.payload.csrfToken !== csrfToken) {
             NextResponse.json({
               ok: false,
               message: 'Invalid CSRF Token',
@@ -142,14 +142,15 @@ async function NextAppRouteHandler(
 
           const token = await tokenCallback({
             options,
-            token: jwt,
+            token: jwt.payload as unknown as JWT,
             trigger: 'update',
             updates: (body as any).data,
             user: null,
             auth: null,
             isMobile,
           });
-          const sessionJwt = await generateToken(token, options?.secret!);
+
+          const sessionJwt = await generateToken(token ?? {}, options?.secret!);
           return NextResponse.json({ token: sessionJwt });
         }
         // verify the csrf token
@@ -179,7 +180,7 @@ async function NextAppRouteHandler(
         const cookieData = await verifyToken(cookie.value!, options?.secret!);
 
         // check if csrfToken from cookie match the one in the session token
-        if (cookieData.csrfToken !== csrfCookie.value) {
+        if (cookieData.payload.csrfToken !== csrfCookie.value) {
           NextResponse.json({
             ok: false,
             message: 'Invalid CSRF Token',
@@ -188,7 +189,7 @@ async function NextAppRouteHandler(
 
         const token = await tokenCallback({
           options,
-          token: cookieData,
+          token: cookieData.payload as unknown as JWT,
           trigger: 'update',
           updates: data,
           user: null,
@@ -198,14 +199,15 @@ async function NextAppRouteHandler(
         // const newSessionData = DeepMerge(token, data as JWT);
 
         // geenrate  new session jwt
-        const sessionJwt = await generateToken(token, options?.secret!);
+        const sessionJwt = await generateToken(token ?? {}, options?.secret!);
         // set new cookie
         cookies().set({
           name: 'fullauth-session-token',
           value: sessionJwt,
           httpOnly: true,
           maxAge:
-            cookieData.exp! - Math.floor(Date.now() / 1000) ?? 60 * 60 * 24 * 7,
+            cookieData.payload.exp! - Math.floor(Date.now() / 1000) ??
+            60 * 60 * 24 * 7,
           secure: process.env.NODE_ENV === 'development' ? false : true,
           sameSite: process.env.NODE_ENV === 'development' ? false : true,
         });
@@ -263,14 +265,13 @@ async function NextAppRouteHandler(
         const returnJwt = await verifyToken(tokenString, options?.secret!);
 
         // remove unnecessary fields
-        const exp = returnJwt?.exp;
-        delete returnJwt.csrfToken;
-        delete returnJwt.iat;
-        delete returnJwt.exp;
+        const exp = returnJwt?.payload.exp;
+        // delete returnJwt.payload.csrfToken;
+        // delete returnJwt.payload.iat;
+        // delete returnJwt.payload.exp;
 
         // generate the session that gets returned to the client
         const session: Session = {
-          // user: returnJwt.user,
           ...returnJwt,
           expiresAt: exp ?? options?.session?.maxAge! ?? 60 * 60 * 24 * 7,
         };
@@ -386,10 +387,10 @@ async function NextAppRouteHandler(
         const returnJwt = await verifyToken(tokenString, options?.secret!);
 
         // remove unnecessary fields
-        const exp = returnJwt?.exp;
-        delete returnJwt.csrfToken;
-        delete returnJwt.iat;
-        delete returnJwt.exp;
+        const exp = returnJwt?.payload.exp;
+        // delete returnJwt.csrfToken;
+        // delete returnJwt.iat;
+        // delete returnJwt.exp;
 
         // generate the session that gets returned to the client
         const session: Session = {
@@ -458,7 +459,7 @@ async function NextAppRouteHandler(
 
             const jwt = await tokenCallback({
               options,
-              token: token,
+              token: token.payload as unknown as JWT,
               trigger: undefined,
               updates: null,
               user: null,
@@ -467,19 +468,22 @@ async function NextAppRouteHandler(
             });
 
             const exp = jwt?.exp;
-            delete jwt.csrfToken;
-            delete jwt.exp;
-            delete jwt.iat;
+            // delete jwt.csrfToken;
+            // delete jwt.exp;
+            // delete jwt.iat;
             return NextResponse.json({
               session: {
                 ...jwt,
-                user: jwt.user ?? {},
                 expiresAt: exp,
               } as Session,
             });
           } catch (error: any) {
             console.log(error);
-            return NextResponse.json({ message: error.message });
+            return NextResponse.json({
+              ok: false,
+              error: error.message,
+              message: 'Session Deleted.',
+            });
           }
         }
 
@@ -500,17 +504,18 @@ async function NextAppRouteHandler(
 
           const jwt = await tokenCallback({
             options,
-            token: decoded,
+            token: decoded.payload as unknown as JWT,
             trigger: undefined,
             updates: null,
             user: null,
             auth: null,
             isMobile,
           });
+
           const exp = jwt?.exp;
-          delete jwt.csrfToken;
-          delete jwt.exp;
-          delete jwt.iat;
+          // delete jwt.csrfToken;
+          // delete jwt.exp;
+          // delete jwt.iat;
           return NextResponse.json({
             session: {
               ...jwt,
@@ -520,8 +525,10 @@ async function NextAppRouteHandler(
         } catch (error: any) {
           console.log(error);
           cookies().delete('fullauth-session-token');
+          cookies().delete('fullauth-session-csrf-token');
           return NextResponse.json({
             error: error.message,
+            message: 'Session Deleted.',
           });
         }
       }

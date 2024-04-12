@@ -1,4 +1,4 @@
-import * as jwt from 'jsonwebtoken';
+import * as jose from 'jose';
 import { Auth, AuthOptions, DbData, JWT, User } from '../types/types';
 
 export async function getBodyData(
@@ -19,31 +19,60 @@ export const generateToken = async (
   secret: string,
   maxAge?: number
 ) => {
-  if ('expiresAt' in payload && payload.expiresAt) {
-    return jwt.sign(payload, secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE');
-  }
-  if ('exp' in payload && payload.exp) {
-    return jwt.sign(payload, secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE');
-  }
+  const jwtConfig = {
+    secret: new TextEncoder().encode(
+      secret! ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE'
+    ),
+  };
 
-  return jwt.sign(payload, secret! ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE', {
-    expiresIn: maxAge ?? 60 * 60 * 24 * 7,
-  });
+  // if ('expiresAt' in payload && payload.expiresAt) {
+  //   return await new jose.SignJWT(payload)
+  //     .setIssuedAt()
+  //     .setIssuer('fullauth')
+  //     .sign(jwtConfig.secret);
+  // }
+  // if ('exp' in payload && payload.exp) {
+  //   return await new jose.SignJWT(payload)
+  //     .setIssuedAt()
+  //     .setIssuer('fullauth')
+  //     .sign(jwtConfig.secret);
+  // }
+
+  return await new jose.SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setIssuer('fullauth')
+    .setExpirationTime(`${maxAge ?? 60 * 60 * 24 * 7} minutes`)
+    .sign(jwtConfig.secret);
 };
 
 export async function generateCsrfToken(secret: string, maxAge?: number) {
-  return await jwt.sign({}, secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE', {
-    expiresIn: maxAge ?? 60 * 60 * 24 * 7,
-  });
+  const jwtConfig = {
+    secret: new TextEncoder().encode(
+      secret! ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE'
+    ),
+  };
+  return await new jose.SignJWT({ csrf: true })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setIssuer('fullauth')
+    .setExpirationTime(`${maxAge ?? 60 * 60 * 24 * 7} minutes`)
+    .sign(jwtConfig.secret);
   // return await generateToken({}, secret!, maxAge ?? 60);
 }
 
 export const verifyToken = async (token: string, secret: string) => {
-  try {
-    return jwt.verify(
-      token,
+  const jwtConfig = {
+    secret: new TextEncoder().encode(
       secret! ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE'
-    ) as JWT;
+    ),
+  };
+
+  try {
+    return await jose.jwtVerify<JWT & Record<string, any>>(
+      token,
+      jwtConfig.secret
+    );
   } catch (error: any) {
     throw error;
   }
@@ -127,7 +156,7 @@ export const tokenCallback = async ({
   user,
   auth,
   isMobile,
-}: TokenCallbackProps): Promise<any> => {
+}: TokenCallbackProps): Promise<JWT | null> => {
   const newJwt =
     (options.callbacks?.token &&
       (await options.callbacks?.token({

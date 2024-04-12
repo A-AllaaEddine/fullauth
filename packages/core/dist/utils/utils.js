@@ -1,4 +1,4 @@
-import * as jwt from 'jsonwebtoken';
+import * as jose from 'jose';
 export async function getBodyData(req) {
     if (!('body' in req) || !req.body || req.method !== 'POST')
         return;
@@ -12,25 +12,46 @@ export async function getBodyData(req) {
     }
 }
 export const generateToken = async (payload, secret, maxAge) => {
-    if ('expiresAt' in payload && payload.expiresAt) {
-        return jwt.sign(payload, secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE');
-    }
-    if ('exp' in payload && payload.exp) {
-        return jwt.sign(payload, secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE');
-    }
-    return jwt.sign(payload, secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE', {
-        expiresIn: maxAge ?? 60 * 60 * 24 * 7,
-    });
+    const jwtConfig = {
+        secret: new TextEncoder().encode(secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE'),
+    };
+    // if ('expiresAt' in payload && payload.expiresAt) {
+    //   return await new jose.SignJWT(payload)
+    //     .setIssuedAt()
+    //     .setIssuer('fullauth')
+    //     .sign(jwtConfig.secret);
+    // }
+    // if ('exp' in payload && payload.exp) {
+    //   return await new jose.SignJWT(payload)
+    //     .setIssuedAt()
+    //     .setIssuer('fullauth')
+    //     .sign(jwtConfig.secret);
+    // }
+    return await new jose.SignJWT(payload)
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setIssuer('fullauth')
+        .setExpirationTime(`${maxAge ?? 60 * 60 * 24 * 7} minutes`)
+        .sign(jwtConfig.secret);
 };
 export async function generateCsrfToken(secret, maxAge) {
-    return await jwt.sign({}, secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE', {
-        expiresIn: maxAge ?? 60 * 60 * 24 * 7,
-    });
+    const jwtConfig = {
+        secret: new TextEncoder().encode(secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE'),
+    };
+    return await new jose.SignJWT({ csrf: true })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setIssuer('fullauth')
+        .setExpirationTime(`${maxAge ?? 60 * 60 * 24 * 7} minutes`)
+        .sign(jwtConfig.secret);
     // return await generateToken({}, secret!, maxAge ?? 60);
 }
 export const verifyToken = async (token, secret) => {
+    const jwtConfig = {
+        secret: new TextEncoder().encode(secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE'),
+    };
     try {
-        return jwt.verify(token, secret ?? 'cIdaCk3VCRQgIMCX62KI7weqX2SrgDLE');
+        return await jose.jwtVerify(token, jwtConfig.secret);
     }
     catch (error) {
         throw error;

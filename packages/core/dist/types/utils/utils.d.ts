@@ -1,8 +1,9 @@
+import * as jose from 'jose';
 import { Auth, AuthOptions, DbData, JWT, User } from '../types/types';
 export declare function getBodyData(req: Request): Promise<Record<string, any> | undefined>;
 export declare const generateToken: (payload: Partial<DbData> | Partial<JWT> | Record<string, string>, secret: string, maxAge?: number) => Promise<string>;
 export declare function generateCsrfToken(secret: string, maxAge?: number): Promise<string>;
-export declare const verifyToken: (token: string, secret: string) => Promise<JWT>;
+export declare const verifyToken: (token: string, secret: string) => Promise<jose.JWTVerifyResult<JWT & Record<string, any>>>;
 export type ResponseProvider = {
     id: string;
     name: string;
@@ -29,7 +30,7 @@ export type TokenCallbackProps = {
     auth: Auth | null;
     isMobile: boolean;
 };
-export declare const tokenCallback: ({ options, token, updates, trigger, user, auth, isMobile, }: TokenCallbackProps) => Promise<any>;
+export declare const tokenCallback: ({ options, token, updates, trigger, user, auth, isMobile, }: TokenCallbackProps) => Promise<JWT | null>;
 export type ProviderCallbackProps = {
     options: AuthOptions;
     provider: string;

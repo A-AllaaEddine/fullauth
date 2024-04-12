@@ -30,7 +30,7 @@ export type CallbackOptions = {
     user: User | null;
     auth: Auth | null;
     platform: 'mobile' | 'web';
-  }) => Promise<any>;
+  }) => Promise<JWT | null>;
 
   database: ({
     updates,

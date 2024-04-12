@@ -34,7 +34,8 @@ const getSession = async (
           return null;
         }
 
-        token = await verifyToken(sessionToken, options?.secret!);
+        token = (await verifyToken(sessionToken, options?.secret!))
+          .payload as unknown as JWT;
 
         if (!token) {
           console.log('Fullauth: Invalid JWT');
@@ -71,7 +72,8 @@ const getSession = async (
         return null;
       }
 
-      token = await verifyToken(cookie?.value!, options?.secret!);
+      token = (await verifyToken(cookie?.value!, options?.secret!))
+        .payload as unknown as JWT;
       if (!token) {
         console.log('Fullauth: Invalid token');
         return null;
@@ -106,7 +108,8 @@ const getSession = async (
       return null;
     }
 
-    token = await verifyToken(cookie?.value!, options?.secret!);
+    token = (await verifyToken(cookie?.value!, options?.secret!))
+      .payload as unknown as JWT;
     if (!token) {
       console.log('Fullauth: Invalid token');
       return null;

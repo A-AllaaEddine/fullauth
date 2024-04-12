@@ -26,7 +26,8 @@ const getSession = async (options, req) => {
                     console.log('Fullauth: Invalid csrf token');
                     return null;
                 }
-                token = await (0, utils_1.verifyToken)(sessionToken, options?.secret);
+                token = (await (0, utils_1.verifyToken)(sessionToken, options?.secret))
+                    .payload;
                 if (!token) {
                     console.log('Fullauth: Invalid JWT');
                     return null;
@@ -57,7 +58,8 @@ const getSession = async (options, req) => {
                 console.log('Fullauth: Invalid crsf cookie');
                 return null;
             }
-            token = await (0, utils_1.verifyToken)(cookie?.value, options?.secret);
+            token = (await (0, utils_1.verifyToken)(cookie?.value, options?.secret))
+                .payload;
             if (!token) {
                 console.log('Fullauth: Invalid token');
                 return null;
@@ -86,7 +88,8 @@ const getSession = async (options, req) => {
             console.log('Invalid crsf cookie');
             return null;
         }
-        token = await (0, utils_1.verifyToken)(cookie?.value, options?.secret);
+        token = (await (0, utils_1.verifyToken)(cookie?.value, options?.secret))
+            .payload;
         if (!token) {
             console.log('Fullauth: Invalid token');
             return null;

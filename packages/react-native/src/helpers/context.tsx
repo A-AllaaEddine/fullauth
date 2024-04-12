@@ -43,7 +43,7 @@ export const SessionProvider = ({
 
   const getSession = async () => {
     try {
-      // setStatus('authenticating');
+      setStatus('authenticating');
       // const token = await AsyncStorage.getItem('fullauth-session-token');
 
       // if (!token) {
@@ -69,13 +69,22 @@ export const SessionProvider = ({
       if (!resp.ok) {
         throw data.error;
       }
+      if (data.message === 'Session Deleted.') {
+        setStatus('unauthenticated');
+        setSession(null);
+        await AsyncStorage.removeItem('fullauth-session-token');
+        await AsyncStorage.removeItem('fullauth-session-csrf-token');
+        return null;
+      }
       if (data.message === 'No Session') {
+        setStatus('unauthenticated');
         setSession(null);
         await AsyncStorage.removeItem('fullauth-session-token');
         await AsyncStorage.removeItem('fullauth-session-csrf-token');
         return null;
       }
       if (data.message === 'jwt expired') {
+        setStatus('unauthenticated');
         await AsyncStorage.removeItem('fullauth-session-token');
         await AsyncStorage.removeItem('fullauth-session-csrf-token');
         return null;
@@ -93,11 +102,8 @@ export const SessionProvider = ({
       return data.session as null | Session;
     } catch (error: any) {
       console.log(error);
-      if (error.message === 'jwt expired') {
-        await AsyncStorage.removeItem('fullauth-session-token');
-        await AsyncStorage.removeItem('fullauth-session-csrf-token');
-        return null;
-      }
+      await AsyncStorage.removeItem('fullauth-session-token');
+      await AsyncStorage.removeItem('fullauth-session-csrf-token');
       throw error;
     }
   };

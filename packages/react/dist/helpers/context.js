@@ -32,7 +32,7 @@ const SessionProvider = ({ children, session, }) => {
     const [status, setStatus] = (0, react_1.useState)('unauthenticated');
     const getSession = async () => {
         try {
-            // setStatus('authenticating');
+            setStatus('authenticating');
             const resp = await fetch(`${process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'}/api/auth/session`, {
                 method: 'GET',
                 headers: {
@@ -44,6 +44,7 @@ const SessionProvider = ({ children, session, }) => {
                 throw data.error;
             }
             if (data.message === 'No Session') {
+                setStatus('unauthenticated');
                 setSession(null);
                 return null;
             }

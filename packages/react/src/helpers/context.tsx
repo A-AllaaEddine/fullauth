@@ -42,7 +42,7 @@ export const SessionProvider = ({
 
   const getSession = async () => {
     try {
-      // setStatus('authenticating');
+      setStatus('authenticating');
       const resp = await fetch(
         `${
           process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
@@ -59,6 +59,7 @@ export const SessionProvider = ({
         throw data.error;
       }
       if (data.message === 'No Session') {
+        setStatus('unauthenticated');
         setSession(null);
         return null;
       }

@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const async_storage_1 = __importDefault(require("@react-native-async-storage/async-storage"));
-const authHeader_1 = require("./authHeader");
 /**
  * Destory user session.
  *
@@ -12,19 +11,24 @@ const authHeader_1 = require("./authHeader");
  */
 const signOut = async ({ baseUrl }) => {
     try {
-        const resp = await fetch(`${baseUrl ??
-            process.env.EXPO_PUBLIC_FULLAUTH_URL ??
-            'http://localhost:3000'}/api/auth/signout`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ...(await (0, authHeader_1.authHeaders)()),
-            },
-            body: JSON.stringify({}),
-        });
-        if (!resp.ok) {
-            throw new Error('Internal Server Error');
-        }
+        // const resp = await fetch(
+        //   `${
+        //     baseUrl ??
+        //     process.env.EXPO_PUBLIC_FULLAUTH_URL ??
+        //     'http://localhost:3000'
+        //   }/api/auth/signout`,
+        //   {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //       ...(await authHeaders()),
+        //     },
+        //     body: JSON.stringify({}),
+        //   }
+        // );
+        // if (!resp.ok) {
+        //   throw new Error('Internal Server Error');
+        // }
         await async_storage_1.default.removeItem('fullauth-session-token');
         await async_storage_1.default.removeItem('fullauth-session-csrf-token');
     }
