@@ -168,7 +168,7 @@ async function NextAppRouteHandler(req, res, options) {
                     maxAge: cookieData.payload.exp - Math.floor(Date.now() / 1000) ??
                         60 * 60 * 24 * 7,
                     secure: process.env.NODE_ENV === 'development' ? false : true,
-                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
                 });
                 return server_1.NextResponse.json({
                     ok: true,
@@ -235,7 +235,7 @@ async function NextAppRouteHandler(req, res, options) {
                     httpOnly: true,
                     maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
                     secure: process.env.NODE_ENV === 'development' ? false : true,
-                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
                 });
                 (0, headers_1.cookies)().set({
                     name: 'fullauth-session-csrf-token',
@@ -243,7 +243,7 @@ async function NextAppRouteHandler(req, res, options) {
                     httpOnly: true,
                     maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
                     secure: process.env.NODE_ENV === 'development' ? false : true,
-                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
                 });
                 const { url } = (0, utils_2.redirectCallback)(redirectUrl);
                 return Response.json({
@@ -337,7 +337,7 @@ async function NextAppRouteHandler(req, res, options) {
                     httpOnly: true,
                     maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
                     secure: process.env.NODE_ENV === 'development' ? false : true,
-                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
                 });
                 (0, headers_1.cookies)().set({
                     name: 'fullauth-session-csrf-token',
@@ -345,7 +345,7 @@ async function NextAppRouteHandler(req, res, options) {
                     httpOnly: true,
                     maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
                     secure: process.env.NODE_ENV === 'development' ? false : true,
-                    sameSite: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
                 });
                 const { url } = (0, utils_2.redirectCallback)(redirectUrl);
                 return Response.redirect(url ?? `${process.env.NEXT_PUBLIC_FULLAUTH_URL}`);

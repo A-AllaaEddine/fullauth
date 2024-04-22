@@ -51,11 +51,11 @@ const getSession = async (options, req) => {
             const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
             const csrfCookie = (0, headers_1.cookies)().get('fullauth-session-csrf-token');
             if (!cookie?.value) {
-                console.log('Fullauth: Invalid cookie');
+                // console.log('Fullauth: Invalid cookie');
                 return null;
             }
             if (!csrfCookie?.value) {
-                console.log('Fullauth: Invalid crsf cookie');
+                // console.log('Fullauth: Invalid crsf cookie');
                 return null;
             }
             token = (await (0, utils_1.verifyToken)(cookie?.value, options?.secret))

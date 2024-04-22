@@ -64,11 +64,11 @@ const getSession = async (
       const csrfCookie = cookies().get('fullauth-session-csrf-token');
 
       if (!cookie?.value) {
-        console.log('Fullauth: Invalid cookie');
+        // console.log('Fullauth: Invalid cookie');
         return null;
       }
       if (!csrfCookie?.value) {
-        console.log('Fullauth: Invalid crsf cookie');
+        // console.log('Fullauth: Invalid crsf cookie');
         return null;
       }
 
@@ -100,11 +100,11 @@ const getSession = async (
     const csrfCookie = cookies().get('fullauth-session-csrf-token');
 
     if (!cookie?.value) {
-      console.log('Fullauth: Invalid cookie');
+      // console.log('Fullauth: Invalid cookie');
       return null;
     }
     if (!csrfCookie?.value) {
-      console.log('Invalid crsf cookie');
+      // console.log('Invalid crsf cookie');
       return null;
     }
 

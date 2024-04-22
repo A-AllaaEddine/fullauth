@@ -12,6 +12,8 @@ export type SigninResp = {
  *
  * @param {string} provider -The id of the provider.
  * @param {string} credentials - The credentials for the provider (only for credentials provider).
+ * @param {boolean} redirect - Redirect to specific url after signing in (default to true).
+ * @param {string} redirectUrl - The url to redirect to after signing in (only provide it when redirect is set to true).
  * @returns {Promise<SigninResp>} A promise that returns session object on success.
  * @throws {AuthenticationError} If authentication fails, return error object.
  */

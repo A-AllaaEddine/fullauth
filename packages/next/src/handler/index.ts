@@ -209,7 +209,7 @@ async function NextAppRouteHandler(
             cookieData.payload.exp! - Math.floor(Date.now() / 1000) ??
             60 * 60 * 24 * 7,
           secure: process.env.NODE_ENV === 'development' ? false : true,
-          sameSite: process.env.NODE_ENV === 'development' ? false : true,
+          sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
         });
         return NextResponse.json({
           ok: true,
@@ -295,7 +295,7 @@ async function NextAppRouteHandler(
           httpOnly: true,
           maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
           secure: process.env.NODE_ENV === 'development' ? false : true,
-          sameSite: process.env.NODE_ENV === 'development' ? false : true,
+          sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
         });
         cookies().set({
           name: 'fullauth-session-csrf-token',
@@ -303,7 +303,7 @@ async function NextAppRouteHandler(
           httpOnly: true,
           maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
           secure: process.env.NODE_ENV === 'development' ? false : true,
-          sameSite: process.env.NODE_ENV === 'development' ? false : true,
+          sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
         });
 
         const { url } = redirectCallback(redirectUrl);
@@ -418,7 +418,7 @@ async function NextAppRouteHandler(
           httpOnly: true,
           maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
           secure: process.env.NODE_ENV === 'development' ? false : true,
-          sameSite: process.env.NODE_ENV === 'development' ? false : true,
+          sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
         });
         cookies().set({
           name: 'fullauth-session-csrf-token',
@@ -426,7 +426,7 @@ async function NextAppRouteHandler(
           httpOnly: true,
           maxAge: sessionStrategry?.maxAge ?? 60 * 60 * 24 * 7,
           secure: process.env.NODE_ENV === 'development' ? false : true,
-          sameSite: process.env.NODE_ENV === 'development' ? false : true,
+          sameSite: process.env.NODE_ENV === 'development' ? false : 'lax',
         });
 
         const { url } = redirectCallback(redirectUrl);

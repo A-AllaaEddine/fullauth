@@ -7,6 +7,21 @@ const ChangeLog = () => {
         </p>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">
+            v1.2.1
+          </p>
+          <p>React:</p>
+          <p className=" h-8 ">
+            - Add: `baseUrl` is now a REQUIRED argument in Session Provider,
+            signIn and signOut functions (Set the fullauth backend url) .
+          </p>
+          <p>Next:</p>
+          <p className=" h-8 ">
+            - Fix: Bad export, now export correct getServerSession function. -
+            Fix: Set cookie sameSite to lax.
+          </p>
+        </div>
+        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
+          <p className="text-start text-lg text-gray-300 font-semibold">
             v1.1.2
           </p>
           <p>React Native:</p>
@@ -14,7 +29,7 @@ const ChangeLog = () => {
             - Add: `baseUrl` is now a REQUIRED argument in Session Provider,
             signIn and signOut functions (Set the fullauth backend url) .
           </p>
-        </div>{' '}
+        </div>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">
             v1.0.2
