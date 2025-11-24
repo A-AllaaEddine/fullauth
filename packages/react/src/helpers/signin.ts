@@ -1,6 +1,7 @@
 'use client';
 
-import { Session } from '@fullauth/core';
+import { CallbackApiResp, Session } from '@fullauth/core';
+import { throwAppropriateError } from '@fullauth/core/utils';
 import { getProviders } from '../utils/utils';
 
 export type SigninResp = {
@@ -57,12 +58,7 @@ const signIn = async <P extends string>(
       }
     );
 
-    const data: {
-      ok: boolean;
-      message: string;
-      session?: Session;
-      redirect?: string;
-    } = await signInResp.json();
+    const data: CallbackApiResp = await signInResp.json();
 
     if (!data.ok) {
       if (data.message === 'Session already exist') {
@@ -71,11 +67,13 @@ const signIn = async <P extends string>(
       if (data.message === 'jwt expired') {
         document.cookie =
           'fullauth-session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        // return null;
-        throw new Error('Session expired.');
+        return null;
+        // throw new Error('Session expired.');
       }
 
-      throw new Error(data.message);
+      if (data.error) {
+        throwAppropriateError(data.error);
+      }
     }
 
     if (data?.redirect) {

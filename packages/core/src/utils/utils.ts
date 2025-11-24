@@ -1,5 +1,17 @@
 import * as jose from 'jose';
 import { Auth, AuthOptions, DbData, JWT, User } from '../types/types';
+import {
+  CredentialError,
+  CsrfTokenError,
+  CustomError,
+  InternaError,
+  InvalidProviderError,
+  MethodNotAllowedError,
+  OAuthCallbackError,
+  OAuthRedirectError,
+  SessionTokenError,
+  TokenError,
+} from './errors';
 
 export async function getBodyData(
   req: Request
@@ -85,6 +97,7 @@ export type ResponseProvider = {
   callbackUrl: string;
   signInUrl: string;
 };
+
 export async function getProviders(options: AuthOptions, isMobile: boolean) {
   const url = process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000';
 
@@ -157,19 +170,26 @@ export const tokenCallback = async ({
   auth,
   isMobile,
 }: TokenCallbackProps): Promise<JWT | null> => {
-  const newJwt =
-    (options.callbacks?.token &&
-      (await options.callbacks?.token({
-        token: token,
-        updates,
-        trigger,
-        user,
-        auth,
-        platform: isMobile ? 'mobile' : 'web',
-      }))) ??
-    token;
+  try {
+    const newJwt =
+      (options.callbacks?.token &&
+        (await options.callbacks?.token({
+          token: token,
+          updates,
+          trigger,
+          user,
+          auth,
+          platform: isMobile ? 'mobile' : 'web',
+        }))) ??
+      token;
 
-  return newJwt;
+    return newJwt;
+  } catch (error: any) {
+    if (error instanceof CustomError) {
+      throw new CustomError(error.message, error.body);
+    }
+    throw new TokenError(undefined).toJSON();
+  }
 };
 
 export type ProviderCallbackProps = {
@@ -202,9 +222,7 @@ export async function ProviderCallback({
     try {
       // if credentials are not provided when calling credentials provider
       if (!credentials) {
-        throw new Error(
-          'Credentials must be valid when using Credentials Provider.'
-        );
+        throw new CredentialError('No Credentials');
       }
       const data = await selectedProvider.signIn(credentials);
 
@@ -228,10 +246,14 @@ export async function ProviderCallback({
 
       return { user, auth };
     } catch (error: any) {
-      console.log('Provider: ', error);
-      throw error;
+      if (error instanceof CustomError) {
+        throw new CustomError(error.message, error.body);
+      }
+      throw new CredentialError(undefined).toJSON();
     }
   }
+
+  // TODO: Add OAuthProviderError
   if (selectedProvider?.type === 'oauth') {
     try {
       if (!code) {
@@ -254,11 +276,16 @@ export async function ProviderCallback({
         },
       };
     } catch (error: any) {
-      console.log('oauth provider: ', error);
-      throw error;
+      if (error instanceof CustomError) {
+        throw new CustomError(error.message, error.body);
+      }
+      throw new OAuthCallbackError(undefined).toJSON();
     }
   }
-  throw new Error('Invalid Provider');
+
+  // TODO: Add ProviderErrorObject
+  throw new InvalidProviderError();
+  // throw new Error('Invalid Provider');
 }
 
 export type ProviderSigninProps = {
@@ -282,15 +309,22 @@ export async function ProviderSignin({
   );
 
   if (selectedProvider?.type === 'oauth') {
-    const { clientId, clientSecret } = selectedProvider;
+    try {
+      const { clientId, clientSecret } = selectedProvider;
 
-    const { redirectURL } = selectedProvider.ProviderSignin({
-      isMobile,
-      clientId,
-      clientSecret,
-      redirectUrl,
-    });
-    return { redirectURL };
+      const { redirectURL } = selectedProvider.ProviderSignin({
+        isMobile,
+        clientId,
+        clientSecret,
+        redirectUrl,
+      });
+      return { redirectURL };
+    } catch (error: any) {
+      if (error instanceof CustomError) {
+        throw new CustomError(error.message, error.body);
+      }
+      throw new OAuthCallbackError(undefined).toJSON();
+    }
   }
   return { redirectURL: null };
 }
@@ -303,4 +337,89 @@ export const redirectCallback = (redirectUrl: string) => {
     return { url: redirectUrl };
   }
   return { url: process.env.NEXT_PUBLIC_FULLAUTH_URL };
+};
+
+export const throwAppropriateError = (error: CustomError) => {
+  switch (error.type) {
+    case 'CredentialError':
+      throw new CredentialError(error?.message, error?.body).toJSON();
+    case 'CustomError':
+      throw new CustomError(error?.message, error?.body).toJSON();
+    case 'InvalidProvider':
+      throw new InvalidProviderError(error?.message, error?.body).toJSON();
+    case 'TokenError':
+      throw new TokenError(error?.message, error?.body).toJSON();
+    case 'OAuthCallbackError':
+      throw new OAuthCallbackError(error?.message, error?.body).toJSON();
+    case 'OAuthRedirectError':
+      throw new OAuthRedirectError(error?.message, error?.body).toJSON();
+    case 'SessionTokenError':
+      throw new SessionTokenError(error?.message, error?.body).toJSON();
+    case 'CsrfTokenError':
+      throw new CsrfTokenError(error?.message, error?.body).toJSON();
+    case 'MethodNotAllowedError':
+      throw new MethodNotAllowedError(error?.message, error?.body).toJSON();
+    case 'InternalError':
+      throw new InternaError(error?.message, error?.body).toJSON();
+    default:
+      throw new InternaError(error?.message, error?.body).toJSON();
+  }
+};
+
+export const returnAppropriateError = (error: CustomError) => {
+  let formattedError;
+  switch (error.type) {
+    case 'CredentialError':
+      formattedError = new CredentialError(
+        error?.message,
+        error?.body
+      ).toJSON();
+      break;
+    case 'CustomError':
+      formattedError = new CustomError(error?.message, error?.body).toJSON();
+      break;
+    case 'InvalidProvider':
+      formattedError = new InvalidProviderError(
+        error?.message,
+        error?.body
+      ).toJSON();
+      break;
+    case 'TokenError':
+      formattedError = new TokenError(error?.message, error?.body).toJSON();
+      break;
+    case 'OAuthCallbackError':
+      formattedError = new OAuthCallbackError(
+        error?.message,
+        error?.body
+      ).toJSON();
+      break;
+    case 'OAuthRedirectError':
+      formattedError = new OAuthRedirectError(
+        error?.message,
+        error?.body
+      ).toJSON();
+      break;
+    case 'SessionTokenError':
+      formattedError = new SessionTokenError(
+        error?.message,
+        error?.body
+      ).toJSON();
+      break;
+    case 'CsrfTokenError':
+      formattedError = new CsrfTokenError(error?.message, error?.body).toJSON();
+      break;
+    case 'MethodNotAllowedError':
+      formattedError = new MethodNotAllowedError(
+        error?.message,
+        error?.body
+      ).toJSON();
+      break;
+    case 'InternalError':
+      formattedError = new InternaError(error?.message, error?.body).toJSON();
+      break;
+    default:
+      formattedError = new InternaError(error?.message, error?.body).toJSON();
+      break;
+  }
+  return formattedError;
 };

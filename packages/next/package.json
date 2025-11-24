@@ -33,7 +33,7 @@
     "@types/node": "^20.10.3",
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
-    "next": "^13.5.6",
+    "next": "^15.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ts-node": "^10.9.1",
@@ -43,10 +43,10 @@
     "@fullauth/core": "file:../core"
   },
   "peerDependencies": {
-    "next": ">=13.4.0",
-    "react": ">=18.2.0",
-    "react-dom": ">=18.2.0",
-    "typescript": ">=5.3.3"
+    "next": "^15.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3"
   },
   "gitHead": "df009b9adb59317481e3ecd0c7b1df403d67e78a"
 }

@@ -1,7 +1,7 @@
-import { AuthOptions, JWT, Session } from '@fullauth/core';
-import { verifyToken } from '@fullauth/core/utils';
-import { cookies } from 'next/headers';
-import { NextRequest } from 'next/server';
+import { AuthOptions, JWT, Session } from "@fullauth/core";
+import { verifyToken } from "@fullauth/core/utils";
+import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
 /**
  * Functuion that returns session object on server side
@@ -23,14 +23,14 @@ const getSession = async (
     if (req) {
       // check for token in headers
       const headers = req.headers;
-      const sessionToken = headers.get('token');
+      const sessionToken = headers.get("token");
 
       // case 1: there is token in headers: use that token to get session data
       if (sessionToken) {
-        const csrfToken = headers.get('csrfToken');
+        const csrfToken = headers.get("csrfToken");
         // check for csrf token
         if (!csrfToken) {
-          console.log('Fullauth: Invalid csrf token');
+          // console.log('Fullauth: Invalid csrf token');
           return null;
         }
 
@@ -38,11 +38,11 @@ const getSession = async (
           .payload as unknown as JWT;
 
         if (!token) {
-          console.log('Fullauth: Invalid JWT');
+          // console.log('Fullauth: Invalid JWT');
           return null;
         }
         if (token.csrfToken !== csrfToken) {
-          console.log('Fullauth: Invalid csrf token');
+          // console.log('Fullauth: Invalid csrf token');
           return null;
         }
 
@@ -60,8 +60,8 @@ const getSession = async (
         return session;
       }
       // case 2: there is no token in headers: check cookies
-      const cookie = cookies().get('fullauth-session-token');
-      const csrfCookie = cookies().get('fullauth-session-csrf-token');
+      const cookie = (await cookies()).get("fullauth-session-token");
+      const csrfCookie = (await cookies()).get("fullauth-session-csrf-token");
 
       if (!cookie?.value) {
         // console.log('Fullauth: Invalid cookie');
@@ -75,12 +75,12 @@ const getSession = async (
       token = (await verifyToken(cookie?.value!, options?.secret!))
         .payload as unknown as JWT;
       if (!token) {
-        console.log('Fullauth: Invalid token');
+        // console.log('Fullauth: Invalid token');
         return null;
       }
 
       if (token.csrfToken !== csrfCookie?.value) {
-        console.log('Fullauth: Invalid csrf token');
+        // console.log('Fullauth: Invalid csrf token');
         return null;
       }
 
@@ -96,8 +96,8 @@ const getSession = async (
       return session;
     }
 
-    const cookie = cookies().get('fullauth-session-token');
-    const csrfCookie = cookies().get('fullauth-session-csrf-token');
+    const cookie = (await cookies()).get("fullauth-session-token");
+    const csrfCookie = (await cookies()).get("fullauth-session-csrf-token");
 
     if (!cookie?.value) {
       // console.log('Fullauth: Invalid cookie');
@@ -111,12 +111,12 @@ const getSession = async (
     token = (await verifyToken(cookie?.value!, options?.secret!))
       .payload as unknown as JWT;
     if (!token) {
-      console.log('Fullauth: Invalid token');
+      // console.log('Fullauth: Invalid token');
       return null;
     }
 
     if (token.csrfToken !== csrfCookie?.value) {
-      console.log('Fullauth: Invalid csrf token');
+      // console.log('Fullauth: Invalid csrf token');
       return null;
     }
 
@@ -134,7 +134,7 @@ const getSession = async (
     // Default behaviour
   } catch (error: any) {
     // console.log(error);
-    if (error.message === 'jwt expired') {
+    if (error.message === "jwt expired") {
       return null;
     }
     throw error;

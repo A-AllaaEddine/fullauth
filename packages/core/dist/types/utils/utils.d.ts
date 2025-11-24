@@ -1,5 +1,6 @@
 import * as jose from 'jose';
 import { Auth, AuthOptions, DbData, JWT, User } from '../types/types';
+import { CustomError } from './errors';
 export declare function getBodyData(req: Request): Promise<Record<string, any> | undefined>;
 export declare const generateToken: (payload: Partial<DbData> | Partial<JWT> | Record<string, string>, secret: string, maxAge?: number) => Promise<string>;
 export declare function generateCsrfToken(secret: string, maxAge?: number): Promise<string>;
@@ -56,4 +57,10 @@ export type ProviderSigninResp = {
 export declare function ProviderSignin({ options, provider, isMobile, redirectUrl, }: ProviderSigninProps): Promise<ProviderSigninResp>;
 export declare const redirectCallback: (redirectUrl: string) => {
     url: string | undefined;
+};
+export declare const throwAppropriateError: (error: CustomError) => never;
+export declare const returnAppropriateError: (error: CustomError) => {
+    body?: import("./errors").ErrorOptions | undefined;
+    type: import("./errors").ErrorType;
+    message: string;
 };

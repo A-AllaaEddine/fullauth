@@ -1,4 +1,4 @@
-import { AuthOptions } from '@fullauth/core';
+import { AuthOptions, CustomError } from '@fullauth/core';
 import { NextHandler } from '@fullauth/next';
 import { CredentialsProvider } from '@fullauth/core/providers';
 
@@ -18,7 +18,9 @@ export const authOptions: AuthOptions = {
           // you verification logic here
 
           // throw errors and catch them on the client side
-          //     throw new Error('No User');
+          // throw new CustomError('No User', {
+          //   name: 'John Doe',
+          // });
 
           return {
             email: credentials.email,
@@ -26,7 +28,7 @@ export const authOptions: AuthOptions = {
             name: 'test',
           };
         } catch (error: any) {
-          console.log(error);
+          // console.log(error);
           throw error;
         }
       },
@@ -43,13 +45,13 @@ export const authOptions: AuthOptions = {
 
   // callbacks runs on sigin and on each session request
   callbacks: {
-    async token({ trigger, token, updates, auth, user }) {
+    async token({ trigger, token, updates, auth, user, platform }) {
       // Initial sign in
       if (auth?.providerType === 'credentials' && user?.email) {
-        return {
+        token = {
           ...token,
           user: {
-            ...user,
+            name: 'john doe',
             status: 'active',
           },
         };

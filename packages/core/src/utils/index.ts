@@ -9,4 +9,6 @@ export {
   ProviderCallback,
   ProviderSignin,
   redirectCallback,
+  throwAppropriateError,
+  returnAppropriateError,
 } from './utils';

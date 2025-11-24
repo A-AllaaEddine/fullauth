@@ -1,7 +1,8 @@
 'use client';
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = require("../utils/utils");
+const utils_1 = require("@fullauth/core/utils");
+const utils_2 = require("../utils/utils");
 /**
  * Authenticates a user based on the selected provider.
  *
@@ -15,7 +16,7 @@ const utils_1 = require("../utils/utils");
 const signIn = async (provider, options) => {
     try {
         const { credentials, redirect = true, redirectUrl = window.location.href, } = options ?? {};
-        const providers = await (0, utils_1.getProviders)();
+        const providers = await (0, utils_2.getProviders)();
         if (!providers[provider]) {
             throw new Error('Invalid provider');
         }
@@ -41,10 +42,12 @@ const signIn = async (provider, options) => {
             if (data.message === 'jwt expired') {
                 document.cookie =
                     'fullauth-session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                // return null;
-                throw new Error('Session expired.');
+                return null;
+                // throw new Error('Session expired.');
             }
-            throw new Error(data.message);
+            if (data.error) {
+                (0, utils_1.throwAppropriateError)(data.error);
+            }
         }
         if (data?.redirect) {
             window.location.href = data.redirect;
@@ -58,7 +61,7 @@ const signIn = async (provider, options) => {
         return { session: data.session ?? null };
     }
     catch (error) {
-        console.log('Sign in: ', error);
+        // console.log('Sign in: ', error);
         throw error;
     }
 };

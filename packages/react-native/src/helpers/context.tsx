@@ -11,21 +11,12 @@ import React, {
 } from 'react';
 import { authHeaders } from './authHeader';
 
-export type Update =
-  | {
-      ok: boolean;
-      status: number;
-      error: any;
-    }
-  | null
-  | undefined;
-
 export const sessionContext = createContext<
   | {
       status: string;
       session: null | Session;
       setSession: Dispatch<SetStateAction<any>>;
-      update: (data?: any) => Promise<Update>;
+      update: (data?: any) => Promise<void>;
       baseUrl?: string;
     }
   | undefined
@@ -66,25 +57,12 @@ export const SessionProvider = ({
         }
       );
       const data = await resp.json();
-      if (!resp.ok) {
+      if (data.error) {
         throw data.error;
-      }
-      if (data.message === 'Session Deleted.') {
-        setStatus('unauthenticated');
-        setSession(null);
-        await AsyncStorage.removeItem('fullauth-session-token');
-        await AsyncStorage.removeItem('fullauth-session-csrf-token');
-        return null;
       }
       if (data.message === 'No Session') {
         setStatus('unauthenticated');
         setSession(null);
-        await AsyncStorage.removeItem('fullauth-session-token');
-        await AsyncStorage.removeItem('fullauth-session-csrf-token');
-        return null;
-      }
-      if (data.message === 'jwt expired') {
-        setStatus('unauthenticated');
         await AsyncStorage.removeItem('fullauth-session-token');
         await AsyncStorage.removeItem('fullauth-session-csrf-token');
         return null;
@@ -102,6 +80,12 @@ export const SessionProvider = ({
       return data.session as null | Session;
     } catch (error: any) {
       console.log(error);
+      if (error.message === 'jwt expired') {
+        setStatus('unauthenticated');
+        await AsyncStorage.removeItem('fullauth-session-token');
+        await AsyncStorage.removeItem('fullauth-session-csrf-token');
+        return null;
+      }
       await AsyncStorage.removeItem('fullauth-session-token');
       await AsyncStorage.removeItem('fullauth-session-csrf-token');
       throw error;
@@ -111,40 +95,43 @@ export const SessionProvider = ({
     getSession();
   }, []);
 
-  const update = async (data: any = {}): Promise<Update> => {
-    const token = await AsyncStorage.getItem('fullauth-session-token');
-    if (!token) {
-      setSession(null);
-      return null;
-    }
-    const resp = await fetch(
-      `${
-        baseUrl ??
-        process.env.EXPO_PUBLIC_FULLAUTH_URL ??
-        'http://localhost:3000'
-      }/api/auth/mobile/update`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(await authHeaders()),
-        },
-        body: JSON.stringify(data),
+  const update = async (data: any = {}): Promise<void> => {
+    try {
+      const token = await AsyncStorage.getItem('fullauth-session-token');
+      // if (!token) {
+      //   setSession(null);
+      //   return null;
+      // }
+      const resp = await fetch(
+        `${
+          baseUrl ??
+          process.env.EXPO_PUBLIC_FULLAUTH_URL ??
+          'http://localhost:3000'
+        }/api/auth/mobile/update`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(await authHeaders()),
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const returnData = await resp.json();
+      if (!resp.ok) {
+        const data = await resp.json();
+        if (data.error) {
+          throw data.error;
+        }
       }
-    );
 
-    const returnData = await resp.json();
-    if (!resp.ok) {
-      return {
-        ok: resp.ok,
-        status: returnData.status,
-        error: returnData.message,
-      };
+      // const newToken = await resp.json();
+      await AsyncStorage.setItem('fullauth-session-token', returnData.token);
+      await getSession();
+    } catch (error: any) {
+      console.log(error);
     }
-
-    // const newToken = await resp.json();
-    await AsyncStorage.setItem('fullauth-session-token', returnData.token);
-    await getSession();
   };
 
   return (

@@ -1,5 +1,5 @@
 export declare const getProviders: ({ baseUrl }: {
-    baseUrl?: string | undefined;
+    baseUrl?: string;
 }) => Promise<Record<string, {
     id: string;
     name: string;

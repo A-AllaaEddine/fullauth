@@ -9,21 +9,12 @@ import React, {
   useState,
 } from 'react';
 
-export type Update =
-  | {
-      ok: boolean;
-      status: number;
-      error: any;
-    }
-  | null
-  | undefined;
-
 export const sessionContext = createContext<
   | {
       status: string;
       session: null | Session;
       setSession: Dispatch<SetStateAction<any>>;
-      update: (data?: any) => Promise<Update>;
+      update: (data?: any) => Promise<void>;
     }
   | undefined
 >(undefined);
@@ -55,7 +46,8 @@ export const SessionProvider = ({
         }
       );
       const data = await resp.json();
-      if (!resp.ok) {
+
+      if (data.error) {
         throw data.error;
       }
       if (data.message === 'No Session') {
@@ -79,29 +71,30 @@ export const SessionProvider = ({
     getSession();
   }, []);
 
-  async function update(data: any = {}): Promise<Update> {
-    const resp = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
-      }/api/auth/update`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+  async function update(data: any = {}) {
+    try {
+      const resp = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_FULLAUTH_URL ?? 'http://localhost:3000'
+        }/api/auth/update`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      if (!resp.ok) {
+        const data = await resp.json();
+        if (data.error) {
+          throw data.error;
+        }
       }
-    );
-
-    if (!resp.ok) {
-      const data = await resp.json();
-      return {
-        ok: resp.ok,
-        status: resp.status,
-        error: data.message,
-      };
+      await getSession();
+    } catch (error: any) {
+      console.log(error);
     }
-    await getSession();
   }
 
   return (

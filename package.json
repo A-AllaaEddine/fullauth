@@ -12,9 +12,9 @@
     "@fullauth/react": "^0.0.5",
     "@fullauth/react-native": "^0.0.5",
     "@types/react-syntax-highlighter": "^15.5.11",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^16.1.0"
   },
   "devDependencies": {
-    "lerna": "^8.0.2"
+    "lerna": "^9.0.1"
   }
 }

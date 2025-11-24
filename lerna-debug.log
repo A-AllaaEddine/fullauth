@@ -1,8 +1,13 @@
-56 error Error: Command failed with exit code 128: git tag v1.1.0 -m v1.1.0
-56 error fatal: tag 'v1.1.0' already exists
-56 error     at makeError (D:\Coding\code\auth\fullauth\node_modules\execa\lib\error.js:59:11)
-56 error     at handlePromise (D:\Coding\code\auth\fullauth\node_modules\execa\index.js:114:26)
-56 error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-56 error     at async VersionCommand.gitCommitAndTagVersion (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:8529:9)
-56 error     at async VersionCommand.commitAndTagUpdates (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:8494:18)
-56 error     at async Promise.all (index 0)
+17 error Error: Command failed with exit code 1: git remote update
+17 error git@github.com: Permission denied (publickey).
+17 error fatal: Could not read from remote repository.
+17 error
+17 error Please make sure you have the correct access rights
+17 error and the repository exists.
+17 error     at makeError (D:\Coding\code\auth\fullauth\node_modules\execa\lib\error.js:59:11)
+17 error     at module.exports.sync (D:\Coding\code\auth\fullauth\node_modules\execa\index.js:186:17)
+17 error     at Object.execSync (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:1806:31)
+17 error     at updateRemote (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:9653:18)
+17 error     at isBehindUpstream (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:9643:3)
+17 error     at VersionCommand.initialize (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:9955:57)
+17 error     at VersionCommand.runCommand (D:\Coding\code\auth\fullauth\node_modules\lerna\dist\index.js:3595:36)

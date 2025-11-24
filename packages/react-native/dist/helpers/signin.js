@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const async_storage_1 = __importDefault(require("@react-native-async-storage/async-storage"));
 const authHeader_1 = require("./authHeader");
 const utils_1 = require("../utils/utils");
+const utils_2 = require("@fullauth/core/utils");
 /**
  * Authenticates a user based on the selected provider.
  *
@@ -35,6 +36,13 @@ const signIn = async ({ baseUrl, provider, credentials, }) => {
                 credentials,
             }),
         });
+        // const data: {
+        //   ok: boolean;
+        //   message: string;
+        //   token: string;
+        //   csrfToken: string;
+        //   session: Session;
+        // } = await signInResp.json();
         const data = await signInResp.json();
         if (!data.ok) {
             if (data.message === 'Session already exist') {
@@ -43,9 +51,12 @@ const signIn = async ({ baseUrl, provider, credentials, }) => {
             if (data.message === 'jwt expired') {
                 await async_storage_1.default.removeItem('fullauth-session-token');
                 await async_storage_1.default.removeItem('fullauth-session-csrf-token');
-                throw new Error('Session expired.');
+                return null;
+                // throw new Error('Session expired.');
             }
-            throw new Error(data.message);
+            if (data.error) {
+                (0, utils_2.throwAppropriateError)(data.error);
+            }
         }
         await async_storage_1.default.setItem('fullauth-session-token', data.token ?? '');
         await async_storage_1.default.setItem('fullauth-session-csrf-token', data.csrfToken ?? '');

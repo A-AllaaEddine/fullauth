@@ -17,23 +17,23 @@ const getSession = async (options, req) => {
         if (req) {
             // check for token in headers
             const headers = req.headers;
-            const sessionToken = headers.get('token');
+            const sessionToken = headers.get("token");
             // case 1: there is token in headers: use that token to get session data
             if (sessionToken) {
-                const csrfToken = headers.get('csrfToken');
+                const csrfToken = headers.get("csrfToken");
                 // check for csrf token
                 if (!csrfToken) {
-                    console.log('Fullauth: Invalid csrf token');
+                    // console.log('Fullauth: Invalid csrf token');
                     return null;
                 }
                 token = (await (0, utils_1.verifyToken)(sessionToken, options?.secret))
                     .payload;
                 if (!token) {
-                    console.log('Fullauth: Invalid JWT');
+                    // console.log('Fullauth: Invalid JWT');
                     return null;
                 }
                 if (token.csrfToken !== csrfToken) {
-                    console.log('Fullauth: Invalid csrf token');
+                    // console.log('Fullauth: Invalid csrf token');
                     return null;
                 }
                 const exp = token?.exp;
@@ -48,8 +48,8 @@ const getSession = async (options, req) => {
                 return session;
             }
             // case 2: there is no token in headers: check cookies
-            const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
-            const csrfCookie = (0, headers_1.cookies)().get('fullauth-session-csrf-token');
+            const cookie = (await (0, headers_1.cookies)()).get("fullauth-session-token");
+            const csrfCookie = (await (0, headers_1.cookies)()).get("fullauth-session-csrf-token");
             if (!cookie?.value) {
                 // console.log('Fullauth: Invalid cookie');
                 return null;
@@ -61,11 +61,11 @@ const getSession = async (options, req) => {
             token = (await (0, utils_1.verifyToken)(cookie?.value, options?.secret))
                 .payload;
             if (!token) {
-                console.log('Fullauth: Invalid token');
+                // console.log('Fullauth: Invalid token');
                 return null;
             }
             if (token.csrfToken !== csrfCookie?.value) {
-                console.log('Fullauth: Invalid csrf token');
+                // console.log('Fullauth: Invalid csrf token');
                 return null;
             }
             const exp = token?.exp;
@@ -78,24 +78,24 @@ const getSession = async (options, req) => {
             };
             return session;
         }
-        const cookie = (0, headers_1.cookies)().get('fullauth-session-token');
-        const csrfCookie = (0, headers_1.cookies)().get('fullauth-session-csrf-token');
+        const cookie = (await (0, headers_1.cookies)()).get("fullauth-session-token");
+        const csrfCookie = (await (0, headers_1.cookies)()).get("fullauth-session-csrf-token");
         if (!cookie?.value) {
-            console.log('Fullauth: Invalid cookie');
+            // console.log('Fullauth: Invalid cookie');
             return null;
         }
         if (!csrfCookie?.value) {
-            console.log('Invalid crsf cookie');
+            // console.log('Invalid crsf cookie');
             return null;
         }
         token = (await (0, utils_1.verifyToken)(cookie?.value, options?.secret))
             .payload;
         if (!token) {
-            console.log('Fullauth: Invalid token');
+            // console.log('Fullauth: Invalid token');
             return null;
         }
         if (token.csrfToken !== csrfCookie?.value) {
-            console.log('Fullauth: Invalid csrf token');
+            // console.log('Fullauth: Invalid csrf token');
             return null;
         }
         const exp = token?.exp;
@@ -111,7 +111,7 @@ const getSession = async (options, req) => {
     }
     catch (error) {
         // console.log(error);
-        if (error.message === 'jwt expired') {
+        if (error.message === "jwt expired") {
             return null;
         }
         throw error;

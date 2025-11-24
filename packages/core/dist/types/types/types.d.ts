@@ -1,4 +1,5 @@
 import { CredentialsConfig } from '../providers/credentials';
+import { CustomError } from '../utils/errors';
 export type ProviderType = 'oauth' | 'credentials';
 export type CallbackOptions = {
     /**
@@ -119,8 +120,22 @@ export interface DefaultJWT {
         email?: string;
     };
     iat?: number;
+    iss?: string;
     exp?: number;
     csrfToken?: string;
 }
 export interface JWT extends DefaultJWT {
+}
+export type CallbackApiResp = {
+    ok: boolean;
+    message: string;
+    token: string;
+    csrfToken?: string;
+    session?: Session;
+    redirect?: string;
+    error?: CustomError;
+};
+export interface ErrorObject {
+    code: string;
+    message: string;
 }

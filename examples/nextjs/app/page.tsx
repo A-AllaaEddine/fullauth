@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   const { update, session } = useSession();
   const router = useRouter();
-  console.log('session: ', session);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
@@ -20,11 +19,18 @@ export default function Home() {
         <button
           className="bg-red-500 w-auth h-10 rounded-lg p-2 font-bold"
           onClick={async () => {
-            await signIn('credentials', {
-              email: 'test@test.com',
-              password: 'test12345',
-            });
-            router.refresh();
+            try {
+              await signIn('credentials', {
+                credentials: {
+                  email: 'test@test.com',
+                  password: 'test12345',
+                },
+                redirect: false,
+              });
+              router.refresh();
+            } catch (error: any) {
+              console.log('error: ', error);
+            }
           }}
         >
           Sign In

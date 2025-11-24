@@ -1,8 +1,9 @@
 // import { JWT } from '../..';
-import { Session } from '@fullauth/core';
+import { CallbackApiResp, Session } from '@fullauth/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authHeaders } from './authHeader';
 import { getProviders } from '../utils/utils';
+import { throwAppropriateError } from '@fullauth/core/utils';
 export type SigninResp = {
   session: Session;
 } | null;
@@ -52,13 +53,14 @@ const signIn = async <P extends string>({
       }
     );
 
-    const data: {
-      ok: boolean;
-      message: string;
-      token: string;
-      csrfToken: string;
-      session: Session;
-    } = await signInResp.json();
+    // const data: {
+    //   ok: boolean;
+    //   message: string;
+    //   token: string;
+    //   csrfToken: string;
+    //   session: Session;
+    // } = await signInResp.json();
+    const data: CallbackApiResp = await signInResp.json();
     if (!data.ok) {
       if (data.message === 'Session already exist') {
         return null;
@@ -66,9 +68,12 @@ const signIn = async <P extends string>({
       if (data.message === 'jwt expired') {
         await AsyncStorage.removeItem('fullauth-session-token');
         await AsyncStorage.removeItem('fullauth-session-csrf-token');
-        throw new Error('Session expired.');
+        return null;
+        // throw new Error('Session expired.');
       }
-      throw new Error(data.message);
+      if (data.error) {
+        throwAppropriateError(data.error);
+      }
     }
     await AsyncStorage.setItem('fullauth-session-token', data.token ?? '');
     await AsyncStorage.setItem(
@@ -76,7 +81,7 @@ const signIn = async <P extends string>({
       data.csrfToken ?? ''
     );
 
-    return { session: data.session };
+    return { session: data.session! };
   } catch (error: any) {
     console.log('signin error: ', error);
     throw error;

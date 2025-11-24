@@ -1,1 +1,1 @@
-export { getBodyData, generateToken, generateCsrfToken, verifyToken, getProviders, databaseCallback, tokenCallback, ProviderCallback, ProviderSignin, redirectCallback, } from './utils';
+export { getBodyData, generateToken, generateCsrfToken, verifyToken, getProviders, databaseCallback, tokenCallback, ProviderCallback, ProviderSignin, redirectCallback, throwAppropriateError, returnAppropriateError, } from './utils';

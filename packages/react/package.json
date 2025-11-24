@@ -37,9 +37,9 @@
     "@fullauth/core": "file:../core"
   },
   "peerDependencies": {
-    "react": ">=18.2.0",
-    "react-dom": ">=18.2.0",
-    "typescript": ">=5.3.3"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3"
   },
   "gitHead": "df009b9adb59317481e3ecd0c7b1df403d67e78a"
 }

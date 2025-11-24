@@ -1,4 +1,4 @@
-export {};
+export { CustomError, CredentialError, BaseError, InvalidProviderError, OAuthCallbackError, OAuthRedirectError, TokenError, InternaError, MethodNotAllowedError, SessionTokenError, CsrfTokenError, } from './utils/errors';
 // export {
 //   getBodyData,
 //   generateToken,

@@ -13,7 +13,7 @@ export type SigninResp = {
  */
 declare const signIn: <P extends string>({ baseUrl, provider, credentials, }: {
     baseUrl: string;
-    provider: "credentials" | P | "google" | "github";
-    credentials?: Record<string, string> | undefined;
+    provider: "credentials" | "google" | "github" | P;
+    credentials?: Record<string, string>;
 }) => Promise<SigninResp>;
 export default signIn;
