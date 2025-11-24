@@ -7,6 +7,18 @@ const ChangeLog = () => {
         </p>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">
+            v2.1.0
+          </p>
+          <p className=" h-8 ">- Add: Support NextJS 16.</p>
+        </div>
+        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
+          <p className="text-start text-lg text-gray-300 font-semibold">
+            v2.0.0
+          </p>
+          <p className=" h-8 ">- Add: Support NextJS 15.</p>
+        </div>
+        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
+          <p className="text-start text-lg text-gray-300 font-semibold">
             v1.3.0
           </p>
           <p className=" h-8 ">- Add: New Error Objects across the packages.</p>
