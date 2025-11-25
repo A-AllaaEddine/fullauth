@@ -25,9 +25,19 @@ import {
 import { AuthOptions, JWT, Session } from "@fullauth/core";
 import { redirect } from "next/navigation";
 
+type AppRouteHandlerRoutes = "/api/auth/[...fullauth]";
+interface ParamMap {
+  "/": {};
+  "/api/auth/[...fullauth]": { fullauth: string[] };
+  "/server": {};
+}
+interface RouteContext<AppRouteHandlerRoute extends AppRouteHandlerRoutes> {
+  params: Promise<ParamMap[AppRouteHandlerRoute]>;
+}
+
 async function NextAppRouteHandler(
   req: NextRequest,
-  res: Response,
+  ctx: RouteContext<"/api/auth/[...fullauth]">,
   options: AuthOptions
 ) {
   const sessionStrategry = {
@@ -39,10 +49,9 @@ async function NextAppRouteHandler(
 
   if (method === "POST") {
     const body = await getBodyData(req);
-
     const params: {
       fullauth: string[];
-    } = (res as any).params;
+    } = await ctx.params;
 
     if (params.fullauth.includes("signout")) {
       const isMobile = params.fullauth.includes("mobile");
@@ -344,7 +353,7 @@ async function NextAppRouteHandler(
   if (method === "GET") {
     const params: {
       fullauth: string[];
-    } = (res as any).params;
+    } = await ctx.params;
 
     // return the available providers
     if (params.fullauth.includes("providers")) {
@@ -555,7 +564,7 @@ function NextHandler(options: AuthOptions): any;
 
 function NextHandler(
   req: NextRequest,
-  res: Response,
+  ctx: RouteContext<"/api/auth/[...fullauth]">,
   options: AuthOptions
 ): any;
 
@@ -563,11 +572,14 @@ function NextHandler(
 function NextHandler(
   ...args: [AuthOptions] | Parameters<typeof NextAppRouteHandler>
 ) {
-  // | Parameters<typeof NextAuthApiHandler>
   if (args.length === 1) {
-    return async (req: NextRequest, res: Response) => {
-      if ((res as any)?.params) {
-        return await NextAppRouteHandler(req, res, args[0]);
+    return async (
+      req: NextRequest,
+      ctx: RouteContext<"/api/auth/[...fullauth]">
+    ) => {
+      const { fullauth } = await ctx.params;
+      if (fullauth) {
+        return await NextAppRouteHandler(req, ctx, args[0]);
       }
     };
   }

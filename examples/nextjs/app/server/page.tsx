@@ -1,5 +1,5 @@
-import { getServerSession } from '@fullauth/next/helpers';
-import { authOptions } from '../api/auth/[...fullauth]/route';
+import { getServerSession } from "@fullauth/next/helpers";
+import { authOptions } from "../api/auth/[...fullauth]/route";
 
 const Server = async () => {
   const session = await getServerSession(authOptions);

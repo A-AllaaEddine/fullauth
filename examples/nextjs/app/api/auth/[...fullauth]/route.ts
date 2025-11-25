@@ -1,16 +1,16 @@
-import { AuthOptions, CustomError } from '@fullauth/core';
-import { NextHandler } from '@fullauth/next';
-import { CredentialsProvider } from '@fullauth/core/providers';
+import { AuthOptions } from "@fullauth/core";
+import { CredentialsProvider } from "@fullauth/core/providers";
+import { NextHandler } from "@fullauth/next";
 
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'credentials',
+      name: "credentials",
       credentials: {
-        email: { type: 'text', placeholder: 'Email' },
+        email: { type: "text", placeholder: "Email" },
         password: {
-          type: 'password',
-          placeholder: 'Password',
+          type: "password",
+          placeholder: "Password",
         },
       },
       async signIn(credentials) {
@@ -24,8 +24,8 @@ export const authOptions: AuthOptions = {
 
           return {
             email: credentials.email,
-            id: 'test1',
-            name: 'test',
+            id: "test1",
+            name: "test",
           };
         } catch (error: any) {
           // console.log(error);
@@ -36,7 +36,7 @@ export const authOptions: AuthOptions = {
   ],
   session: {
     // session strategy default to 'token'
-    strategy: 'token',
+    strategy: "token",
     // you can set the max age of the session
     maxAge: 60 * 60 * 24 * 7,
   },
@@ -47,18 +47,18 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async token({ trigger, token, updates, auth, user, platform }) {
       // Initial sign in
-      if (auth?.providerType === 'credentials' && user?.email) {
+      if (auth?.providerType === "credentials" && user?.email) {
         token = {
           ...token,
           user: {
-            name: 'john doe',
-            status: 'active',
+            name: "john doe",
+            status: "active",
           },
         };
       }
 
       // add the changes coming from the client side to session token
-      if (trigger === 'update') {
+      if (trigger === "update") {
         token = { ...token, user: { ...token?.user, ...updates } };
       }
 

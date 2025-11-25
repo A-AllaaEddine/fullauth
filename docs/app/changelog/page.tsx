@@ -7,9 +7,11 @@ const ChangeLog = () => {
         </p>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">
-            v2.1.0
+            v2.2.0
           </p>
-          <p className=" h-8 ">- Add: Support NextJS 16.</p>
+          <p className=" h-8 ">
+            - Fix: Fixed issues with NextJS {">="}15 Route Handler.
+          </p>
         </div>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">

@@ -7,7 +7,7 @@
   "author": "lazydev",
   "license": "ISC",
   "dependencies": {
-    "@fullauth/core": "^0.0.5",
+    "@fullauth/core": "^2.1.1",
     "@fullauth/next": "^0.0.5",
     "@fullauth/react": "^0.0.5",
     "@fullauth/react-native": "^0.0.5",

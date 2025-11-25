@@ -5,7 +5,7 @@ const headers_1 = require("next/headers");
 const utils_1 = require("@fullauth/core/utils");
 const core_1 = require("@fullauth/core");
 const navigation_1 = require("next/navigation");
-async function NextAppRouteHandler(req, res, options) {
+async function NextAppRouteHandler(req, ctx, options) {
     const sessionStrategry = {
         maxAge: 60 * 60 * 24 * 7,
         strategy: "token",
@@ -14,7 +14,7 @@ async function NextAppRouteHandler(req, res, options) {
     const method = await req.method;
     if (method === "POST") {
         const body = await (0, utils_1.getBodyData)(req);
-        const params = res.params;
+        const params = await ctx.params;
         if (params.fullauth.includes("signout")) {
             const isMobile = params.fullauth.includes("mobile");
             if (isMobile) {
@@ -266,7 +266,7 @@ async function NextAppRouteHandler(req, res, options) {
         }
     }
     if (method === "GET") {
-        const params = res.params;
+        const params = await ctx.params;
         // return the available providers
         if (params.fullauth.includes("providers")) {
             try {
@@ -447,11 +447,11 @@ async function NextAppRouteHandler(req, res, options) {
 }
 // main function
 function NextHandler(...args) {
-    // | Parameters<typeof NextAuthApiHandler>
     if (args.length === 1) {
-        return async (req, res) => {
-            if (res?.params) {
-                return await NextAppRouteHandler(req, res, args[0]);
+        return async (req, ctx) => {
+            const { fullauth } = await ctx.params;
+            if (fullauth) {
+                return await NextAppRouteHandler(req, ctx, args[0]);
             }
         };
     }
