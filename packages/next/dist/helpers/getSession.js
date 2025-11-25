@@ -5,28 +5,28 @@ const headers_1 = require("next/headers");
 /**
  * Functuion that returns session object on server side
  *
- * @param {AuthOptions} authOptions - The options  used to inialize the handler
+ * @param {String} secret - The JWT secret used to in the handler
  * @param {Requesr | NextRequest} req (optional) - The request object
  * @returns {Promise<session>} The session object.bject.
  * @throws {AuthenticationError} If error occurs, return error object.
  */
-const getSession = async (options, req) => {
+const getSession = async (secret, req) => {
     try {
         let token = null;
         // with request (to support mobile apps)
         if (req) {
             // check for token in headers
-            const headers = req.headers;
-            const sessionToken = headers.get("token");
+            const Allheaders = await (0, headers_1.headers)();
+            const sessionToken = Allheaders.get("token");
             // case 1: there is token in headers: use that token to get session data
             if (sessionToken) {
-                const csrfToken = headers.get("csrfToken");
+                const csrfToken = Allheaders.get("csrfToken");
                 // check for csrf token
                 if (!csrfToken) {
                     // console.log('Fullauth: Invalid csrf token');
                     return null;
                 }
-                token = (await (0, utils_1.verifyToken)(sessionToken, options?.secret))
+                token = (await (0, utils_1.verifyToken)(sessionToken, secret))
                     .payload;
                 if (!token) {
                     // console.log('Fullauth: Invalid JWT');
@@ -58,7 +58,7 @@ const getSession = async (options, req) => {
                 // console.log('Fullauth: Invalid crsf cookie');
                 return null;
             }
-            token = (await (0, utils_1.verifyToken)(cookie?.value, options?.secret))
+            token = (await (0, utils_1.verifyToken)(cookie?.value, secret))
                 .payload;
             if (!token) {
                 // console.log('Fullauth: Invalid token');
@@ -88,7 +88,7 @@ const getSession = async (options, req) => {
             // console.log('Invalid crsf cookie');
             return null;
         }
-        token = (await (0, utils_1.verifyToken)(cookie?.value, options?.secret))
+        token = (await (0, utils_1.verifyToken)(cookie?.value, secret))
             .payload;
         if (!token) {
             // console.log('Fullauth: Invalid token');
@@ -120,12 +120,12 @@ const getSession = async (options, req) => {
 async function getServerSession(...args) {
     // no request ex: server component
     if (args.length === 1) {
-        const options = args[0];
-        return getSession(options);
+        const secret = args[0];
+        return getSession(secret);
     }
     // with request object
-    const req = args[0];
-    const options = args[1];
-    return getSession(options, req);
+    const secret = args[0];
+    const req = args[1];
+    return getSession(secret, req);
 }
 exports.default = getServerSession;

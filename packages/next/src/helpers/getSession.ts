@@ -1,40 +1,37 @@
 import { AuthOptions, JWT, Session } from "@fullauth/core";
 import { verifyToken } from "@fullauth/core/utils";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { NextRequest } from "next/server";
 
 /**
  * Functuion that returns session object on server side
  *
- * @param {AuthOptions} authOptions - The options  used to inialize the handler
+ * @param {String} secret - The JWT secret used to in the handler
  * @param {Requesr | NextRequest} req (optional) - The request object
  * @returns {Promise<session>} The session object.bject.
  * @throws {AuthenticationError} If error occurs, return error object.
  */
 
-const getSession = async (
-  options: AuthOptions,
-  req?: Request | NextRequest
-) => {
+const getSession = async (secret: string, req?: Request | NextRequest) => {
   try {
     let token: JWT | null = null;
 
     // with request (to support mobile apps)
     if (req) {
       // check for token in headers
-      const headers = req.headers;
-      const sessionToken = headers.get("token");
+      const Allheaders = await headers();
+      const sessionToken = Allheaders.get("token");
 
       // case 1: there is token in headers: use that token to get session data
       if (sessionToken) {
-        const csrfToken = headers.get("csrfToken");
+        const csrfToken = Allheaders.get("csrfToken");
         // check for csrf token
         if (!csrfToken) {
           // console.log('Fullauth: Invalid csrf token');
           return null;
         }
 
-        token = (await verifyToken(sessionToken, options?.secret!))
+        token = (await verifyToken(sessionToken, secret))
           .payload as unknown as JWT;
 
         if (!token) {
@@ -72,7 +69,7 @@ const getSession = async (
         return null;
       }
 
-      token = (await verifyToken(cookie?.value!, options?.secret!))
+      token = (await verifyToken(cookie?.value!, secret))
         .payload as unknown as JWT;
       if (!token) {
         // console.log('Fullauth: Invalid token');
@@ -108,7 +105,7 @@ const getSession = async (
       return null;
     }
 
-    token = (await verifyToken(cookie?.value!, options?.secret!))
+    token = (await verifyToken(cookie?.value!, secret))
       .payload as unknown as JWT;
     if (!token) {
       // console.log('Fullauth: Invalid token');
@@ -141,28 +138,28 @@ const getSession = async (
   }
 };
 
-function getServerSession(options: AuthOptions): Promise<Session | null>;
+function getServerSession(secret: string): Promise<Session | null>;
 
 function getServerSession(
-  req: Request | NextRequest,
-  options: AuthOptions
+  secret: string,
+  req: Request | NextRequest
 ): Promise<Session | null>;
 
 async function getServerSession(
-  ...args: [AuthOptions] | [Request | NextRequest, AuthOptions]
+  ...args: [string] | [string, Request | NextRequest]
 ) {
   // no request ex: server component
   if (args.length === 1) {
-    const options = args[0];
+    const secret = args[0];
 
-    return getSession(options);
+    return getSession(secret);
   }
 
   // with request object
-  const req = args[0];
-  const options = args[1];
+  const secret = args[0];
+  const req = args[1];
 
-  return getSession(options, req);
+  return getSession(secret, req);
 }
 
 export default getServerSession;

@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fullauth/core": "file:../../packages/core/fullauth-core-2.1.1.tgz",
-    "@fullauth/next": "file:../../packages/next/fullauth-next-2.1.1.tgz",
-    "@fullauth/react": "file:../../packages/react/fullauth-react-2.1.1.tgz",
-    "next": "^16.0.4",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "@fullauth/core": "file:../../packages/core/fullauth-core-2.2.0.tgz",
+    "@fullauth/next": "file:../../packages/next/fullauth-next-2.2.0.tgz",
+    "@fullauth/react": "file:../../packages/react/fullauth-react-2.2.0.tgz",
+    "next": "15.5.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -6,7 +6,7 @@ export {
   DefaultSession,
   DefaultJWT,
   CallbackApiResp,
-} from './types/types';
+} from "./types/types";
 export {
   CustomError,
   CredentialError,
@@ -20,7 +20,7 @@ export {
   MethodNotAllowedError,
   SessionTokenError,
   CsrfTokenError,
-} from './utils/errors';
+} from "./utils/errors";
 
 // export {
 //   getBodyData,

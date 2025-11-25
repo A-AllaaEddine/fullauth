@@ -1,5 +1,5 @@
-import { AuthOptions, Session } from "@fullauth/core";
+import { Session } from "@fullauth/core";
 import { NextRequest } from "next/server";
-declare function getServerSession(options: AuthOptions): Promise<Session | null>;
-declare function getServerSession(req: Request | NextRequest, options: AuthOptions): Promise<Session | null>;
+declare function getServerSession(secret: string): Promise<Session | null>;
+declare function getServerSession(secret: string, req: Request | NextRequest): Promise<Session | null>;
 export default getServerSession;

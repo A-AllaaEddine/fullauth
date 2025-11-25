@@ -7,6 +7,12 @@ const ChangeLog = () => {
         </p>
         <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
           <p className="text-start text-lg text-gray-300 font-semibold">
+            v2.2.1
+          </p>
+          <p className=" h-8 ">- Fix: getServerSession issue.</p>
+        </div>
+        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
+          <p className="text-start text-lg text-gray-300 font-semibold">
             v2.2.0
           </p>
           <p className=" h-8 ">
