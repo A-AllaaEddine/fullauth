@@ -1,223 +1,91 @@
 import Link from 'next/link';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import CodeExample from '@/components/CodeExample';
+import PackageManagerTabs from '@/components/PackageManagerTabs';
+import { pageMetadata } from '@/lib/metadata';
 
-const NextInstallation = () => {
-  return (
-    <div className="flex h-full  gap-2 px-16 py-6  pb-40">
-      <div className="w-[calc(100%-16rem)] h-full flex flex-col justify-start items-start  gap-3 ">
-        <p className="w-full text-start font-bold text-4xl text-gray-300">
-          Installation
-        </p>
-        <p className="w-full text-start">
-          Welcome to the Next.js Installation Guide for FullAuth. Follow these
-          steps to integrate FullAuth seamlessly into your Next.js project for a
-          secure and user-friendly authentication experience.
-        </p>
-        <div
-          id="install"
-          className="w-auto h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300">Install Packages:</p>
-          <SyntaxHighlighter
-            language="javascript"
-            style={atomDark}
-            customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-          >
-            npm i @fullauth/core @fullauth/next @fullauth/react
-          </SyntaxHighlighter>
-          <p>or</p>
-          <SyntaxHighlighter
-            language="javascript"
-            style={atomDark}
-            customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-          >
-            yarn add @fullauth/core @fullauth/next @fullauth/react
-          </SyntaxHighlighter>
-        </div>
-        <div
-          id="environment"
-          className="w-auto h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300">
-            Add Environment Variables:
-          </p>
-          <SyntaxHighlighter
-            language="javascript"
-            style={atomDark}
-            customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-          >
-            NEXT_PUBLIC_FULLAUTH_URL= your-backend-url
-          </SyntaxHighlighter>
-        </div>
-        <div
-          id="routehandler"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300">
-            Create Route Handler:
-          </p>
-          <p>
-            In your Nextjs App directory, create a{' '}
-            <span className="text-gray-300">route.ts</span> file inside{' '}
-            <span className="text-gray-300">app/api/auth/[...fullauth] </span>
-            folder{' '}
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/api/auth/[...fullauth]/route.ts
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >
-              {`import { AuthOptions } from '@fullauth/core';
+export const metadata = pageMetadata({
+  path: '/next/installation',
+  title: 'Next.js installation',
+  description: 'Install FullAuth for a Next.js App Router project, configure credentials, and add the route handler and React session provider.',
+});
+
+const routeHandler = String.raw`import type { AuthOptions } from '@fullauth/core';
+import { CredentialsProvider } from '@fullauth/core/providers';
 import { NextHandler } from '@fullauth/next';
-import { CredentialProvider } from '@fullauth/core/providers';
+import { verifyUser } from '@/lib/verify-user'; // App-defined credential verification
 
 export const authOptions: AuthOptions = {
+  secret: process.env.FULLAUTH_SECRET!,
   providers: [
-    CredentialProvider({
-      name: 'credentials',
+    CredentialsProvider({
       credentials: {
-        email: { type: 'text', placeholder: 'Email' },
-        password: {
-          type: 'password',
-          placeholder: 'Password',
-        },
+        email: { type: 'text' },
+        password: { type: 'password' },
       },
       async signIn(credentials) {
-        try {
-          // you verification logic here
-
-          // throw errors and catch them on the client side
-          //     throw new Error('No User');
-
-          return {
-            email: credentials.email,
-            id: 'test1',
-            name: 'test',
-          };
-        } catch (error: any) {
-          console.log(error);
-          throw error;
-        }
+        // Implement verifyUser against your user store and password-hash scheme.
+        return verifyUser(credentials);
       },
     }),
   ],
-
-  // add the secret to encrypt the session
-  secret: process.env.FULLAUTH_SECRET!,
-
- 
 };
 
 const handler = NextHandler(authOptions);
-export { handler as GET, handler as POST };`}
-            </SyntaxHighlighter>
-          </div>
-          <p>
-            All requests to /api/auth/* will automatically be handled by
-            FullAuth.
-          </p>
-        </div>
-        <div
-          id="provider"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300">Session Provider:</p>
-          <p>
-            In order to access the session object on the client side, we need to
-            wrap our app with{' '}
-            <span className="text-gray-300">SessionProivder</span>{' '}
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/layout.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >
-              {`import { SessionProvider } from '@fullauth/react';
-import { getSession } from '@fullauth/next/helpers';
+export { handler as GET, handler as POST };`;
+
+const layout = String.raw`import type { ReactNode } from 'react';
+import { getServerSession } from '@fullauth/next/helpers';
+import { SessionProvider } from '@fullauth/react';
 import { authOptions } from './api/auth/[...fullauth]/route';
 
 export default async function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-    // you need to pass the handler option to getSession to get the session on the server
-    const session = await getSession(authOptions);
-    return (
+  children,
+}: Readonly<{ children: ReactNode }>) {
+  const session = await getServerSession(authOptions.secret!);
+
+  return (
     <html lang="en">
-        <body >
+      <body>
         <SessionProvider session={session}>{children}</SessionProvider>
-        </body>
+      </body>
     </html>
-    );
-}
-            `}
-            </SyntaxHighlighter>
-          </div>
-          <p>
-            then in your <span className="text-gray-300">page.tsx</span> file
-            you can call <span className="text-gray-300">useSession()</span>{' '}
-            hook to access the session object.
-          </p>
-
-          <div>
-            <p>
-              You can check our{' '}
-              <Link href={'/examples'} className="text-blue-500">
-                examples
-              </Link>{' '}
-              for more details.
-            </p>
-          </div>
-        </div>
-        <p className="w-full text-start font-bold text-2xl text-gray-300 mt-20">
-          Usefull Links
-        </p>
-        <div className="w-full h-auto flex flex-col justify-start items-start gap-5 rounded-xl bg-[#1d1d1d] p-5">
-          <Link href={'https://nextjs.org/docs'} className="text-blue-500">
-            - Next.js Docs.
-          </Link>
-        </div>
-      </div>
-      <div className="w-56 fixed right-3  h-screen flex flex-col justify-start items-start gap-1 p-2 border-l-[1px] border-gray-600 ">
-        <Link
-          href={'/next/installation#install'}
-          className="p-2 hover:text-gray-300"
-        >
-          Install Packages
-        </Link>
-        <Link
-          href={'/next/installation#environment'}
-          className="p-2 hover:text-gray-300"
-        >
-          Environment Variables
-        </Link>
-        <Link
-          href={'/next/installation#routehandler'}
-          className="p-2 hover:text-gray-300"
-        >
-          Create Route Handler
-        </Link>
-        <Link
-          href={'/next/installation#provider'}
-          className="p-2 hover:text-gray-300"
-        >
-          Session Provider
-        </Link>
-      </div>
-    </div>
   );
-};
+}`;
 
-export default NextInstallation;
+export default function NextInstallation() {
+  return (
+    <>
+      <p className="docs-breadcrumb">DOCUMENTATION / NEXT.JS</p>
+      <h1>Next.js installation</h1>
+      <p>FullAuth’s Next.js package exports an App Router handler and a server session helper. The React package supplies the client session context and hooks used by the examples below.</p>
+
+      <section id="install">
+        <h2>Install packages</h2>
+        <PackageManagerTabs packages={['@fullauth/core', '@fullauth/next', '@fullauth/react']} />
+      </section>
+
+      <section id="environment">
+        <h2>Set the backend URL and secret</h2>
+        <p><code>NEXT_PUBLIC_FULLAUTH_URL</code> is the public origin used by the browser client to reach the Next.js backend. Set <code>FULLAUTH_SECRET</code> on the server. Keep the secret out of client code and source control.</p>
+        <CodeExample filename=".env.local" language="bash" code={`NEXT_PUBLIC_FULLAUTH_URL=https://auth.example.com\nFULLAUTH_SECRET=replace-with-a-long-random-secret`} />
+      </section>
+
+      <section id="routehandler">
+        <h2>Create the route handler</h2>
+        <p>The credential verifier is app-specific. It must check the submitted credentials against your own user store and return a user object or <code>null</code>; FullAuth does not provide a user database or password-hashing implementation.</p>
+        <CodeExample filename="app/api/auth/[...fullauth]/route.ts" language="typescript" code={routeHandler} />
+      </section>
+
+      <section id="provider">
+        <h2>Provide the session to React</h2>
+        <p>The React <code>SessionProvider</code> accepts an optional initial session. The Next.js guide uses <code>getServerSession</code> to read it in the root layout.</p>
+        <CodeExample filename="app/layout.tsx" language="tsx" code={layout} />
+      </section>
+
+      <section id="nextsteps">
+        <h2>Next steps</h2>
+        <p>Continue with <Link href="/next/usage">Next.js usage</Link>, or review the separate <Link href="/providers/credentials">credentials</Link> and <Link href="/providers/google">Google provider</Link> guides. The Google guide describes source-backed configuration and its current verification limits.</p>
+      </section>
+    </>
+  );
+}

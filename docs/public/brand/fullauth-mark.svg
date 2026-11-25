@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 8 76 88" fill="none">
+  <style>
+    .ink{fill:#17221f}.bar{fill:#2e8a62}
+    @media(prefers-color-scheme:dark){.ink{fill:#f4f2eb}.bar{fill:#42b96e}}
+  </style>
+  <path class="ink" d="M43 12h35v17H63c-7 0-11 4-11 11v2H32v-5c0-15 4-25 11-25Z"/>
+  <path class="bar" d="M32 46h54L73 61c-2 3-5 4-9 4H14l13-15c1-2 3-4 5-4Z"/>
+  <path class="ink" d="M33 70h20v10c0 9-5 14-14 14h-6V70Z"/>
+</svg>

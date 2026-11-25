@@ -1,166 +1,66 @@
 import Link from 'next/link';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import CodeExample from '@/components/CodeExample';
+import PackageManagerTabs from '@/components/PackageManagerTabs';
+import { pageMetadata } from '@/lib/metadata';
 
-const ReactNativeInstallation = () => {
-  return (
-    <div className="flex h-full  gap-2 px-16 py-6  pb-40">
-      <div className="w-[calc(100%-16rem)] h-full flex flex-col justify-start items-start  gap-3 ">
-        <p className="w-full text-start font-bold text-4xl text-gray-300">
-          Installation
-        </p>
-        <p className="w-full text-start">
-          Welcome to the React Native Installation Guide for FullAuth. Follow
-          these steps to integrate FullAuth seamlessly into your React Native
-          project for a secure and user-friendly authentication experience.
-        </p>
-        <div
-          id="createnewproject"
-          className="w-auto h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300">
-            Create new project: (we will use expo for this)
-          </p>
-          <SyntaxHighlighter
-            language="javascript"
-            style={atomDark}
-            customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-          >
-            npx create-expo-app myApp
-          </SyntaxHighlighter>
-        </div>
-        <div
-          id="install"
-          className="w-auto h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300">Install Packages:</p>
-          <SyntaxHighlighter
-            language="javascript"
-            style={atomDark}
-            customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-          >
-            npm i @fullauth/core @fullauth/react-native
-          </SyntaxHighlighter>
-          <p>or</p>
-          <SyntaxHighlighter
-            language="javascript"
-            // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-            style={atomDark}
-            customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-          >
-            yarn add @fullauth/core @fullauth/react-native
-          </SyntaxHighlighter>
-        </div>
-        <div
-          id="environment"
-          className="w-auto h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300">
-            Add Environment Variables:
-          </p>
-          <SyntaxHighlighter
-            language="javascript"
-            style={atomDark}
-            customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-          >
-            EXPO_PUBLIC_FULLAUTH_URL= your-backend-url
-          </SyntaxHighlighter>
-        </div>
-        <div
-          id="provider"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300">Session Provider:</p>
-          <p>
-            In order to access the session object on the client side, we need to
-            wrap our app with{' '}
-            <span className="text-gray-300">SessionProivder</span>{' '}
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              App.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >
-              {`import { SessionProvider } from '@fullauth/react-native';
+export const metadata = pageMetadata({
+  path: '/react-native/installation',
+  title: 'React Native installation',
+  description: 'Install the FullAuth React Native helper package, configure its backend origin, and provide the session context to an Expo app.',
+});
+
+const app = String.raw`import { SessionProvider } from '@fullauth/react-native';
+import { StatusBar } from 'expo-status-bar';
+import { View } from 'react-native';
+import Home from './screens/home';
+
+const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!;
 
 export default function App() {
   return (
-      <SessionProvider  baseUrl= "your-backend-url",>
-          // your app code
-      </SessionProvider>
+    <SessionProvider baseUrl={baseUrl}>
+      <View style={{ flex: 1 }}>
+        <Home />
+        <StatusBar style="auto" />
+      </View>
+    </SessionProvider>
   );
-}`}
-            </SyntaxHighlighter>
-          </div>
-          <p>
-            then in your <span className="text-gray-300">screen.tsx</span> file
-            you can call <span className="text-gray-300">useSession()</span>{' '}
-            hook to access the session object.
-          </p>
+}`;
 
-          <div>
-            <p>
-              You can check our{' '}
-              <Link href={'/examples'} className="text-blue-500">
-                examples
-              </Link>{' '}
-              for more details.
-            </p>
-          </div>
-        </div>
-        <p className="w-full text-start font-bold text-2xl text-gray-300 mt-20">
-          Usefull Links
-        </p>
-        <div className="w-full h-auto flex flex-col justify-start items-start gap-5 rounded-xl bg-[#1d1d1d] p-5">
-          <Link
-            href={'https://docs.expo.dev/get-started/create-a-project/'}
-            className="text-blue-500"
-          >
-            - Expo Create a project.
-          </Link>{' '}
-          <Link
-            href={
-              'https://reactnative.dev/docs/environment-setup?guide=quickstart'
-            }
-            className="text-blue-500"
-          >
-            - React Native Docs.
-          </Link>
-        </div>
-      </div>
-      <div className="w-56 fixed right-3  h-screen flex flex-col justify-start items-start gap-1 p-2 border-l-[1px] border-gray-600 ">
-        <Link
-          href={'/react-native/installation#createnewproject'}
-          className="p-2 hover:text-gray-300"
-        >
-          Create new project
-        </Link>
-        <Link
-          href={'/react-native/installation#install'}
-          className="p-2 hover:text-gray-300"
-        >
-          Install Packages
-        </Link>
-        <Link
-          href={'/react-native/installation#environment'}
-          className="p-2 hover:text-gray-300"
-        >
-          Environment Variables
-        </Link>
-        <Link
-          href={'/react-native/installation#provider'}
-          className="p-2 hover:text-gray-300"
-        >
-          Session Provider
-        </Link>
-      </div>
-    </div>
+export default function ReactNativeInstallation() {
+  return (
+    <>
+      <p className="docs-breadcrumb">DOCUMENTATION / REACT NATIVE</p>
+      <h1>React Native installation</h1>
+      <p>The published React Native package provides session context and helpers that store session tokens in AsyncStorage. The examples below use Expo; the helper package does not create an Expo project for you.</p>
+
+      <section id="project">
+        <h2>Create an Expo project</h2>
+        <CodeExample filename="Terminal" language="bash" code="npx create-expo-app my-app" />
+      </section>
+
+      <section id="install">
+        <h2>Install packages</h2>
+        <PackageManagerTabs packages={['@fullauth/core', '@fullauth/react-native']} />
+        <p>The package manifest declares React Native and AsyncStorage dependencies/peers. Use a React Native version compatible with the package’s peer requirements.</p>
+      </section>
+
+      <section id="environment">
+        <h2>Set the backend origin</h2>
+        <p>Use the origin of the server that runs the FullAuth route handler. This public URL is not a secret.</p>
+        <CodeExample filename=".env" language="bash" code="EXPO_PUBLIC_FULLAUTH_URL=https://auth.example.com" />
+      </section>
+
+      <section id="provider">
+        <h2>Wrap the app in SessionProvider</h2>
+        <p><code>baseUrl</code> is optional in the provider and can fall back to <code>EXPO_PUBLIC_FULLAUTH_URL</code>; passing it explicitly makes the backend origin clear.</p>
+        <CodeExample filename="App.tsx" language="tsx" code={app} />
+      </section>
+
+      <section id="nextsteps">
+        <h2>Next steps</h2>
+        <p>Continue with <Link href="/react-native/usage">React Native usage</Link> and the <Link href="/next/installation">Next.js backend setup</Link>. The built-in Google provider’s mobile callback path is present in source, but the included React Native helper does not complete its OAuth redirect flow; see the <Link href="/providers/google">Google provider limitations</Link>.</p>
+      </section>
+    </>
   );
-};
-
-export default ReactNativeInstallation;
+}

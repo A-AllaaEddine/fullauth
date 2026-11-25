@@ -1,97 +1,530 @@
 [
   {
-    "id": 0,
-    "name": "next",
-    "redirect": "/next/installation"
+    "kind": "page",
+    "name": "Changelog",
+    "title": "Changelog",
+    "redirect": "/changelog",
+    "content": "FULLAUTH / PROJECT Changelog Unreleased · website and documentation Refined syntax highlighting and corrected examples and capability descriptions. Added page metadata, canonical URLs, social metadata, sitemap, robots configuration, and an Open Graph image. These site changes are not authentication-package releases. v2.2.1 Fixed a getServerSession issue. v2.2.0 Fixed Next.js 15 route-handler issues. v2.1.1 Fixed Next.js 16 support. v2.1.0 Added Next.js 16 support work. v2.0.0 Added Next.js 15 support. v1.2.1 Fixed package exports and set cookie SameSite to lax. v1.2.0 Replaced jsonwebtoken with jose for Vercel Edge compatibility. v1.1.2 Type fixes. v1.1.1 Fixed types. v1.1.0 Made baseUrl required in relevant React Native integration APIs. v1.0.2 Fixed token-callback platform types and made React Native SessionProvider baseUrl optional. v1.0.1 Added the platform property to the token callback. v1.0.0 Reworked internal functions, added the Google provider, fixed web session refresh, and added post-sign-in redirection. Package publication differs by package and is not implied by a repository tag. See the FullAuth npm packages for current package releases.",
+    "id": 0
   },
   {
-    "id": 1,
-    "name": "next installation",
-    "redirect": "/next/installation"
+    "kind": "heading",
+    "name": "Changelog",
+    "title": "Changelog",
+    "redirect": "/changelog#changelog",
+    "content": "Changelog Unreleased · website and documentationRefined syntax highlighting and corrected examples and capability descriptions.Added page metadata, canonical URLs, social metadata, sitemap, robots configuration, and an Open Graph image.These site changes are not authentication-package releases.v2.2.1Fixed a getServerSession issue.v2.2.0Fixed Next.js 15 route-handler issues.v2.1.1Fixed Next.js 16 support.v2.1.0Added Next.js 16 support work.v2.0.0Added Next.js 15 support.v1.2.1Fixed package exports and set cookie SameSite to lax.v1.2.0Replaced jsonwebtoken with jose for Vercel Edge compatibility.v1.1.2Type fixes.v1.1.1Fixed types.v1.1.0Made baseUrl required in relevant React Native integration APIs.v1.0.2Fixed token-callback platform types and made React Native SessionProvider baseUrl optional.v1.0.1Added the platform property to the token callback.v1.0.0Reworked internal functions, added the Google provider, fixed web session refresh, and added post-sign-in redirection.Package publication differs by package and is not implied by a repository tag. See the FullAuth npm packages for current package releases.",
+    "id": 1
   },
   {
-    "id": 2,
-    "name": "react native installation",
-    "redirect": "/react-native/installation"
+    "kind": "heading",
+    "name": "Unreleased · website and documentation",
+    "title": "Changelog",
+    "redirect": "/changelog#unreleased-website-and-documentation",
+    "content": "Unreleased · website and documentation Refined syntax highlighting and corrected examples and capability descriptions.Added page metadata, canonical URLs, social metadata, sitemap, robots configuration, and an Open Graph image.These site changes are not authentication-package releases.",
+    "id": 2
   },
   {
-    "id": 3,
-    "name": "expo installation",
-    "redirect": "/react-native/installation"
+    "kind": "heading",
+    "name": "v2.2.1",
+    "title": "Changelog",
+    "redirect": "/changelog#v2-2-1",
+    "content": "v2.2.1 Fixed a getServerSession issue.",
+    "id": 3
   },
   {
-    "id": 4,
-    "name": "next signin",
-    "redirect": "/next/usage#signin"
+    "kind": "heading",
+    "name": "v2.2.0",
+    "title": "Changelog",
+    "redirect": "/changelog#v2-2-0",
+    "content": "v2.2.0 Fixed Next.js 15 route-handler issues.",
+    "id": 4
   },
   {
-    "id": 5,
-    "name": "next signout",
-    "redirect": "/next/usage#signout"
+    "kind": "heading",
+    "name": "v2.1.1",
+    "title": "Changelog",
+    "redirect": "/changelog#v2-1-1",
+    "content": "v2.1.1 Fixed Next.js 16 support.",
+    "id": 5
   },
   {
-    "id": 6,
-    "name": "next update",
-    "redirect": "/next/usage#update"
+    "kind": "heading",
+    "name": "v2.1.0",
+    "title": "Changelog",
+    "redirect": "/changelog#v2-1-0",
+    "content": "v2.1.0 Added Next.js 16 support work.",
+    "id": 6
   },
   {
-    "id": 7,
-    "name": "next usesession",
-    "redirect": "/next/usage#usesession"
+    "kind": "heading",
+    "name": "v2.0.0",
+    "title": "Changelog",
+    "redirect": "/changelog#v2-0-0",
+    "content": "v2.0.0 Added Next.js 15 support.",
+    "id": 7
   },
   {
-    "id": 8,
-    "name": "next getsession",
-    "redirect": "/next/usage#getsession"
+    "kind": "heading",
+    "name": "v1.2.1",
+    "title": "Changelog",
+    "redirect": "/changelog#v1-2-1",
+    "content": "v1.2.1 Fixed package exports and set cookie SameSite to lax.",
+    "id": 8
   },
   {
-    "id": 9,
-    "name": "react native usesession",
-    "redirect": "/react-native/usage#usesession"
+    "kind": "heading",
+    "name": "v1.2.0",
+    "title": "Changelog",
+    "redirect": "/changelog#v1-2-0",
+    "content": "v1.2.0 Replaced jsonwebtoken with jose for Vercel Edge compatibility.",
+    "id": 9
   },
   {
-    "id": 10,
-    "name": "react native update",
-    "redirect": "/react-native/usage#update"
+    "kind": "heading",
+    "name": "v1.1.2",
+    "title": "Changelog",
+    "redirect": "/changelog#v1-1-2",
+    "content": "v1.1.2 Type fixes.",
+    "id": 10
   },
   {
-    "id": 11,
-    "name": "react native signout",
-    "redirect": "/react-native/usage#signout"
+    "kind": "heading",
+    "name": "v1.1.1",
+    "title": "Changelog",
+    "redirect": "/changelog#v1-1-1",
+    "content": "v1.1.1 Fixed types.",
+    "id": 11
   },
   {
-    "id": 12,
-    "name": "react native signin",
-    "redirect": "/react-native/usage#signin"
+    "kind": "heading",
+    "name": "v1.1.0",
+    "title": "Changelog",
+    "redirect": "/changelog#v1-1-0",
+    "content": "v1.1.0 Made baseUrl required in relevant React Native integration APIs.",
+    "id": 12
   },
   {
-    "id": 13,
-    "name": "next environment",
-    "redirect": "/next/usage#environment"
+    "kind": "heading",
+    "name": "v1.0.2",
+    "title": "Changelog",
+    "redirect": "/changelog#v1-0-2",
+    "content": "v1.0.2 Fixed token-callback platform types and made React Native SessionProvider baseUrl optional.",
+    "id": 13
   },
   {
-    "id": 14,
-    "name": "react native environment",
-    "redirect": "/react-native/usage#environment"
+    "kind": "heading",
+    "name": "v1.0.1",
+    "title": "Changelog",
+    "redirect": "/changelog#v1-0-1",
+    "content": "v1.0.1 Added the platform property to the token callback.",
+    "id": 14
   },
   {
-    "id": 15,
-    "name": "examples",
-    "redirect": "/examples"
+    "kind": "heading",
+    "name": "v1.0.0",
+    "title": "Changelog",
+    "redirect": "/changelog#v1-0-0",
+    "content": "v1.0.0 Reworked internal functions, added the Google provider, fixed web session refresh, and added post-sign-in redirection.Package publication differs by package and is not implied by a repository tag. See the FullAuth npm packages for current package releases.",
+    "id": 15
   },
   {
-    "id": 16,
-    "name": "module augmentation",
-    "redirect": "/typescript"
+    "kind": "page",
+    "name": "Examples",
+    "title": "Examples",
+    "redirect": "/examples",
+    "content": "FULLAUTH / LEARN Examples These repository examples are reference projects and may use older package versions. Check each project manifest and README against the current package APIs before integrating. Next.js example source React Native example source The examples have not been validated end-to-end as part of this documentation audit.",
+    "id": 16
   },
   {
-    "id": 17,
-    "name": "headers",
-    "redirect": "/react-native/usage#authheaders"
+    "kind": "heading",
+    "name": "Examples",
+    "title": "Examples",
+    "redirect": "/examples#examples",
+    "content": "Examples These repository examples are reference projects and may use older package versions. Check each project manifest and README against the current package APIs before integrating.Next.js example sourceReact Native example sourceThe examples have not been validated end-to-end as part of this documentation audit.",
+    "id": 17
   },
   {
-    "id": 18,
-    "name": "authheaders",
-    "redirect": "/react-native/usage#authheaders"
+    "kind": "page",
+    "name": "Installation",
+    "title": "Installation",
+    "redirect": "/installation",
+    "content": "Installation Below, you will find instructions on how to install FullAuth based on your development platform. Choose the platform that matches your project, and follow the provided steps to get started quickly. Next.js React Native",
+    "id": 18
+  },
+  {
+    "kind": "heading",
+    "name": "Installation",
+    "title": "Installation",
+    "redirect": "/installation#installation",
+    "content": "Installation Below, you will find instructions on how to install FullAuth based on your development platform. Choose the platform that matches your project, and follow the provided steps to get started quickly.Next.jsReact Native",
+    "id": 19
+  },
+  {
+    "kind": "page",
+    "name": "Introduction",
+    "title": "Introduction",
+    "redirect": "/introduction",
+    "content": "FULLAUTH / DOCUMENTATION Introduction FullAuth is a TypeScript authentication library with packages for a shared provider core, Next.js route handling, and React or React Native session utilities. Configure the server integration, then use the client package that matches your application. What is included @fullauth/core defines provider and session types, with credentials and Google provider modules. @fullauth/next exports a Next.js route handler and server session helper. @fullauth/react provides session context, hooks, and sign-in/sign-out helpers. @fullauth/react-native provides corresponding mobile helpers and authentication headers. Start with the installation guide, then follow the guide for your runtime. Google provider code is present in the package; review its guide and test your integration before relying on it in production. Next steps See the Next.js setup, React Native setup, and repository examples.",
+    "id": 20
+  },
+  {
+    "kind": "heading",
+    "name": "Introduction",
+    "title": "Introduction",
+    "redirect": "/introduction#introduction",
+    "content": "Introduction FullAuth is a TypeScript authentication library with packages for a shared provider core, Next.js route handling, and React or React Native session utilities. Configure the server integration, then use the client package that matches your application.What is included@fullauth/core defines provider and session types, with credentials and Google provider modules.@fullauth/next exports a Next.js route handler and server session helper.@fullauth/react provides session context, hooks, and sign-in/sign-out helpers.@fullauth/react-native provides corresponding mobile helpers and authentication headers.Start with the installation guide, then follow the guide for your runtime. Google provider code is present in the package; review its guide and test your integration before relying on it in production.Next stepsSee the Next.js setup, React Native setup, and repository examples.",
+    "id": 21
+  },
+  {
+    "kind": "heading",
+    "name": "What is included",
+    "title": "Introduction",
+    "redirect": "/introduction#what-is-included",
+    "content": "What is included @fullauth/core defines provider and session types, with credentials and Google provider modules.@fullauth/next exports a Next.js route handler and server session helper.@fullauth/react provides session context, hooks, and sign-in/sign-out helpers.@fullauth/react-native provides corresponding mobile helpers and authentication headers.Start with the installation guide, then follow the guide for your runtime. Google provider code is present in the package; review its guide and test your integration before relying on it in production.",
+    "id": 22
+  },
+  {
+    "kind": "heading",
+    "name": "Next steps",
+    "title": "Introduction",
+    "redirect": "/introduction#next-steps",
+    "content": "Next steps See the Next.js setup, React Native setup, and repository examples.",
+    "id": 23
+  },
+  {
+    "kind": "page",
+    "name": "Next.js Next.js installation",
+    "title": "Next.js Next.js installation",
+    "redirect": "/next/installation",
+    "content": "DOCUMENTATION / NEXT.JS Next.js installation FullAuth’s Next.js package exports an App Router handler and a server session helper. The React package supplies the client session context and hooks used by the examples below. Install packages npm Yarn pnpm npm install @fullauth/core @fullauth/next @fullauth/react Copy Set the backend URL and secret NEXT_PUBLIC_FULLAUTH_URL is the public origin used by the browser client to reach the Next.js backend. Set FULLAUTH_SECRET on the server. Keep the secret out of client code and source control. .env.local NEXT_PUBLIC_FULLAUTH_URL=https://auth.example.com FULLAUTH_SECRET=replace-with-a-long-random-secret Copy Create the route handler The credential verifier is app-specific. It must check the submitted credentials against your own user store and return a user object or null; FullAuth does not provide a user database or password-hashing implementation. app/api/auth/[...fullauth]/route.ts import type { AuthOptions } from '@fullauth/core'; import { CredentialsProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; import { verifyUser } from '@/lib/verify-user'; // App-defined credential verification export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ CredentialsProvider({ credentials: { email: { type: 'text' }, password: { type: 'password' }, }, async signIn(credentials) { // Implement verifyUser against your user store and password-hash scheme. return verifyUser(credentials); }, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST }; Copy Provide the session to React The React SessionProvider accepts an optional initial session. The Next.js guide uses getServerSession to read it in the root layout. app/layout.tsx import type { ReactNode } from 'react'; import { getServerSession } from '@fullauth/next/helpers'; import { SessionProvider } from '@fullauth/react'; import { authOptions } from './api/auth/[...fullauth]/route'; export default async function RootLayout({ children, }: Readonly<{ children: ReactNode }>) { const session = await getServerSession(authOptions.secret!); return ( <html lang=\"en\"> <body> <SessionProvider session={session}>{children}</SessionProvider> </body> </html> ); } Copy Next steps Continue with Next.js usage, or review the separate credentials and Google provider guides. The Google guide describes source-backed configuration and its current verification limits.",
+    "id": 24
+  },
+  {
+    "kind": "heading",
+    "name": "Next.js installation",
+    "title": "Next.js Next.js installation",
+    "redirect": "/next/installation#next-js-installation",
+    "content": "Next.js installation FullAuth’s Next.js package exports an App Router handler and a server session helper. The React package supplies the client session context and hooks used by the examples below.Install packagesnpmYarnpnpmnpm install @fullauth/core @fullauth/next @fullauth/reactCopySet the backend URL and secretNEXT_PUBLIC_FULLAUTH_URL is the public origin used by the browser client to reach the Next.js backend. Set FULLAUTH_SECRET on the server. Keep the secret out of client code and source control..env.localNEXT_PUBLIC_FULLAUTH_URL=https://auth.example.com FULLAUTH_SECRET=replace-with-a-long-random-secretCopyCreate the route handlerThe credential verifier is app-specific. It must check the submitted credentials against your own user store and return a user object or null; FullAuth does not provide a user database or password-hashing implementation.app/api/auth/[...fullauth]/route.tsimport type { AuthOptions } from '@fullauth/core'; import { CredentialsProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; import { verifyUser } from '@/lib/verify-user'; // App-defined credential verification export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ CredentialsProvider({ credentials: { email: { type: 'text' }, password: { type: 'password' }, }, async signIn(credentials) { // Implement verifyUser against your user store and password-hash scheme. return verifyUser(credentials); }, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST };CopyProvide the session to ReactThe React SessionProvider accepts an optional initial session. The Next.js guide uses getServerSession to read it in the root layout.app/layout.tsximport type { ReactNode } from 'react'; import { getServerSession } from '@fullauth/next/helpers'; import { SessionProvider } from '@fullauth/react'; import { authOptions } from './api/auth/[...fullauth]/route'; export default async function RootLayout({ children, }: Readonly<{ children: ReactNode }>) { const session = await getServerSession(authOptions.secret!); return ( <html lang=\"en\"> <body> <SessionProvider session={session}>{children}</SessionProvider> </body> </html> ); }CopyNext stepsContinue with Next.js usage, or review the separate credentials and Google provider guides. The Google guide describes source-backed configuration and its current verification limits.",
+    "id": 25
+  },
+  {
+    "kind": "heading",
+    "name": "Install packages",
+    "title": "Next.js Next.js installation",
+    "redirect": "/next/installation#install",
+    "content": "Install packages npmYarnpnpmnpm install @fullauth/core @fullauth/next @fullauth/reactCopy",
+    "id": 26
+  },
+  {
+    "kind": "heading",
+    "name": "Set the backend URL and secret",
+    "title": "Next.js Next.js installation",
+    "redirect": "/next/installation#environment",
+    "content": "Set the backend URL and secret NEXT_PUBLIC_FULLAUTH_URL is the public origin used by the browser client to reach the Next.js backend. Set FULLAUTH_SECRET on the server. Keep the secret out of client code and source control..env.localNEXT_PUBLIC_FULLAUTH_URL=https://auth.example.com FULLAUTH_SECRET=replace-with-a-long-random-secretCopy",
+    "id": 27
+  },
+  {
+    "kind": "heading",
+    "name": "Create the route handler",
+    "title": "Next.js Next.js installation",
+    "redirect": "/next/installation#routehandler",
+    "content": "Create the route handler The credential verifier is app-specific. It must check the submitted credentials against your own user store and return a user object or null; FullAuth does not provide a user database or password-hashing implementation.app/api/auth/[...fullauth]/route.tsimport type { AuthOptions } from '@fullauth/core'; import { CredentialsProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; import { verifyUser } from '@/lib/verify-user'; // App-defined credential verification export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ CredentialsProvider({ credentials: { email: { type: 'text' }, password: { type: 'password' }, }, async signIn(credentials) { // Implement verifyUser against your user store and password-hash scheme. return verifyUser(credentials); }, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST };Copy",
+    "id": 28
+  },
+  {
+    "kind": "heading",
+    "name": "Provide the session to React",
+    "title": "Next.js Next.js installation",
+    "redirect": "/next/installation#provider",
+    "content": "Provide the session to React The React SessionProvider accepts an optional initial session. The Next.js guide uses getServerSession to read it in the root layout.app/layout.tsximport type { ReactNode } from 'react'; import { getServerSession } from '@fullauth/next/helpers'; import { SessionProvider } from '@fullauth/react'; import { authOptions } from './api/auth/[...fullauth]/route'; export default async function RootLayout({ children, }: Readonly<{ children: ReactNode }>) { const session = await getServerSession(authOptions.secret!); return ( <html lang=\"en\"> <body> <SessionProvider session={session}>{children}</SessionProvider> </body> </html> ); }Copy",
+    "id": 29
+  },
+  {
+    "kind": "heading",
+    "name": "Next steps",
+    "title": "Next.js Next.js installation",
+    "redirect": "/next/installation#nextsteps",
+    "content": "Next steps Continue with Next.js usage, or review the separate credentials and Google provider guides. The Google guide describes source-backed configuration and its current verification limits.",
+    "id": 30
+  },
+  {
+    "kind": "page",
+    "name": "Next.js Next.js usage",
+    "title": "Next.js Next.js usage",
+    "redirect": "/next/usage",
+    "content": "DOCUMENTATION / NEXT.JS Next.js usage The React helpers are client-side APIs. Wrap the app in the SessionProvider shown in the installation guide before calling useSession. Sign in with credentials The example receives form values as props. Connect those props to your own form; credentials verification runs in the application callback configured on the server. app/components/SignInButton.tsx 'use client'; import { signIn } from '@fullauth/react'; export default function SignInButton({ email, password, }: { email: string; password: string; }) { return ( <button onClick={() => signIn('credentials', { credentials: { email, password } }) } > Sign in </button> ); } Copy Sign out app/components/SignOutButton.tsx 'use client'; import { signOut } from '@fullauth/react'; export default function SignOutButton() { return <button onClick={() => signOut()}>Sign out</button>; } Copy Read the client session app/components/SessionStatus.tsx 'use client'; import { useSession } from '@fullauth/react'; export default function SessionStatus() { const { session, status } = useSession(); const label = session?.user?.email ?? status; return <p>{label}</p>; } Copy Update session data update(data) sends the data to the server. The application’s callbacks.token callback receives it in updates; validate and merge only the fields your app intends to accept. The default callback does not merge arbitrary update data into the token. app/components/RenameSession.tsx 'use client'; import { useSession } from '@fullauth/react'; export default function RenameSession() { const { update } = useSession(); return ( <button onClick={() => update({ name: 'New name' })}> Update session </button> ); } Copy Read a session on the server getServerSession accepts the configured secret and returns a session or null. It can also be called with a request in the helper’s overload. app/account/page.tsx import { getServerSession } from '@fullauth/next/helpers'; import { authOptions } from '../api/auth/[...fullauth]/route'; export default async function AccountPage() { const session = await getServerSession(authOptions.secret!); return <p>{session?.user?.email ?? 'Signed out'}</p>; } Copy TypeScript signatures import type { Session } from '@fullauth/core'; import type { NextRequest } from 'next/server'; declare function getServerSession(secret: string): Promise<Session | null>; declare function getServerSession( secret: string, req: Request | NextRequest, ): Promise<Session | null>; Copy",
+    "id": 31
+  },
+  {
+    "kind": "heading",
+    "name": "Next.js usage",
+    "title": "Next.js Next.js usage",
+    "redirect": "/next/usage#next-js-usage",
+    "content": "Next.js usage The React helpers are client-side APIs. Wrap the app in the SessionProvider shown in the installation guide before calling useSession.Sign in with credentialsThe example receives form values as props. Connect those props to your own form; credentials verification runs in the application callback configured on the server.app/components/SignInButton.tsx'use client'; import { signIn } from '@fullauth/react'; export default function SignInButton({ email, password, }: { email: string; password: string; }) { return ( <button onClick={() => signIn('credentials', { credentials: { email, password } }) } > Sign in </button> ); }CopySign outapp/components/SignOutButton.tsx'use client'; import { signOut } from '@fullauth/react'; export default function SignOutButton() { return <button onClick={() => signOut()}>Sign out</button>; }CopyRead the client sessionapp/components/SessionStatus.tsx'use client'; import { useSession } from '@fullauth/react'; export default function SessionStatus() { const { session, status } = useSession(); const label = session?.user?.email ?? status; return <p>{label}</p>; }CopyUpdate session dataupdate(data) sends the data to the server. The application’s callbacks.token callback receives it in updates; validate and merge only the fields your app intends to accept. The default callback does not merge arbitrary update data into the token.app/components/RenameSession.tsx'use client'; import { useSession } from '@fullauth/react'; export default function RenameSession() { const { update } = useSession(); return ( <button onClick={() => update({ name: 'New name' })}> Update session </button> ); }CopyRead a session on the servergetServerSession accepts the configured secret and returns a session or null. It can also be called with a request in the helper’s overload.app/account/page.tsximport { getServerSession } from '@fullauth/next/helpers'; import { authOptions } from '../api/auth/[...fullauth]/route'; export default async function AccountPage() { const session = await getServerSession(authOptions.secret!); return <p>{session?.user?.email ?? 'Signed out'}</p>; }CopyTypeScript signaturesimport type { Session } from '@fullauth/core'; import type { NextRequest } from 'next/server'; declare function getServerSession(secret: string): Promise<Session | null>; declare function getServerSession( secret: string, req: Request | NextRequest, ): Promise<Session | null>;Copy",
+    "id": 32
+  },
+  {
+    "kind": "heading",
+    "name": "Sign in with credentials",
+    "title": "Next.js Next.js usage",
+    "redirect": "/next/usage#signin",
+    "content": "Sign in with credentials The example receives form values as props. Connect those props to your own form; credentials verification runs in the application callback configured on the server.app/components/SignInButton.tsx'use client'; import { signIn } from '@fullauth/react'; export default function SignInButton({ email, password, }: { email: string; password: string; }) { return ( <button onClick={() => signIn('credentials', { credentials: { email, password } }) } > Sign in </button> ); }Copy",
+    "id": 33
+  },
+  {
+    "kind": "heading",
+    "name": "Sign out",
+    "title": "Next.js Next.js usage",
+    "redirect": "/next/usage#signout",
+    "content": "Sign out app/components/SignOutButton.tsx'use client'; import { signOut } from '@fullauth/react'; export default function SignOutButton() { return <button onClick={() => signOut()}>Sign out</button>; }Copy",
+    "id": 34
+  },
+  {
+    "kind": "heading",
+    "name": "Read the client session",
+    "title": "Next.js Next.js usage",
+    "redirect": "/next/usage#usesession",
+    "content": "Read the client session app/components/SessionStatus.tsx'use client'; import { useSession } from '@fullauth/react'; export default function SessionStatus() { const { session, status } = useSession(); const label = session?.user?.email ?? status; return <p>{label}</p>; }Copy",
+    "id": 35
+  },
+  {
+    "kind": "heading",
+    "name": "Update session data",
+    "title": "Next.js Next.js usage",
+    "redirect": "/next/usage#update",
+    "content": "Update session data update(data) sends the data to the server. The application’s callbacks.token callback receives it in updates; validate and merge only the fields your app intends to accept. The default callback does not merge arbitrary update data into the token.app/components/RenameSession.tsx'use client'; import { useSession } from '@fullauth/react'; export default function RenameSession() { const { update } = useSession(); return ( <button onClick={() => update({ name: 'New name' })}> Update session </button> ); }Copy",
+    "id": 36
+  },
+  {
+    "kind": "heading",
+    "name": "Read a session on the server",
+    "title": "Next.js Next.js usage",
+    "redirect": "/next/usage#getsession",
+    "content": "Read a session on the server getServerSession accepts the configured secret and returns a session or null. It can also be called with a request in the helper’s overload.app/account/page.tsximport { getServerSession } from '@fullauth/next/helpers'; import { authOptions } from '../api/auth/[...fullauth]/route'; export default async function AccountPage() { const session = await getServerSession(authOptions.secret!); return <p>{session?.user?.email ?? 'Signed out'}</p>; }CopyTypeScript signaturesimport type { Session } from '@fullauth/core'; import type { NextRequest } from 'next/server'; declare function getServerSession(secret: string): Promise<Session | null>; declare function getServerSession( secret: string, req: Request | NextRequest, ): Promise<Session | null>;Copy",
+    "id": 37
+  },
+  {
+    "kind": "page",
+    "name": "Credentials Credentials provider",
+    "title": "Credentials Credentials provider",
+    "redirect": "/providers/credentials",
+    "content": "DOCUMENTATION / PROVIDERS Credentials provider CredentialsProvider passes submitted fields to an application-provided signIn function. It does not ship a user store, password hashing, registration flow, or email/password policy. Configure credentials verification This route example is intentionally partial: verifyUser is your application function. Implement it using your own user store and password-hash verification; return a user object for an accepted login or null for a rejected one. app/api/auth/[...fullauth]/route.ts import type { AuthOptions } from '@fullauth/core'; import { CredentialsProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; import { verifyUser } from '@/lib/verify-user'; // App-defined, not a FullAuth export export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ CredentialsProvider({ credentials: { email: { type: 'text' }, password: { type: 'password' }, }, async signIn(credentials) { return verifyUser(credentials); }, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST }; Copy Configure distinct credential flows Provider IDs are used by the client’s signIn call. Keep each ID unique and implement each verifier in your application. Provider entries in authOptions import { CredentialsProvider } from '@fullauth/core/providers'; import { verifyMember, verifyAdmin } from '@/lib/verify-user'; // App-defined const providers = [ CredentialsProvider({ id: 'member', credentials: { email: { type: 'text' }, password: { type: 'password' }, }, signIn: verifyMember, // App-defined verifier }), CredentialsProvider({ id: 'admin', credentials: { email: { type: 'text' }, password: { type: 'password' }, }, signIn: verifyAdmin, // App-defined verifier }), ]; Copy For the built-in Google OAuth module, see the Google provider guide. No built-in GitHub, Facebook, Apple, or Microsoft provider is included in the current source.",
+    "id": 38
+  },
+  {
+    "kind": "heading",
+    "name": "Credentials provider",
+    "title": "Credentials Credentials provider",
+    "redirect": "/providers/credentials#credentials-provider",
+    "content": "Credentials provider CredentialsProvider passes submitted fields to an application-provided signIn function. It does not ship a user store, password hashing, registration flow, or email/password policy.Configure credentials verificationThis route example is intentionally partial: verifyUser is your application function. Implement it using your own user store and password-hash verification; return a user object for an accepted login or null for a rejected one.app/api/auth/[...fullauth]/route.tsimport type { AuthOptions } from '@fullauth/core'; import { CredentialsProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; import { verifyUser } from '@/lib/verify-user'; // App-defined, not a FullAuth export export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ CredentialsProvider({ credentials: { email: { type: 'text' }, password: { type: 'password' }, }, async signIn(credentials) { return verifyUser(credentials); }, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST };CopyConfigure distinct credential flowsProvider IDs are used by the client’s signIn call. Keep each ID unique and implement each verifier in your application.Provider entries in authOptionsimport { CredentialsProvider } from '@fullauth/core/providers'; import { verifyMember, verifyAdmin } from '@/lib/verify-user'; // App-defined const providers = [ CredentialsProvider({ id: 'member', credentials: { email: { type: 'text' }, password: { type: 'password' }, }, signIn: verifyMember, // App-defined verifier }), CredentialsProvider({ id: 'admin', credentials: { email: { type: 'text' }, password: { type: 'password' }, }, signIn: verifyAdmin, // App-defined verifier }), ];CopyFor the built-in Google OAuth module, see the Google provider guide. No built-in GitHub, Facebook, Apple, or Microsoft provider is included in the current source.",
+    "id": 39
+  },
+  {
+    "kind": "heading",
+    "name": "Configure credentials verification",
+    "title": "Credentials Credentials provider",
+    "redirect": "/providers/credentials#route",
+    "content": "Configure credentials verification This route example is intentionally partial: verifyUser is your application function. Implement it using your own user store and password-hash verification; return a user object for an accepted login or null for a rejected one.app/api/auth/[...fullauth]/route.tsimport type { AuthOptions } from '@fullauth/core'; import { CredentialsProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; import { verifyUser } from '@/lib/verify-user'; // App-defined, not a FullAuth export export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ CredentialsProvider({ credentials: { email: { type: 'text' }, password: { type: 'password' }, }, async signIn(credentials) { return verifyUser(credentials); }, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST };Copy",
+    "id": 40
+  },
+  {
+    "kind": "heading",
+    "name": "Configure distinct credential flows",
+    "title": "Credentials Credentials provider",
+    "redirect": "/providers/credentials#multiple",
+    "content": "Configure distinct credential flows Provider IDs are used by the client’s signIn call. Keep each ID unique and implement each verifier in your application.Provider entries in authOptionsimport { CredentialsProvider } from '@fullauth/core/providers'; import { verifyMember, verifyAdmin } from '@/lib/verify-user'; // App-defined const providers = [ CredentialsProvider({ id: 'member', credentials: { email: { type: 'text' }, password: { type: 'password' }, }, signIn: verifyMember, // App-defined verifier }), CredentialsProvider({ id: 'admin', credentials: { email: { type: 'text' }, password: { type: 'password' }, }, signIn: verifyAdmin, // App-defined verifier }), ];CopyFor the built-in Google OAuth module, see the Google provider guide. No built-in GitHub, Facebook, Apple, or Microsoft provider is included in the current source.",
+    "id": 41
+  },
+  {
+    "kind": "page",
+    "name": "Google Google OAuth provider",
+    "title": "Google Google OAuth provider",
+    "redirect": "/providers/google",
+    "content": "DOCUMENTATION / PROVIDERS Google OAuth provider The source includes a built-in GoogleProvider for the Next.js handler. It requests the openid email profile scopes, exchanges the callback code with Google, and reads the user profile from Google’s userinfo endpoint. Configure the provider Create OAuth client credentials with Google and store the client secret and FullAuth secret on the server. Keep the public backend origin in NEXT_PUBLIC_FULLAUTH_URL; the provider appends its callback path to that origin. app/api/auth/[...fullauth]/route.ts import type { AuthOptions } from '@fullauth/core'; import { GoogleProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ GoogleProvider({ clientId: process.env.GOOGLE_CLIENT_ID!, clientSecret: process.env.GOOGLE_CLIENT_SECRET!, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST }; Copy Register callback URLs Register the exact callback URL that matches your backend origin. The source builds these paths: Web: ${NEXT_PUBLIC_FULLAUTH_URL}/api/auth/callback/google Mobile callback path in the provider source: ${NEXT_PUBLIC_FULLAUTH_URL}/api/auth/callback/mobile/google See Google’s OAuth documentation and register the callback URL in the Google Cloud OAuth client configuration. Verification limits The repository contains a Google provider module; this audit did not run a live OAuth flow with registered Google credentials. The React Native helper does not open or complete the OAuth redirect response returned by the server. The presence of a mobile callback path does not establish working Google sign-in in a React Native app. In the current source, OAuth state carries the requested redirect URL and the callback decodes it. The callback does not compare it with a generated, stored one-time value. Have this flow reviewed before using Google sign-in with live users. No built-in GitHub, Facebook, Apple, or Microsoft provider module is present. The generic provider types do not mean those integrations are included. Use the credentials guide for the application-provided credentials verifier.",
+    "id": 42
+  },
+  {
+    "kind": "heading",
+    "name": "Google OAuth provider",
+    "title": "Google Google OAuth provider",
+    "redirect": "/providers/google#google-oauth-provider",
+    "content": "Google OAuth provider The source includes a built-in GoogleProvider for the Next.js handler. It requests the openid email profile scopes, exchanges the callback code with Google, and reads the user profile from Google’s userinfo endpoint.Configure the providerCreate OAuth client credentials with Google and store the client secret and FullAuth secret on the server. Keep the public backend origin in NEXT_PUBLIC_FULLAUTH_URL; the provider appends its callback path to that origin.app/api/auth/[...fullauth]/route.tsimport type { AuthOptions } from '@fullauth/core'; import { GoogleProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ GoogleProvider({ clientId: process.env.GOOGLE_CLIENT_ID!, clientSecret: process.env.GOOGLE_CLIENT_SECRET!, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST };CopyRegister callback URLsRegister the exact callback URL that matches your backend origin. The source builds these paths:Web: ${NEXT_PUBLIC_FULLAUTH_URL}/api/auth/callback/googleMobile callback path in the provider source: ${NEXT_PUBLIC_FULLAUTH_URL}/api/auth/callback/mobile/googleSee Google’s OAuth documentation and register the callback URL in the Google Cloud OAuth client configuration.Verification limitsThe repository contains a Google provider module; this audit did not run a live OAuth flow with registered Google credentials.The React Native helper does not open or complete the OAuth redirect response returned by the server. The presence of a mobile callback path does not establish working Google sign-in in a React Native app.In the current source, OAuth state carries the requested redirect URL and the callback decodes it. The callback does not compare it with a generated, stored one-time value. Have this flow reviewed before using Google sign-in with live users.No built-in GitHub, Facebook, Apple, or Microsoft provider module is present. The generic provider types do not mean those integrations are included.Use the credentials guide for the application-provided credentials verifier.",
+    "id": 43
+  },
+  {
+    "kind": "heading",
+    "name": "Configure the provider",
+    "title": "Google Google OAuth provider",
+    "redirect": "/providers/google#configuration",
+    "content": "Configure the provider Create OAuth client credentials with Google and store the client secret and FullAuth secret on the server. Keep the public backend origin in NEXT_PUBLIC_FULLAUTH_URL; the provider appends its callback path to that origin.app/api/auth/[...fullauth]/route.tsimport type { AuthOptions } from '@fullauth/core'; import { GoogleProvider } from '@fullauth/core/providers'; import { NextHandler } from '@fullauth/next'; export const authOptions: AuthOptions = { secret: process.env.FULLAUTH_SECRET!, providers: [ GoogleProvider({ clientId: process.env.GOOGLE_CLIENT_ID!, clientSecret: process.env.GOOGLE_CLIENT_SECRET!, }), ], }; const handler = NextHandler(authOptions); export { handler as GET, handler as POST };Copy",
+    "id": 44
+  },
+  {
+    "kind": "heading",
+    "name": "Register callback URLs",
+    "title": "Google Google OAuth provider",
+    "redirect": "/providers/google#redirects",
+    "content": "Register callback URLs Register the exact callback URL that matches your backend origin. The source builds these paths:Web: ${NEXT_PUBLIC_FULLAUTH_URL}/api/auth/callback/googleMobile callback path in the provider source: ${NEXT_PUBLIC_FULLAUTH_URL}/api/auth/callback/mobile/googleSee Google’s OAuth documentation and register the callback URL in the Google Cloud OAuth client configuration.",
+    "id": 45
+  },
+  {
+    "kind": "heading",
+    "name": "Verification limits",
+    "title": "Google Google OAuth provider",
+    "redirect": "/providers/google#limitations",
+    "content": "Verification limits The repository contains a Google provider module; this audit did not run a live OAuth flow with registered Google credentials.The React Native helper does not open or complete the OAuth redirect response returned by the server. The presence of a mobile callback path does not establish working Google sign-in in a React Native app.In the current source, OAuth state carries the requested redirect URL and the callback decodes it. The callback does not compare it with a generated, stored one-time value. Have this flow reviewed before using Google sign-in with live users.No built-in GitHub, Facebook, Apple, or Microsoft provider module is present. The generic provider types do not mean those integrations are included.Use the credentials guide for the application-provided credentials verifier.",
+    "id": 46
+  },
+  {
+    "kind": "page",
+    "name": "React Native React Native installation",
+    "title": "React Native React Native installation",
+    "redirect": "/react-native/installation",
+    "content": "DOCUMENTATION / REACT NATIVE React Native installation The published React Native package provides session context and helpers that store session tokens in AsyncStorage. The examples below use Expo; the helper package does not create an Expo project for you. Create an Expo project Terminal npx create-expo-app my-app Copy Install packages npm Yarn pnpm npm install @fullauth/core @fullauth/react-native Copy The package manifest declares React Native and AsyncStorage dependencies/peers. Use a React Native version compatible with the package’s peer requirements. Set the backend origin Use the origin of the server that runs the FullAuth route handler. This public URL is not a secret. .env EXPO_PUBLIC_FULLAUTH_URL=https://auth.example.com Copy Wrap the app in SessionProvider baseUrl is optional in the provider and can fall back to EXPO_PUBLIC_FULLAUTH_URL; passing it explicitly makes the backend origin clear. App.tsx import { SessionProvider } from '@fullauth/react-native'; import { StatusBar } from 'expo-status-bar'; import { View } from 'react-native'; import Home from './screens/home'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function App() { return ( <SessionProvider baseUrl={baseUrl}> <View style={{ flex: 1 }}> <Home /> <StatusBar style=\"auto\" /> </View> </SessionProvider> ); } Copy Next steps Continue with React Native usage and the Next.js backend setup. The built-in Google provider’s mobile callback path is present in source, but the included React Native helper does not complete its OAuth redirect flow; see the Google provider limitations.",
+    "id": 47
+  },
+  {
+    "kind": "heading",
+    "name": "React Native installation",
+    "title": "React Native React Native installation",
+    "redirect": "/react-native/installation#react-native-installation",
+    "content": "React Native installation The published React Native package provides session context and helpers that store session tokens in AsyncStorage. The examples below use Expo; the helper package does not create an Expo project for you.Create an Expo projectTerminalnpx create-expo-app my-appCopyInstall packagesnpmYarnpnpmnpm install @fullauth/core @fullauth/react-nativeCopyThe package manifest declares React Native and AsyncStorage dependencies/peers. Use a React Native version compatible with the package’s peer requirements.Set the backend originUse the origin of the server that runs the FullAuth route handler. This public URL is not a secret..envEXPO_PUBLIC_FULLAUTH_URL=https://auth.example.comCopyWrap the app in SessionProviderbaseUrl is optional in the provider and can fall back to EXPO_PUBLIC_FULLAUTH_URL; passing it explicitly makes the backend origin clear.App.tsximport { SessionProvider } from '@fullauth/react-native'; import { StatusBar } from 'expo-status-bar'; import { View } from 'react-native'; import Home from './screens/home'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function App() { return ( <SessionProvider baseUrl={baseUrl}> <View style={{ flex: 1 }}> <Home /> <StatusBar style=\"auto\" /> </View> </SessionProvider> ); }CopyNext stepsContinue with React Native usage and the Next.js backend setup. The built-in Google provider’s mobile callback path is present in source, but the included React Native helper does not complete its OAuth redirect flow; see the Google provider limitations.",
+    "id": 48
+  },
+  {
+    "kind": "heading",
+    "name": "Create an Expo project",
+    "title": "React Native React Native installation",
+    "redirect": "/react-native/installation#project",
+    "content": "Create an Expo project Terminalnpx create-expo-app my-appCopy",
+    "id": 49
+  },
+  {
+    "kind": "heading",
+    "name": "Install packages",
+    "title": "React Native React Native installation",
+    "redirect": "/react-native/installation#install",
+    "content": "Install packages npmYarnpnpmnpm install @fullauth/core @fullauth/react-nativeCopyThe package manifest declares React Native and AsyncStorage dependencies/peers. Use a React Native version compatible with the package’s peer requirements.",
+    "id": 50
+  },
+  {
+    "kind": "heading",
+    "name": "Set the backend origin",
+    "title": "React Native React Native installation",
+    "redirect": "/react-native/installation#environment",
+    "content": "Set the backend origin Use the origin of the server that runs the FullAuth route handler. This public URL is not a secret..envEXPO_PUBLIC_FULLAUTH_URL=https://auth.example.comCopy",
+    "id": 51
+  },
+  {
+    "kind": "heading",
+    "name": "Wrap the app in SessionProvider",
+    "title": "React Native React Native installation",
+    "redirect": "/react-native/installation#provider",
+    "content": "Wrap the app in SessionProvider baseUrl is optional in the provider and can fall back to EXPO_PUBLIC_FULLAUTH_URL; passing it explicitly makes the backend origin clear.App.tsximport { SessionProvider } from '@fullauth/react-native'; import { StatusBar } from 'expo-status-bar'; import { View } from 'react-native'; import Home from './screens/home'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function App() { return ( <SessionProvider baseUrl={baseUrl}> <View style={{ flex: 1 }}> <Home /> <StatusBar style=\"auto\" /> </View> </SessionProvider> ); }Copy",
+    "id": 52
+  },
+  {
+    "kind": "heading",
+    "name": "Next steps",
+    "title": "React Native React Native installation",
+    "redirect": "/react-native/installation#nextsteps",
+    "content": "Next steps Continue with React Native usage and the Next.js backend setup. The built-in Google provider’s mobile callback path is present in source, but the included React Native helper does not complete its OAuth redirect flow; see the Google provider limitations.",
+    "id": 53
+  },
+  {
+    "kind": "page",
+    "name": "React Native React Native usage",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage",
+    "content": "DOCUMENTATION / REACT NATIVE React Native usage Wrap the app in SessionProvider as shown in the installation guide. The helpers use the configured backend origin and store the mobile session token and CSRF token in AsyncStorage. Sign in with credentials Connect email and password to your app’s form values. The server-side credentials provider is responsible for verification. screens/SignInButton.tsx import { signIn } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function SignInButton({ email, password, }: { email: string; password: string; }) { return ( <Pressable onPress={() => signIn({ baseUrl, provider: 'credentials', credentials: { email, password }, }) } > <Text>Sign in</Text> </Pressable> ); } Copy Sign out The React Native helper requires the backend baseUrl and removes the stored session token and CSRF token. screens/SignOutButton.tsx import { signOut } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function SignOutButton() { return ( <Pressable onPress={() => signOut({ baseUrl })}> <Text>Sign out</Text> </Pressable> ); } Copy Read session state screens/SessionStatus.tsx import { useSession } from '@fullauth/react-native'; import { Text } from 'react-native'; export default function SessionStatus() { const { session, status } = useSession(); return <Text>{session?.user?.email ?? status}</Text>; } Copy Update session data Updates are sent to the server and passed to callbacks.token. The application callback must validate and apply accepted values; the default callback does not merge arbitrary data. screens/RenameSession.tsx import { useSession } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; export default function RenameSession() { const { update } = useSession(); return ( <Pressable onPress={() => update({ name: 'New name' })}> <Text>Update session</Text> </Pressable> ); } Copy Send authentication headers authHeaders() returns the stored token and CSRF token. Forward them to a backend route that validates the session. screens/profile.ts import { authHeaders } from '@fullauth/react-native'; export async function loadPrivateProfile() { const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; const response = await fetch( baseUrl + '/api/profile', { headers: await authHeaders() }, ); return response.json(); } Copy Read the session in a Next.js route The helper’s request overload reads the authentication headers in the current Next.js request context. app/api/profile/route.ts import { getServerSession } from '@fullauth/next/helpers'; import { NextResponse } from 'next/server'; import { authOptions } from '../auth/[...fullauth]/route'; export async function GET(request: Request) { const session = await getServerSession(authOptions.secret!, request); if (!session?.user) { return NextResponse.json({ message: 'Unauthorized' }, { status: 401 }); } return NextResponse.json({ user: session.user }); } Copy Use with tRPC This is a partial context example for an app that already uses tRPC. FullAuth does not include a tRPC adapter. server/context.ts import type { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'; import { getServerSession } from '@fullauth/next/helpers'; import { authOptions } from '../api/auth/[...fullauth]/route'; export async function createContext(opts: FetchCreateContextFnOptions) { const session = await getServerSession(authOptions.secret!, opts.req); return { session }; } export type Context = Awaited<ReturnType<typeof createContext>>; Copy Google OAuth in a React Native client is not established by the mobile callback URL alone. The included helper currently does not open or complete the OAuth redirect; see the provider limitations.",
+    "id": 54
+  },
+  {
+    "kind": "heading",
+    "name": "React Native usage",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage#react-native-usage",
+    "content": "React Native usage Wrap the app in SessionProvider as shown in the installation guide. The helpers use the configured backend origin and store the mobile session token and CSRF token in AsyncStorage.Sign in with credentialsConnect email and password to your app’s form values. The server-side credentials provider is responsible for verification.screens/SignInButton.tsximport { signIn } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function SignInButton({ email, password, }: { email: string; password: string; }) { return ( <Pressable onPress={() => signIn({ baseUrl, provider: 'credentials', credentials: { email, password }, }) } > <Text>Sign in</Text> </Pressable> ); }CopySign outThe React Native helper requires the backend baseUrl and removes the stored session token and CSRF token.screens/SignOutButton.tsximport { signOut } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function SignOutButton() { return ( <Pressable onPress={() => signOut({ baseUrl })}> <Text>Sign out</Text> </Pressable> ); }CopyRead session statescreens/SessionStatus.tsximport { useSession } from '@fullauth/react-native'; import { Text } from 'react-native'; export default function SessionStatus() { const { session, status } = useSession(); return <Text>{session?.user?.email ?? status}</Text>; }CopyUpdate session dataUpdates are sent to the server and passed to callbacks.token. The application callback must validate and apply accepted values; the default callback does not merge arbitrary data.screens/RenameSession.tsximport { useSession } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; export default function RenameSession() { const { update } = useSession(); return ( <Pressable onPress={() => update({ name: 'New name' })}> <Text>Update session</Text> </Pressable> ); }CopySend authentication headersauthHeaders() returns the stored token and CSRF token. Forward them to a backend route that validates the session.screens/profile.tsimport { authHeaders } from '@fullauth/react-native'; export async function loadPrivateProfile() { const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; const response = await fetch( baseUrl + '/api/profile', { headers: await authHeaders() }, ); return response.json(); }CopyRead the session in a Next.js routeThe helper’s request overload reads the authentication headers in the current Next.js request context.app/api/profile/route.tsimport { getServerSession } from '@fullauth/next/helpers'; import { NextResponse } from 'next/server'; import { authOptions } from '../auth/[...fullauth]/route'; export async function GET(request: Request) { const session = await getServerSession(authOptions.secret!, request); if (!session?.user) { return NextResponse.json({ message: 'Unauthorized' }, { status: 401 }); } return NextResponse.json({ user: session.user }); }CopyUse with tRPCThis is a partial context example for an app that already uses tRPC. FullAuth does not include a tRPC adapter.server/context.tsimport type { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'; import { getServerSession } from '@fullauth/next/helpers'; import { authOptions } from '../api/auth/[...fullauth]/route'; export async function createContext(opts: FetchCreateContextFnOptions) { const session = await getServerSession(authOptions.secret!, opts.req); return { session }; } export type Context = Awaited<ReturnType<typeof createContext>>;CopyGoogle OAuth in a React Native client is not established by the mobile callback URL alone. The included helper currently does not open or complete the OAuth redirect; see the provider limitations.",
+    "id": 55
+  },
+  {
+    "kind": "heading",
+    "name": "Sign in with credentials",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage#signin",
+    "content": "Sign in with credentials Connect email and password to your app’s form values. The server-side credentials provider is responsible for verification.screens/SignInButton.tsximport { signIn } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function SignInButton({ email, password, }: { email: string; password: string; }) { return ( <Pressable onPress={() => signIn({ baseUrl, provider: 'credentials', credentials: { email, password }, }) } > <Text>Sign in</Text> </Pressable> ); }Copy",
+    "id": 56
+  },
+  {
+    "kind": "heading",
+    "name": "Sign out",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage#signout",
+    "content": "Sign out The React Native helper requires the backend baseUrl and removes the stored session token and CSRF token.screens/SignOutButton.tsximport { signOut } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; export default function SignOutButton() { return ( <Pressable onPress={() => signOut({ baseUrl })}> <Text>Sign out</Text> </Pressable> ); }Copy",
+    "id": 57
+  },
+  {
+    "kind": "heading",
+    "name": "Read session state",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage#usesession",
+    "content": "Read session state screens/SessionStatus.tsximport { useSession } from '@fullauth/react-native'; import { Text } from 'react-native'; export default function SessionStatus() { const { session, status } = useSession(); return <Text>{session?.user?.email ?? status}</Text>; }Copy",
+    "id": 58
+  },
+  {
+    "kind": "heading",
+    "name": "Update session data",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage#update",
+    "content": "Update session data Updates are sent to the server and passed to callbacks.token. The application callback must validate and apply accepted values; the default callback does not merge arbitrary data.screens/RenameSession.tsximport { useSession } from '@fullauth/react-native'; import { Pressable, Text } from 'react-native'; export default function RenameSession() { const { update } = useSession(); return ( <Pressable onPress={() => update({ name: 'New name' })}> <Text>Update session</Text> </Pressable> ); }Copy",
+    "id": 59
+  },
+  {
+    "kind": "heading",
+    "name": "Send authentication headers",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage#authheaders",
+    "content": "Send authentication headers authHeaders() returns the stored token and CSRF token. Forward them to a backend route that validates the session.screens/profile.tsimport { authHeaders } from '@fullauth/react-native'; export async function loadPrivateProfile() { const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!; const response = await fetch( baseUrl + '/api/profile', { headers: await authHeaders() }, ); return response.json(); }Copy",
+    "id": 60
+  },
+  {
+    "kind": "heading",
+    "name": "Read the session in a Next.js route",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage#fetch",
+    "content": "Read the session in a Next.js route The helper’s request overload reads the authentication headers in the current Next.js request context.app/api/profile/route.tsimport { getServerSession } from '@fullauth/next/helpers'; import { NextResponse } from 'next/server'; import { authOptions } from '../auth/[...fullauth]/route'; export async function GET(request: Request) { const session = await getServerSession(authOptions.secret!, request); if (!session?.user) { return NextResponse.json({ message: 'Unauthorized' }, { status: 401 }); } return NextResponse.json({ user: session.user }); }Copy",
+    "id": 61
+  },
+  {
+    "kind": "heading",
+    "name": "Use with tRPC",
+    "title": "React Native React Native usage",
+    "redirect": "/react-native/usage#trpc",
+    "content": "Use with tRPC This is a partial context example for an app that already uses tRPC. FullAuth does not include a tRPC adapter.server/context.tsimport type { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'; import { getServerSession } from '@fullauth/next/helpers'; import { authOptions } from '../api/auth/[...fullauth]/route'; export async function createContext(opts: FetchCreateContextFnOptions) { const session = await getServerSession(authOptions.secret!, opts.req); return { session }; } export type Context = Awaited<ReturnType<typeof createContext>>;CopyGoogle OAuth in a React Native client is not established by the mobile callback URL alone. The included helper currently does not open or complete the OAuth redirect; see the provider limitations.",
+    "id": 62
+  },
+  {
+    "kind": "page",
+    "name": "TypeScript types",
+    "title": "TypeScript types",
+    "redirect": "/typescript",
+    "content": "DOCUMENTATION / REFERENCE TypeScript types @fullauth/core exports the AuthOptions, JWT, Session, DefaultJWT, and DefaultSession types used by the framework packages. Add application-specific fields This example adds optional top-level fields without redeclaring the existing user properties. Put it in a declaration file included by your TypeScript project. types/fullauth.d.ts import '@fullauth/core'; declare module '@fullauth/core' { interface JWT { tenantId?: string; } interface Session { tenantId?: string; } } Copy Module augmentation changes compile-time types only. To populate a custom JWT field at runtime, return it from your configured token callback. The callback must validate user-supplied updates before adding values to a token.",
+    "id": 63
+  },
+  {
+    "kind": "heading",
+    "name": "TypeScript types",
+    "title": "TypeScript types",
+    "redirect": "/typescript#typescript-types",
+    "content": "TypeScript types @fullauth/core exports the AuthOptions, JWT, Session, DefaultJWT, and DefaultSession types used by the framework packages.Add application-specific fieldsThis example adds optional top-level fields without redeclaring the existing user properties. Put it in a declaration file included by your TypeScript project.types/fullauth.d.tsimport '@fullauth/core'; declare module '@fullauth/core' { interface JWT { tenantId?: string; } interface Session { tenantId?: string; } }CopyModule augmentation changes compile-time types only. To populate a custom JWT field at runtime, return it from your configured token callback. The callback must validate user-supplied updates before adding values to a token.",
+    "id": 64
+  },
+  {
+    "kind": "heading",
+    "name": "Add application-specific fields",
+    "title": "TypeScript types",
+    "redirect": "/typescript#augmentation",
+    "content": "Add application-specific fields This example adds optional top-level fields without redeclaring the existing user properties. Put it in a declaration file included by your TypeScript project.types/fullauth.d.tsimport '@fullauth/core'; declare module '@fullauth/core' { interface JWT { tenantId?: string; } interface Session { tenantId?: string; } }CopyModule augmentation changes compile-time types only. To populate a custom JWT field at runtime, return it from your configured token callback. The callback must validate user-supplied updates before adding values to a token.",
+    "id": 65
   }
 ]

@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@fullauth/react";
 import { getServerSession } from "@fullauth/next/helpers";
-import { authOptions } from "./api/auth/[...fullauth]/route";
+import { authOptions } from "../lib/auth-options";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +17,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // you need to pass the handler option to getSession to get the session on the server
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions.secret!);
   return (
     <html lang="en">
       <body className={inter.className}>

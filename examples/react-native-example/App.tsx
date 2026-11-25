@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   return (
-    <SessionProvider>
+    <SessionProvider baseUrl={process.env.EXPO_PUBLIC_FULLAUTH_URL}>
       <View
         style={{
           flex: 1,

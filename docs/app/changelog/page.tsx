@@ -1,96 +1,31 @@
-const ChangeLog = () => {
-  return (
-    <div className="flex h-full  gap-2 px-16 py-6  pb-40">
-      <div className="w-[calc(100%-16rem)] h-full flex flex-col justify-start items-start  gap-2 ">
-        <p className="w-full text-start font-bold text-4xl text-gray-300">
-          Changelog
-        </p>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v2.2.1
-          </p>
-          <p className=" h-8 ">- Fix: getServerSession issue.</p>
-        </div>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v2.2.0
-          </p>
-          <p className=" h-8 ">
-            - Fix: Fixed issues with NextJS {">="}15 Route Handler.
-          </p>
-        </div>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v2.0.0
-          </p>
-          <p className=" h-8 ">- Add: Support NextJS 15.</p>
-        </div>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v1.3.0
-          </p>
-          <p className=" h-8 ">- Add: New Error Objects across the packages.</p>
-        </div>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v1.2.1
-          </p>
-          <p>React:</p>
-          <p className=" h-8 ">
-            - Add: `baseUrl` is now a REQUIRED argument in Session Provider,
-            signIn and signOut functions (Set the fullauth backend url) .
-          </p>
-          <p>Next:</p>
-          <p className=" h-8 ">
-            - Fix: Bad export, now export correct getServerSession function. -
-            Fix: Set cookie sameSite to lax.
-          </p>
-        </div>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v1.1.2
-          </p>
-          <p>React Native:</p>
-          <p className=" h-8 ">
-            - Add: `baseUrl` is now a REQUIRED argument in Session Provider,
-            signIn and signOut functions (Set the fullauth backend url) .
-          </p>
-        </div>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v1.0.2
-          </p>
-          <p className=" h-8 ">
-            - Add: Optional `baseUrl` props to Session Provider in react native
-            package (Helps with setting the backend url) .
-          </p>
-          <p className=" h-8 ">
-            - Fix: Token callback `platform` prop now has correct types
-            (web/mobile)
-          </p>
-        </div>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v1.0.1
-          </p>
-          <p className=" h-8 ">
-            - Add: token callback now has platform prop (web/mobile).
-          </p>
-        </div>
-        <div className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10">
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            v1.0.0
-          </p>
-          <p className=" h-8 ">- Reworked internal functions.</p>
-          <p className=" h-8 ">- Add: Google Provider.</p>
-          <p className=" h-8 ">
-            - Fix: Session not getting refreshed after signin/out (web).
-          </p>
-          <p className=" h-8 ">- Add: Redirection after signing in.</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+import { pageMetadata } from '@/lib/metadata';
 
-export default ChangeLog;
+export const metadata = pageMetadata({
+  path: '/changelog',
+  title: 'Changelog',
+  description: 'Tag-backed FullAuth package changes and clearly separated unreleased website and documentation updates.',
+});
+
+const releases = [
+  ['v2.2.1', 'Fixed a getServerSession issue.'],
+  ['v2.2.0', 'Fixed Next.js 15 route-handler issues.'],
+  ['v2.1.1', 'Fixed Next.js 16 support.'],
+  ['v2.1.0', 'Added Next.js 16 support work.'],
+  ['v2.0.0', 'Added Next.js 15 support.'],
+  ['v1.2.1', 'Fixed package exports and set cookie SameSite to lax.'],
+  ['v1.2.0', 'Replaced jsonwebtoken with jose for Vercel Edge compatibility.'],
+  ['v1.1.2', 'Type fixes.'],
+  ['v1.1.1', 'Fixed types.'],
+  ['v1.1.0', 'Made baseUrl required in relevant React Native integration APIs.'],
+  ['v1.0.2', 'Fixed token-callback platform types and made React Native SessionProvider baseUrl optional.'],
+  ['v1.0.1', 'Added the platform property to the token callback.'],
+  ['v1.0.0', 'Reworked internal functions, added the Google provider, fixed web session refresh, and added post-sign-in redirection.'],
+] as const;
+
+export default function ChangelogPage() {
+  return <><p className="docs-breadcrumb">FULLAUTH / PROJECT</p><h1>Changelog</h1>
+    <section><h2>Unreleased · website and documentation</h2><ul><li>Refined syntax highlighting and corrected examples and capability descriptions.</li><li>Added page metadata, canonical URLs, social metadata, sitemap, robots configuration, and an Open Graph image.</li></ul><p>These site changes are not authentication-package releases.</p></section>
+    {releases.map(([version, summary]) => <section key={version}><h2>{version}</h2><p>{summary}</p></section>)}
+    <p>Package publication differs by package and is not implied by a repository tag. See the <a href="https://www.npmjs.com/org/fullauth">FullAuth npm packages</a> for current package releases.</p>
+  </>;
+}
