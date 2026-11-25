@@ -6,6 +6,7 @@ This file records changes supported by the repository's tagged history. A Git ta
 
 - Refined documentation syntax highlighting and corrected examples and capability descriptions.
 - Added page metadata, canonical URLs, social metadata, sitemap, robots configuration, and a generated Open Graph image.
+- Updated the documentation site's Next.js dependency to 16.4.6 in response to a critical direct dependency advisory; this is a website dependency update, not an authentication package release.
 
 ## v2.2.1
 

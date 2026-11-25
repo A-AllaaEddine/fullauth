@@ -24,7 +24,7 @@ const releases = [
 
 export default function ChangelogPage() {
   return <><p className="docs-breadcrumb">FULLAUTH / PROJECT</p><h1>Changelog</h1>
-    <section><h2>Unreleased · website and documentation</h2><ul><li>Refined syntax highlighting and corrected examples and capability descriptions.</li><li>Added page metadata, canonical URLs, social metadata, sitemap, robots configuration, and an Open Graph image.</li></ul><p>These site changes are not authentication-package releases.</p></section>
+    <section><h2>Unreleased · website and documentation</h2><ul><li>Refined syntax highlighting and corrected examples and capability descriptions.</li><li>Added page metadata, canonical URLs, social metadata, sitemap, robots configuration, and an Open Graph image.</li><li>Updated the documentation site&apos;s Next.js dependency to 16.4.6 in response to a direct dependency advisory. This is a website dependency update, not an authentication package release.</li></ul><p>These site changes are not authentication-package releases.</p></section>
     {releases.map(([version, summary]) => <section key={version}><h2>{version}</h2><p>{summary}</p></section>)}
     <p>Package publication differs by package and is not implied by a repository tag. See the <a href="https://www.npmjs.com/org/fullauth">FullAuth npm packages</a> for current package releases.</p>
   </>;
