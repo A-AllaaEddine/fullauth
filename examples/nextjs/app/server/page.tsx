@@ -1,13 +1,13 @@
 import { getServerSession } from "@fullauth/next/helpers";
-import { authOptions } from "../api/auth/[...fullauth]/route";
+import { authOptions } from "../../lib/auth-options";
 
 const Server = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions.secret!);
   return (
     <div>
       <div>
-        <p>user: {session?.user?.name}</p>
-        <p>status: {session?.user?.status}</p>
+        <p>user: {session?.user?.name ?? 'Signed out'}</p>
+        <p>status: {session?.user?.status ?? '—'}</p>
       </div>
     </div>
   );

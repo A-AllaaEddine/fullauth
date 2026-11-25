@@ -1,12 +1,15 @@
 import Link from 'next/link';
 import { TbBrandNextjs, TbBrandReactNative } from 'react-icons/tb';
+import { pageMetadata } from '@/lib/metadata';
+
+export const metadata = pageMetadata({ path: '/installation', title: 'Installation', description: 'Choose the FullAuth packages and setup guide for your Next.js or React Native application.' });
 
 const Installation = () => {
   return (
     <div className="flex h-full flex-col items-start justify-start gap-6 px-16 py-6">
-      <p className="w-full text-start font-bold text-4xl text-gray-300">
+      <h1 className="w-full text-start font-bold text-4xl text-gray-300">
         Installation
-      </p>
+      </h1>
       <p className="w-2/3 text-start">
         Below, you will find instructions on how to install FullAuth based on
         your development platform. Choose the platform that matches your

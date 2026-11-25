@@ -1,43 +1,16 @@
 import Link from 'next/link';
+import { pageMetadata } from '@/lib/metadata';
 
-const Examples = () => {
-  return (
-    <div className="flex h-full flex-col items-start justify-start gap-6 px-16 py-6">
-      <p className="w-full text-start font-bold text-4xl text-gray-300">
-        Examples
-      </p>
-      <p className="w-full text-start">
-        Explore our{' '}
-        <Link
-          href={'https://github.com/A-AllaaEddine/fullauth/tree/main/examples'}
-          target="_blank"
-          className="text-blue-500"
-        >
-          Examples
-        </Link>{' '}
-        section for detailed examples showcasing FullAuth integration into
-        different types of applications:
-      </p>
-      <div className="w-1/3 h-auto flex flex-col justify-start items-start gap-5 rounded-xl bg-[#1d1d1d] p-5">
-        <Link
-          href={
-            'https://github.com/A-AllaaEddine/fullauth/tree/main/examples/nextjs'
-          }
-          className="text-blue-500"
-        >
-          - Next.js Authentication Example.
-        </Link>
-        <Link
-          href={
-            'https://github.com/A-AllaaEddine/fullauth/tree/main/examples/nextjs'
-          }
-          className="text-blue-500"
-        >
-          - React Native Authentication Example.
-        </Link>
-      </div>
-    </div>
-  );
-};
+export const metadata = pageMetadata({
+  path: '/examples',
+  title: 'Examples',
+  description: 'Reference projects for FullAuth Next.js and React Native integrations, with source and dependency limitations noted.',
+});
 
-export default Examples;
+export default function ExamplesPage() {
+  return <><p className="docs-breadcrumb">FULLAUTH / LEARN</p><h1>Examples</h1>
+    <p>These repository examples are reference projects and may use older package versions. Check each project manifest and README against the current package APIs before integrating.</p>
+    <ul><li><Link href="https://github.com/A-AllaaEddine/fullauth/tree/main/examples/nextjs">Next.js example source</Link></li><li><Link href="https://github.com/A-AllaaEddine/fullauth/tree/main/examples/react-native-example">React Native example source</Link></li></ul>
+    <p>The examples have not been validated end-to-end as part of this documentation audit.</p>
+  </>;
+}

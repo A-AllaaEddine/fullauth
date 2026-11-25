@@ -1,145 +1,64 @@
 import Link from 'next/link';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import CodeExample from '@/components/CodeExample';
+import { pageMetadata } from '@/lib/metadata';
 
-const Google = () => {
-  return (
-    <div className="flex h-full  gap-2 px-16 py-6  pb-40">
-      <div className="w-[calc(100%-16rem)] h-full flex flex-col justify-start items-start  gap-3 ">
-        <p className="w-full text-start font-bold text-4xl text-gray-300">
-          Google Provider
-        </p>
-        <p className="w-full text-start">
-          In this section, you will find detailed instructions on how to use
-          Google Provider with FullAuth.
-        </p>
-        <div
-          id="route"
-          className="w-full h-auto scroll-m-20  flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            Follow google docs here:
-          </p>
-          <Link
-            href={'https://developers.google.com/identity/protocols/oauth2'}
-            className="text-blue-500"
-            target="_blank"
-          >
-            https://developers.google.com/identity/protocols/oauth2
-          </Link>
-          <p className="text-start text-lg text-gray-300 font-semibold mt-4">
-            Then add the following Authorized redirect URIs in your credentials
-            configuration:
-          </p>
-          <Link
-            href={'https://console.developers.google.com/apis/credentials'}
-            className="text-blue-500"
-            target="_blank"
-          >
-            https://console.developers.google.com/apis/credentials
-          </Link>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 mt-4 rounded-xl bg-[#1d1d1d]">
-            <p className="text-start text-lg text-gray-400 font-semibold">
-              http://your-domain/api/auth/callback/google
-            </p>
-            <p className="text-start text-lg text-gray-400 font-semibold">
-              http://your-domain/api/auth/callback/mobile/google
-            </p>
-          </div>
-        </div>
-        <div
-          id="route"
-          className="w-full h-auto scroll-m-20  flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            Route Handler:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/api/auth/[...fullauth]/route.ts
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { AuthOptions } from '@fullauth/core';
-import { NextHandler } from '@fullauth/next';
+export const metadata = pageMetadata({
+  path: '/providers/google',
+  title: 'Google OAuth provider',
+  description: 'Configure the built-in Google OAuth provider in FullAuth and review its callback paths and current verification limits.',
+});
+
+const configuration = String.raw`import type { AuthOptions } from '@fullauth/core';
 import { GoogleProvider } from '@fullauth/core/providers';
-
-export const authOptions: AuthOptions = {
-    providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        }),
-    ],
-    
-    // Rest of code
-};
-
-const handler = NextHandler(authOptions);
-export { handler as GET, handler as POST };`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="multiple"
-          className="w-full h-auto scroll-m-20  flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            Multiple Providers:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/api/auth/[...fullauth]/route.ts
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { AuthOptions } from '@fullauth/core';
 import { NextHandler } from '@fullauth/next';
-import { CredentialsProvider } from '@fullauth/core/providers';
 
 export const authOptions: AuthOptions = {
-    providers: [
-        GoogleProvider({
-            id: 'google-user',
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        }),
-        GoogleProvider({
-            id: 'google-admin',
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        }),
-    ],
-    
-    // Rest of code
+  secret: process.env.FULLAUTH_SECRET!,
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
 };
 
 const handler = NextHandler(authOptions);
-export { handler as GET, handler as POST };`}</SyntaxHighlighter>
-          </div>
-        </div>
-      </div>
-      <div className="w-56 fixed right-3  h-screen flex flex-col justify-start items-start gap-1 p-2 border-l-[1px] border-gray-600 ">
-        <Link
-          href={'/providers/google#route'}
-          className="p-2 hover:text-gray-300"
-        >
-          Route Handler
-        </Link>
-        <Link
-          href={'/providers/google#multiple'}
-          className="p-2 hover:text-gray-300"
-        >
-          Multiple Providers
-        </Link>
-      </div>
-    </div>
-  );
-};
+export { handler as GET, handler as POST };`;
 
-export default Google;
+export default function GoogleProviderPage() {
+  return (
+    <>
+      <p className="docs-breadcrumb">DOCUMENTATION / PROVIDERS</p>
+      <h1>Google OAuth provider</h1>
+      <p>The source includes a built-in <code>GoogleProvider</code> for the Next.js handler. It requests the <code>openid email profile</code> scopes, exchanges the callback code with Google, and reads the user profile from Google’s userinfo endpoint.</p>
+
+      <section id="configuration">
+        <h2>Configure the provider</h2>
+        <p>Create OAuth client credentials with Google and store the client secret and FullAuth secret on the server. Keep the public backend origin in <code>NEXT_PUBLIC_FULLAUTH_URL</code>; the provider appends its callback path to that origin.</p>
+        <CodeExample filename="app/api/auth/[...fullauth]/route.ts" language="typescript" code={configuration} />
+      </section>
+
+      <section id="redirects">
+        <h2>Register callback URLs</h2>
+        <p>Register the exact callback URL that matches your backend origin. The source builds these paths:</p>
+        <ul>
+          <li>Web: <code>{'${NEXT_PUBLIC_FULLAUTH_URL}/api/auth/callback/google'}</code></li>
+          <li>Mobile callback path in the provider source: <code>{'${NEXT_PUBLIC_FULLAUTH_URL}/api/auth/callback/mobile/google'}</code></li>
+        </ul>
+        <p>See Google’s <Link href="https://developers.google.com/identity/protocols/oauth2" target="_blank" rel="noreferrer">OAuth documentation</Link> and register the callback URL in the Google Cloud OAuth client configuration.</p>
+      </section>
+
+      <section id="limitations">
+        <h2>Verification limits</h2>
+        <ul>
+          <li>The repository contains a Google provider module; this audit did not run a live OAuth flow with registered Google credentials.</li>
+          <li>The React Native helper does not open or complete the OAuth redirect response returned by the server. The presence of a mobile callback path does not establish working Google sign-in in a React Native app.</li>
+          <li>In the current source, OAuth <code>state</code> carries the requested redirect URL and the callback decodes it. The callback does not compare it with a generated, stored one-time value. Have this flow reviewed before using Google sign-in with live users.</li>
+          <li>No built-in GitHub, Facebook, Apple, or Microsoft provider module is present. The generic provider types do not mean those integrations are included.</li>
+        </ul>
+      </section>
+
+      <p>Use the <Link href="/providers/credentials">credentials guide</Link> for the application-provided credentials verifier.</p>
+    </>
+  );
+}

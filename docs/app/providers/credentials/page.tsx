@@ -1,180 +1,77 @@
-import Link from 'next/link';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import CodeExample from '@/components/CodeExample';
+import { pageMetadata } from '@/lib/metadata';
 
-const Credentials = () => {
+export const metadata = pageMetadata({
+  path: '/providers/credentials',
+  title: 'Credentials provider',
+  description: 'Configure FullAuth credentials fields and connect sign-in to your application’s own user and password verification.',
+});
+
+const routeHandler = String.raw`import type { AuthOptions } from '@fullauth/core';
+import { CredentialsProvider } from '@fullauth/core/providers';
+import { NextHandler } from '@fullauth/next';
+import { verifyUser } from '@/lib/verify-user'; // App-defined, not a FullAuth export
+
+export const authOptions: AuthOptions = {
+  secret: process.env.FULLAUTH_SECRET!,
+  providers: [
+    CredentialsProvider({
+      credentials: {
+        email: { type: 'text' },
+        password: { type: 'password' },
+      },
+      async signIn(credentials) {
+        return verifyUser(credentials);
+      },
+    }),
+  ],
+};
+
+const handler = NextHandler(authOptions);
+export { handler as GET, handler as POST };`;
+
+const multipleProviders = String.raw`import { CredentialsProvider } from '@fullauth/core/providers';
+import { verifyMember, verifyAdmin } from '@/lib/verify-user'; // App-defined
+
+const providers = [
+  CredentialsProvider({
+    id: 'member',
+    credentials: {
+      email: { type: 'text' },
+      password: { type: 'password' },
+    },
+    signIn: verifyMember, // App-defined verifier
+  }),
+  CredentialsProvider({
+    id: 'admin',
+    credentials: {
+      email: { type: 'text' },
+      password: { type: 'password' },
+    },
+    signIn: verifyAdmin, // App-defined verifier
+  }),
+];`;
+
+export default function CredentialsProviderPage() {
   return (
-    <div className="flex h-full  gap-2 px-16 py-6  pb-40">
-      <div className="w-[calc(100%-16rem)] h-full flex flex-col justify-start items-start  gap-3 ">
-        <p className="w-full text-start font-bold text-4xl text-gray-300">
-          Credentials Provider
-        </p>
-        <p className="w-full text-start">
-          In this section, you will find detailed instructions on how to use
-          Credentials Provider with FullAuth.
-        </p>
-        <div
-          id="route"
-          className="w-full h-auto scroll-m-20  flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            Route Handler:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/api/auth/[...fullauth]/route.ts
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { AuthOptions } from '@fullauth/core';
-import { NextHandler } from '@fullauth/next';
-import { CredentialsProvider } from '@fullauth/core/providers';
+    <>
+      <p className="docs-breadcrumb">DOCUMENTATION / PROVIDERS</p>
+      <h1>Credentials provider</h1>
+      <p><code>CredentialsProvider</code> passes submitted fields to an application-provided <code>signIn</code> function. It does not ship a user store, password hashing, registration flow, or email/password policy.</p>
 
-export const authOptions: AuthOptions = {
-    providers: [
-        CredentialsProvider({
-            name: 'credentials',
-            credentials: {
-            email: { type: 'text', placeholder: 'Email' },
-            password: {
-                type: 'password',
-                placeholder: 'Password',
-            },
-            },
-            async signIn(credentials) {
-            try {
-                // you verification logic here
+      <section id="route">
+        <h2>Configure credentials verification</h2>
+        <p>This route example is intentionally partial: <code>verifyUser</code> is your application function. Implement it using your own user store and password-hash verification; return a user object for an accepted login or <code>null</code> for a rejected one.</p>
+        <CodeExample filename="app/api/auth/[...fullauth]/route.ts" language="typescript" code={routeHandler} />
+      </section>
 
-                // throw errors and catch them on the client side
-                //     throw new Error('No User');
+      <section id="multiple">
+        <h2>Configure distinct credential flows</h2>
+        <p>Provider IDs are used by the client’s <code>signIn</code> call. Keep each ID unique and implement each verifier in your application.</p>
+        <CodeExample filename="Provider entries in authOptions" language="typescript" code={multipleProviders} />
+      </section>
 
-                return {
-                email: credentials.email,
-                id: 'test1',
-                name: 'test',
-                };
-            } catch (error: any) {
-                console.log(error);
-                throw error;
-            }
-            },
-        }),
-    ],
-    
-    // Rest of code
-};
-
-const handler = NextHandler(authOptions);
-export { handler as GET, handler as POST };`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="multiple"
-          className="w-full h-auto scroll-m-20  flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            Multiple Providers:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/api/auth/[...fullauth]/route.ts
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { AuthOptions } from '@fullauth/core';
-import { NextHandler } from '@fullauth/next';
-import { CredentialsProvider } from '@fullauth/core/providers';
-
-export const authOptions: AuthOptions = {
-    providers: [
-        CredentialsProvider({
-            id: 'credentials-user',
-            name: 'credentials',
-            credentials: {
-              email: { type: 'text', placeholder: 'Email' },
-              password: {
-                type: 'password',
-                placeholder: 'Password',
-              },
-            },
-            async signIn(credentials) {
-              try {
-                // you verification logic here
-      
-                // throw errors and catch them on the client side
-                //     throw new Error('No User');
-      
-                return {
-                  email: credentials.email,
-                  id: 'test1',
-                  name: 'test',
-                };
-              } catch (error: any) {
-                console.log(error);
-                throw error;
-              }
-            },
-          }),
-          CredentialsProvider({
-            id: 'credentials-admin',
-            name: 'credentials',
-            credentials: {
-              email: { type: 'text', placeholder: 'Email' },
-              password: {
-                type: 'password',
-                placeholder: 'Password',
-              },
-            },
-            async signIn(credentials) {
-              try {
-                // you verification logic here
-      
-                // throw errors and catch them on the client side
-                //     throw new Error('No User');
-      
-                return {
-                  email: credentials.email,
-                  id: 'test1',
-                  name: 'test',
-                };
-              } catch (error: any) {
-                console.log(error);
-                throw error;
-              }
-            },
-          }),
-    ],
-    
-    // Rest of code
-};
-
-const handler = NextHandler(authOptions);
-export { handler as GET, handler as POST };`}</SyntaxHighlighter>
-          </div>
-        </div>
-      </div>
-      <div className="w-56 fixed right-3  h-screen flex flex-col justify-start items-start gap-1 p-2 border-l-[1px] border-gray-600 ">
-        <Link
-          href={'/providers/credentials#route'}
-          className="p-2 hover:text-gray-300"
-        >
-          Route Handler
-        </Link>
-        <Link
-          href={'/providers/credentials#multiple'}
-          className="p-2 hover:text-gray-300"
-        >
-          Multiple Providers
-        </Link>
-      </div>
-    </div>
+      <p>For the built-in Google OAuth module, see the <a href="/providers/google">Google provider guide</a>. No built-in GitHub, Facebook, Apple, or Microsoft provider is included in the current source.</p>
+    </>
   );
-};
-
-export default Credentials;
+}

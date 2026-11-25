@@ -12,7 +12,7 @@ export default function Home() {
       <div className="w-full h-full flex flex-col justify-center items-center my-4">
         <p className="text-white text-xl">user: {session?.user?.name ?? ''}</p>
         <p className="text-white text-xl">
-          status: {session?.user?.status ?? ''}
+          status: {session?.status ?? ''}
         </p>
       </div>
       <div className="w-auto h-auto flex flex-col justify-center items-center gap-5">
@@ -22,8 +22,8 @@ export default function Home() {
             try {
               await signIn('credentials', {
                 credentials: {
-                  email: 'test@test.com',
-                  password: 'test12345',
+                  email: 'replace-with-form-email',
+                  password: 'replace-with-form-password',
                 },
                 redirect: false,
               });
@@ -38,9 +38,8 @@ export default function Home() {
         <button
           className="bg-red-500 w-auth h-10 rounded-lg p-2 font-bold"
           onClick={async () => {
-            await update({
-              name: 'lazydev',
-            });
+            // Only send fields validated and permitted by your application.
+            await update({ name: 'replace-with-validated-name' });
           }}
         >
           Update

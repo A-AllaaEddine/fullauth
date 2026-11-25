@@ -1,173 +1,34 @@
 'use client';
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import LogoMark from '@/components/LogoMark';
 
-const SideTab = () => {
-  const path = usePathname();
+const groups = [
+  { label: 'START HERE', links: [['Introduction', '/introduction'], ['Installation', '/installation']] },
+  { label: 'INTEGRATIONS', links: [['Next.js setup', '/next/installation'], ['Next.js usage', '/next/usage'], ['React Native setup', '/react-native/installation'], ['React Native usage', '/react-native/usage']] },
+  { label: 'PROVIDERS', links: [['Credentials', '/providers/credentials'], ['Google', '/providers/google']] },
+  { label: 'REFERENCE', links: [['Examples', '/examples'], ['TypeScript', '/typescript'], ['Changelog', '/changelog']] },
+];
 
-  return (
-    <div
-      className="w-60 fixed left-0 top-14   h-screen border-r-[1px] border-gray-600 flex flex-col justify-start items-center gap-1 p-4 
-  "
-    >
-      <Accordion
-        className="w-full"
-        defaultValue={
-          path === '/introduction' || '/quickstart' || '/installation'
-            ? 'item-1'
-            : undefined
-        }
-        type="single"
-        collapsible
-      >
-        <AccordionItem className="w-full " value="item-1">
-          <AccordionTrigger className="w-full h-14 p-3 hover:bg-[#1d1d1d] hover:text-white  rounded-lg">
-            Getting Started
-          </AccordionTrigger>
-          <AccordionContent
-            className={`w-full h-14 flex justify-center items-center p-4 my-1 gap-2 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  
-            ${path === '/introduction' ? 'bg-[#1d1d1d] text-white' : ''} `}
-          >
-            <Link href={'/introduction'} className={`w-full h-full`}>
-              Introduction
-            </Link>
-          </AccordionContent>
-          <AccordionContent
-            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
-              path === '/installation' ? 'bg-[#1d1d1d] text-white' : ''
-            }`}
-          >
-            <Link href={'/installation'} className="w-full h-full">
-              Installation
-            </Link>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      <Accordion
-        className="w-full"
-        defaultValue={path.includes('next') ? 'item-2' : undefined}
-        type="single"
-        collapsible
-      >
-        <AccordionItem className="w-full " value="item-2">
-          <AccordionTrigger className="w-full h-14 p-3 hover:bg-[#1d1d1d] hover:text-white  rounded-lg">
-            Next.js
-          </AccordionTrigger>
-          <AccordionContent
-            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
-              path === '/next/installation' ? 'bg-[#1d1d1d] text-white' : ''
-            }`}
-          >
-            <Link href={'/next/installation'} className="w-full h-full">
-              Installation
-            </Link>
-          </AccordionContent>
-          <AccordionContent
-            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
-              path === '/next/usage' ? 'bg-[#1d1d1d] text-white' : ''
-            }`}
-          >
-            <Link href={'/next/usage'} className="w-full h-full">
-              Usage
-            </Link>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      <Accordion
-        className="w-full"
-        defaultValue={path.includes('/react-native') ? 'item-3' : undefined}
-        type="single"
-        collapsible
-      >
-        <AccordionItem className="w-full " value="item-3">
-          <AccordionTrigger className="w-full h-14 p-3 hover:bg-[#1d1d1d] hover:text-white  rounded-lg">
-            React Native
-          </AccordionTrigger>
-          <AccordionContent
-            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
-              path === '/react-native/installation'
-                ? 'bg-[#1d1d1d] text-white'
-                : ''
-            }`}
-          >
-            <Link href={'/react-native/installation'} className="w-full h-full">
-              Installation
-            </Link>
-          </AccordionContent>
-          <AccordionContent
-            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
-              path === '/react-native/usage' ? 'bg-[#1d1d1d] text-white' : ''
-            }`}
-          >
-            <Link href={'/react-native/usage'} className="w-full h-full">
-              Usage
-            </Link>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>{' '}
-      <Accordion
-        className="w-full"
-        defaultValue={path.includes('/react-native') ? 'item-3' : undefined}
-        type="single"
-        collapsible
-      >
-        <AccordionItem className="w-full " value="item-3">
-          <AccordionTrigger className="w-full h-14 p-3 hover:bg-[#1d1d1d] hover:text-white  rounded-lg">
-            Auth Providers
-          </AccordionTrigger>
-          <AccordionContent
-            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
-              path === '/providers/credentials' ? 'bg-[#1d1d1d] text-white' : ''
-            }`}
-          >
-            <Link href={'/providers/credentials'} className="w-full h-full">
-              Credentials
-            </Link>
-          </AccordionContent>
-          <AccordionContent
-            className={`w-full h-14 flex justify-center items-center my-1 p-4 hover:bg-[#1d1d1d] hover:text-white  rounded-lg  ${
-              path === '/providers/google' ? 'bg-[#1d1d1d] text-white' : ''
-            }`}
-          >
-            <Link href={'/providers/google'} className="w-full h-full">
-              Google
-            </Link>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      <Link
-        href={'/examples'}
-        className={`w-full h-12 text-start font-semibold p-3 flex justify-start items-center hover:bg-[#1d1d1d] hover:text-white  rounded-lg 
-          ${path === '/examples' ? 'bg-[#1d1d1d] text-white' : ''}
-          `}
-      >
-        Examples
-      </Link>
-      <Link
-        href={'/typescript'}
-        className={`w-full h-12 text-start font-semibold p-3 flex justify-start items-center hover:bg-[#1d1d1d] hover:text-white  rounded-lg 
-          ${path === '/typescript' ? 'bg-[#1d1d1d] text-white' : ''}
-          `}
-      >
-        Typescript
-      </Link>
-      <Link
-        href={'/changelog'}
-        className={`w-full h-12 text-start font-semibold p-3 flex justify-start items-center hover:bg-[#1d1d1d] hover:text-white  rounded-lg 
-          ${path === '/typescript' ? 'bg-[#1d1d1d] text-white' : ''}
-          `}
-      >
-        Changelog
-      </Link>
-    </div>
-  );
-};
-
-export default SideTab;
+export default function SideTab() {
+ const path = usePathname();
+ const [open, setOpen] = useState(false);
+ const trigger = useRef<HTMLButtonElement>(null);
+ const navigation = useRef<HTMLElement>(null);
+ useEffect(() => {
+   if (open) navigation.current?.querySelector<HTMLAnchorElement>('a')?.focus();
+ }, [open]);
+ useEffect(() => {
+   const onKeyDown = (event: KeyboardEvent) => {
+     if (event.key === 'Escape' && open) {
+       setOpen(false);
+       trigger.current?.focus();
+     }
+   };
+   window.addEventListener('keydown', onKeyDown);
+   return () => window.removeEventListener('keydown', onKeyDown);
+ }, [open]);
+ return <><button ref={trigger} className="mobile-menu" aria-expanded={open} aria-controls="docs-navigation" onClick={()=>setOpen(!open)}>{open?'Close':'Menu'}</button>{open&&<button className="nav-backdrop" aria-label="Close navigation" onClick={()=>setOpen(false)}/>}<aside ref={navigation} id="docs-navigation" className={`docs-side ${open?'mobile-open':''}`} aria-label="Documentation navigation"><Link href="/" className="docs-side-brand" onClick={()=>setOpen(false)}><LogoMark className="brand-symbol"/><span>fullauth</span></Link>{groups.map(group=><details key={group.label} className="docs-nav-group" open><summary>{group.label}</summary>{group.links.map(([name,href])=><Link key={href} href={href} className={path===href?'active':''} aria-current={path===href?'page':undefined} onClick={()=>setOpen(false)}>{name}</Link>)}</details>)}</aside></>;
+}

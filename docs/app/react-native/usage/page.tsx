@@ -1,393 +1,157 @@
-import Link from 'next/link';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-const Usage = () => {
+import CodeExample from '@/components/CodeExample';
+import { pageMetadata } from '@/lib/metadata';
+
+export const metadata = pageMetadata({
+  path: '/react-native/usage',
+  title: 'React Native usage',
+  description: 'Use FullAuth credential sign-in, sign-out, session state, updates, and authentication headers in a React Native app.',
+});
+
+const signIn = String.raw`import { signIn } from '@fullauth/react-native';
+import { Pressable, Text } from 'react-native';
+
+const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!;
+
+export default function SignInButton({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   return (
-    <div className="flex h-full  gap-2 px-16 py-6  pb-40">
-      <div className="w-[calc(100%-16rem)] h-full flex flex-col justify-start items-start  gap-2 ">
-        <p className="w-full text-start font-bold text-4xl text-gray-300">
-          Usage
-        </p>
-        <p className="w-full text-start">
-          In this section, you will find detailed instructions on how to
-          integrate FullAuth into your React Native App. Follow the steps below
-          to set up authentication, manage user sessions, and utilize the key
-          features of FullAuth.
-        </p>
-        <div
-          id="signin"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            signIn:
-          </p>
-          <p>
-            use <span className="text-gray-300">signIn()</span> method to create
-            a session for the user:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              screen.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { signIn } from '@fullauth/react-native';
-
-export default function Screen() {
-  return (
-      <View>
-          <Pressable
-          onPress={async () =>
-              await signIn({
-                baseUrl: "your-backend-url",
-                provider: 'credentials',
-                credentials: {
-                  email: 'test@test.com',
-                  password: 'test12345',
-                },
-              })
-          }
-          >
-          <Text>Sign In</Text>
-          </Pressable>
-      </View>
-  );
-}`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="signout"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-5 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            signOut:
-          </p>
-          <p>
-            use <span className="text-gray-300">signOut()</span> method to
-            delete the session:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              screen.tsx
-            </p>
-            <SyntaxHighlighter
-              language="typescript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { signOut } from '@fullauth/react-native';
-
-export default function Screen() {
-    return (
-        <View>
-            <Pressable
-            onPress={async () => await signOut({ baseUrl: "your-backend-url"})}
-            >
-            <Text>Sign Out</Text>
-            </Pressable>
-        </View>
-    );
-}`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="usesession"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-5 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            useSession:
-          </p>
-          <p>
-            To access the session object in a component, you can use{' '}
-            <span className="text-gray-300">useSession()</span> hook:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              screen.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { useSession } from '@fullauth/react-native';
-
-export default function Screen() {
-  const {  session } = useSession();
-  console.log('session: ', session);
-
-  return (
- /// your page code here
-  );
-}`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="update"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-5 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            update:
-          </p>
-          <p>
-            use <span className="text-gray-300">udpate()</span> method to update
-            the session:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              screen.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { singOut } from '@fullauth/react';
-
-export default function Screen() {
-  return (
-    <View>
-        <Pressable
-        onPress={async () =>
-            await update({
-                name: 'lazydev',
-            })
-        }
-        >
-            <Text>Update</Text>
-        </Pressable>
-    </View>
-  );
-}`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="authheaders"
-          className="w-auto h-auto scroll-m-20 flex flex-col justify-start items-start gap-5 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            authHeaders:
-          </p>
-          <p>
-            To verify user idendity on the backend, we must add the{' '}
-            <span className="text-gray-300">authHeaders</span> give us access to
-            the session object on the backend when calling{' '}
-            <span className="text-gray-300">getSession()</span> :
-          </p>
-          <p
-            id="fetch"
-            className="text-start scroll-m-20 text-lg text-gray-300 font-semibold"
-          >
-            fetch:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              screen.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >
-              {`import { authHeaders } from '@fullauth/react-native';
-
-await fetch(\`${'${process.env.EXPO_PUBLIC_FULLAUTH_URL}'}/your/api/route\`, {
-method: 'POST',
-headers: {
-   ...(await authHeaders()),
-},
-body: JSON.stringify(data)
-})`}
-            </SyntaxHighlighter>
-          </div>
-          <p
-            id="trpc"
-            className="text-start scroll-m-20 text-lg text-gray-300 font-semibold"
-          >
-            trpc:
-          </p>
-          <p>
-            If you are using trpc, you can add{' '}
-            <span className="text-gray-300">authHeaders</span> to trpcClient in
-            your TrpcProvider as below:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              TrpcProvder.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >
-              {`import { authHeaders } from '@fullauth/react-native';
-
-export default function TrpcProvider({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
-    const [queryClient] = useState(() => new QueryClient({}));
-    const [trpcClient] = useState(() =>
-      trpc.createClient({
-        transformer: superjson,
-        links: [
-          httpBatchLink({
-            url: \`your-server-url/api/trpc\`,
-            headers: {
-                ...authHeaders,
-            },
-          }),
-        ],
-      })
-    );
-    return (
-      <trpc.Provider client={trpcClient} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-      </trpc.Provider>
-    );
-  }`}
-            </SyntaxHighlighter>
-          </div>
-
-          <p>
-            Then in you backend, make sure to add the request object to{' '}
-            <span className="text-gray-300">getSession()</span> method to access
-            those headers:
-          </p>
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            Next Route Handler:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              route.ts
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >
-              {`import { getSession } from '@fullauth/next/helpers';
-
-const handler = async (req: Request) => {
-    try {
-      const session = await getSession(req, authOptions);
-      if (!session.user) {
-        return NextResponse.json({ ok: false, message: 'Unauthorised' });
+    <Pressable
+      onPress={() =>
+        signIn({
+          baseUrl,
+          provider: 'credentials',
+          credentials: { email, password },
+        })
       }
-  
-      // you code here
-
-      return NextResponse.json({ ok: true, imgData: imgData.data });
-    } catch (error: any) {
-      return NextResponse.json({ ok: false, message: error.message });
-    }
-  };
-  
-export { handler as POST };`}
-            </SyntaxHighlighter>
-          </div>
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            Trpc Context:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              context.ts
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >
-              {`import { getSession } from '@fullauth/next/helpers';
-import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
-
-export const createContext = async (opts: FetchCreateContextFnOptions) => {
-    const session = await getSession(opts?.req, authOptions);
-    return {
-      session,
-    };
-  };
-  
-export type Context = inferAsyncReturnType<typeof createContext>;`}
-            </SyntaxHighlighter>
-          </div>
-        </div>
-        <p className="w-full text-start font-bold text-2xl text-gray-300 mt-20">
-          Usefull Links
-        </p>
-        <div className="w-full h-auto flex flex-col justify-start items-start gap-5 rounded-xl bg-[#1d1d1d] p-5">
-          <Link
-            href={'https://trpc.io/docs/server/context'}
-            className="text-blue-500"
-          >
-            - Trpc Context.
-          </Link>
-          <Link
-            href={
-              'https://nextjs.org/docs/app/building-your-application/routing/route-handlers'
-            }
-            className="text-blue-500"
-          >
-            - Next.js Route Handler.
-          </Link>
-        </div>
-      </div>
-      <div className="w-64 fixed right-3  h-screen flex flex-col justify-start items-start gap-1 p-2 border-l-[1px] border-gray-600 ">
-        <Link
-          href={'/react-native/usage#signin'}
-          className="p-2 hover:text-gray-300"
-        >
-          signIn()
-        </Link>
-        <Link
-          href={'/react-native/usage#signout'}
-          className="p-2 hover:text-gray-300"
-        >
-          signOut()
-        </Link>
-        <Link
-          href={'/react-native/usage#usesession'}
-          className="p-2 hover:text-gray-300"
-        >
-          useSession()
-        </Link>
-        <Link
-          href={'/react-native/usage#update'}
-          className="p-2 hover:text-gray-300"
-        >
-          update()
-        </Link>
-        <Link
-          href={'/react-native/usage#authheaders'}
-          className="p-2 hover:text-gray-300"
-        >
-          authHeaders
-        </Link>
-        <div className="w-full h-auto flex flex-col justify-start items-start gap-2 px-3">
-          <Link
-            href={'/react-native/usage#fetch'}
-            className="p-2 text-sm hover:text-gray-300"
-          >
-            fetch
-          </Link>
-          <Link
-            href={'/react-native/usage#trpc'}
-            className="p-2 text-sm hover:text-gray-300"
-          >
-            trpc
-          </Link>
-        </div>
-      </div>
-    </div>
+    >
+      <Text>Sign in</Text>
+    </Pressable>
   );
-};
+}`;
 
-export default Usage;
+const signOut = String.raw`import { signOut } from '@fullauth/react-native';
+import { Pressable, Text } from 'react-native';
+
+const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!;
+
+export default function SignOutButton() {
+  return (
+    <Pressable onPress={() => signOut({ baseUrl })}>
+      <Text>Sign out</Text>
+    </Pressable>
+  );
+}`;
+
+const useSession = String.raw`import { useSession } from '@fullauth/react-native';
+import { Text } from 'react-native';
+
+export default function SessionStatus() {
+  const { session, status } = useSession();
+
+  return <Text>{session?.user?.email ?? status}</Text>;
+}`;
+
+const update = String.raw`import { useSession } from '@fullauth/react-native';
+import { Pressable, Text } from 'react-native';
+
+export default function RenameSession() {
+  const { update } = useSession();
+
+  return (
+    <Pressable onPress={() => update({ name: 'New name' })}>
+      <Text>Update session</Text>
+    </Pressable>
+  );
+}`;
+
+const authHeaders = String.raw`import { authHeaders } from '@fullauth/react-native';
+
+export async function loadPrivateProfile() {
+  const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!;
+  const response = await fetch(
+    baseUrl + '/api/profile',
+    { headers: await authHeaders() },
+  );
+  return response.json();
+}`;
+
+const apiRoute = String.raw`import { getServerSession } from '@fullauth/next/helpers';
+import { NextResponse } from 'next/server';
+import { authOptions } from '../auth/[...fullauth]/route';
+
+export async function GET(request: Request) {
+  const session = await getServerSession(authOptions.secret!, request);
+  if (!session?.user) {
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+  }
+  return NextResponse.json({ user: session.user });
+}`;
+
+const trpcContext = String.raw`import type { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
+import { getServerSession } from '@fullauth/next/helpers';
+import { authOptions } from '../api/auth/[...fullauth]/route';
+
+export async function createContext(opts: FetchCreateContextFnOptions) {
+  const session = await getServerSession(authOptions.secret!, opts.req);
+  return { session };
+}
+
+export type Context = Awaited<ReturnType<typeof createContext>>;`;
+
+export default function ReactNativeUsage() {
+  return (
+    <>
+      <p className="docs-breadcrumb">DOCUMENTATION / REACT NATIVE</p>
+      <h1>React Native usage</h1>
+      <p>Wrap the app in <code>SessionProvider</code> as shown in the installation guide. The helpers use the configured backend origin and store the mobile session token and CSRF token in AsyncStorage.</p>
+
+      <section id="signin">
+        <h2>Sign in with credentials</h2>
+        <p>Connect <code>email</code> and <code>password</code> to your app’s form values. The server-side credentials provider is responsible for verification.</p>
+        <CodeExample filename="screens/SignInButton.tsx" language="tsx" code={signIn} />
+      </section>
+
+      <section id="signout">
+        <h2>Sign out</h2>
+        <p>The React Native helper requires the backend <code>baseUrl</code> and removes the stored session token and CSRF token.</p>
+        <CodeExample filename="screens/SignOutButton.tsx" language="tsx" code={signOut} />
+      </section>
+
+      <section id="usesession">
+        <h2>Read session state</h2>
+        <CodeExample filename="screens/SessionStatus.tsx" language="tsx" code={useSession} />
+      </section>
+
+      <section id="update">
+        <h2>Update session data</h2>
+        <p>Updates are sent to the server and passed to <code>callbacks.token</code>. The application callback must validate and apply accepted values; the default callback does not merge arbitrary data.</p>
+        <CodeExample filename="screens/RenameSession.tsx" language="tsx" code={update} />
+      </section>
+
+      <section id="authheaders">
+        <h2>Send authentication headers</h2>
+        <p><code>authHeaders()</code> returns the stored token and CSRF token. Forward them to a backend route that validates the session.</p>
+        <CodeExample filename="screens/profile.ts" language="typescript" code={authHeaders} />
+      </section>
+
+      <section id="fetch">
+        <h2>Read the session in a Next.js route</h2>
+        <p>The helper’s request overload reads the authentication headers in the current Next.js request context.</p>
+        <CodeExample filename="app/api/profile/route.ts" language="typescript" code={apiRoute} />
+      </section>
+
+      <section id="trpc">
+        <h2>Use with tRPC</h2>
+        <p>This is a partial context example for an app that already uses tRPC. FullAuth does not include a tRPC adapter.</p>
+        <CodeExample filename="server/context.ts" language="typescript" code={trpcContext} />
+      </section>
+
+      <p>Google OAuth in a React Native client is not established by the mobile callback URL alone. The included helper currently does not open or complete the OAuth redirect; see the <a href="/providers/google">provider limitations</a>.</p>
+    </>
+  );
+}

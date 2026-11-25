@@ -1,267 +1,119 @@
-import Link from 'next/link';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import CodeExample from '@/components/CodeExample';
+import { pageMetadata } from '@/lib/metadata';
 
-const Usage = () => {
-  return (
-    <div className="flex h-full  gap-2 px-16 py-6  pb-40">
-      <div className="w-[calc(100%-16rem)] h-full flex flex-col justify-start items-start  gap-3 ">
-        <p className="w-full text-start font-bold text-4xl text-gray-300">
-          Usage
-        </p>
-        <p className="w-full text-start">
-          In this section, you will find detailed instructions on how to
-          integrate FullAuth into your Next.js App. Follow the steps below to
-          set up authentication, manage user sessions, and utilize the key
-          features of FullAuth.
-        </p>
-        <div
-          id="signin"
-          className="w-full h-auto scroll-m-20  flex flex-col justify-start items-start gap-3 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            signIn:
-          </p>
-          <p>
-            use <span className="text-gray-300">signIn()</span> method to create
-            a session for the user: (client side only)
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/page.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`'use client';
+export const metadata = pageMetadata({
+  path: '/next/usage',
+  title: 'Next.js usage',
+  description: 'Use FullAuth sign-in, sign-out, session hooks, update callbacks, and the Next.js server session helper.',
+});
+
+const signIn = String.raw`'use client';
 
 import { signIn } from '@fullauth/react';
 
-export default function Home() {
-    return (
-        <div>
-            <button
-            onClick={async () =>
-                await signIn('credentials', {
-                  credentials: {
-                    email: data.email,
-                    password: data.password,
-                  },
-                  // enable redirection after signining (default to true)
-                  redirect: true,
-                  // the url to redirect to after signing in
-                  redirectUrl: \`${'${process.env.NEXT_PUBLIC_BASEURL}'}/\`
-                })
-            }
-            ></button>
-        </div>
-    );
-}`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="singout"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-5 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            signOut:
-          </p>
-          <p>
-            use <span className="text-gray-300">signOut()</span> method to
-            delete the session: (client side only)
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/page.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`'use client';
+export default function SignInButton({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
+  return (
+    <button
+      onClick={() =>
+        signIn('credentials', { credentials: { email, password } })
+      }
+    >
+      Sign in
+    </button>
+  );
+}`;
 
-import { singOut } from '@fullauth/react';
+const signOut = String.raw`'use client';
 
-export default function Home() {
-    return (
-        <div>
-          <button onClick={async () => await signOut()}></button>
-        </div>
-    );
-}`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="usesession"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-5 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            useSession:
-          </p>
-          <p>
-            To access the session object in a client component, you can use{' '}
-            <span className="text-gray-300">useSession()</span> hook:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/page.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`'use client';
+import { signOut } from '@fullauth/react';
+
+export default function SignOutButton() {
+  return <button onClick={() => signOut()}>Sign out</button>;
+}`;
+
+const useSession = String.raw`'use client';
 
 import { useSession } from '@fullauth/react';
 
-export default function Home() {
-    const {  session } = useSession();
-    console.log('session: ', session);
+export default function SessionStatus() {
+  const { session, status } = useSession();
+  const label = session?.user?.email ?? status;
 
-    return (
-   /// your page code here
-    );
-}`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="update"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-5 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            update:
-          </p>
-          <p>
-            use <span className="text-gray-300">udpate()</span> method to update
-            the session: (client side only)
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/page.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`'use client';
+  return <p>{label}</p>;
+}`;
 
-import { singOut } from '@fullauth/react';
+const update = String.raw`'use client';
 
-export default function Home() {
-    return (
-        <div>
-          <button
-            onClick={async () =>
-              await update({
-                name: 'lazydev',
-              })
-            }
-          ></button>
-        </div>
-    );
-}`}</SyntaxHighlighter>
-          </div>
-        </div>
-        <div
-          id="getsession"
-          className="w-full h-auto scroll-m-20 flex flex-col justify-start items-start gap-5 mt-10"
-        >
-          <p className="text-start text-lg text-gray-300 font-semibold">
-            getSession:
-          </p>
-          <p>
-            To access the session object in a server component (server-side),
-            you can use <span className="text-gray-300">geetSession()</span>{' '}
-            method:
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/page.tsx
-            </p>
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >{`import { getSession } from '@fullauth/next/helpers';
+import { useSession } from '@fullauth/react';
+
+export default function RenameSession() {
+  const { update } = useSession();
+
+  return (
+    <button onClick={() => update({ name: 'New name' })}>
+      Update session
+    </button>
+  );
+}`;
+
+const getServerSession = String.raw`import { getServerSession } from '@fullauth/next/helpers';
 import { authOptions } from '../api/auth/[...fullauth]/route';
 
-const Server = () => {
-  const session = getSession(authOptions);
-  return (
-    <div>
-      <div>
-        <p>user: {session?.user?.name}</p>
-      </div>
-    </div>
-  );
-};
+export default async function AccountPage() {
+  const session = await getServerSession(authOptions.secret!);
+  return <p>{session?.user?.email ?? 'Signed out'}</p>;
+}`;
 
-export default Server;`}</SyntaxHighlighter>
-          </div>
-          <p>
-            <span className="text-gray-300">getSession()</span> has two
-            overeloads:{' '}
-          </p>
-          <div className="w-full h-auto flex flex-col justify-start items-start gap-3 p-3 rounded-xl bg-[#1d1d1d]">
-            <p className="w-full h-8 text-start border-b-[1px] border-gray-500">
-              app/page.tsx
-            </p>
+const overloads = String.raw`import type { Session } from '@fullauth/core';
+import type { NextRequest } from 'next/server';
 
-            <SyntaxHighlighter
-              language="javascript"
-              // customStyle={{ backgroundColor: '#1d1d1d', color: '#fff' }}
-              style={atomDark}
-              customStyle={{ width: '100%', backgroundColor: '#1d1d1d' }}
-            >
-              {`function getServerSession(options: AuthOptions): Promise<Session | null>;
-
-function getServerSession(
+declare function getServerSession(secret: string): Promise<Session | null>;
+declare function getServerSession(
+  secret: string,
   req: Request | NextRequest,
-  options: AuthOptions
-): Promise<Session | null>;`}
-            </SyntaxHighlighter>
-          </div>
-          <p>
-            The first overload of getSession (passing the AuthOptions only) is
-            the default implementation when you only have web apps, while the
-            second overload is particularly useful when FullAuth needs to
-            extract authentication-related information from the request object
-            (ex: headers). Especially when you have a react native app using the
-            same backend.
-          </p>
-        </div>
-      </div>
-      <div className="w-56 fixed right-3  h-screen flex flex-col justify-start items-start gap-1 p-2 border-l-[1px] border-gray-600 ">
-        <Link href={'/next/usage#signIn'} className="p-2 hover:text-gray-300">
-          signIn()
-        </Link>
-        <Link href={'/next/usage#singout'} className="p-2 hover:text-gray-300">
-          signOutt()
-        </Link>
-        <Link
-          href={'/next/usage#usesesion'}
-          className="p-2 hover:text-gray-300"
-        >
-          useSession()
-        </Link>
-        <Link href={'/next/usage#update'} className="p-2 hover:text-gray-300">
-          update()
-        </Link>
-        <Link
-          href={'/next/usage#getsession'}
-          className="p-2 hover:text-gray-300"
-        >
-          getSession()
-        </Link>
-      </div>
-    </div>
-  );
-};
+): Promise<Session | null>;`;
 
-export default Usage;
+export default function NextUsage() {
+  return (
+    <>
+      <p className="docs-breadcrumb">DOCUMENTATION / NEXT.JS</p>
+      <h1>Next.js usage</h1>
+      <p>The React helpers are client-side APIs. Wrap the app in the <code>SessionProvider</code> shown in the <a href="/next/installation">installation guide</a> before calling <code>useSession</code>.</p>
+
+      <section id="signin">
+        <h2>Sign in with credentials</h2>
+        <p>The example receives form values as props. Connect those props to your own form; credentials verification runs in the application callback configured on the server.</p>
+        <CodeExample filename="app/components/SignInButton.tsx" language="tsx" code={signIn} />
+      </section>
+
+      <section id="signout">
+        <h2>Sign out</h2>
+        <CodeExample filename="app/components/SignOutButton.tsx" language="tsx" code={signOut} />
+      </section>
+
+      <section id="usesession">
+        <h2>Read the client session</h2>
+        <CodeExample filename="app/components/SessionStatus.tsx" language="tsx" code={useSession} />
+      </section>
+
+      <section id="update">
+        <h2>Update session data</h2>
+        <p><code>update(data)</code> sends the data to the server. The application’s <code>callbacks.token</code> callback receives it in <code>updates</code>; validate and merge only the fields your app intends to accept. The default callback does not merge arbitrary update data into the token.</p>
+        <CodeExample filename="app/components/RenameSession.tsx" language="tsx" code={update} />
+      </section>
+
+      <section id="getsession">
+        <h2>Read a session on the server</h2>
+        <p><code>getServerSession</code> accepts the configured secret and returns a session or <code>null</code>. It can also be called with a request in the helper’s overload.</p>
+        <CodeExample filename="app/account/page.tsx" language="tsx" code={getServerSession} />
+        <CodeExample filename="TypeScript signatures" language="typescript" code={overloads} />
+      </section>
+    </>
+  );
+}

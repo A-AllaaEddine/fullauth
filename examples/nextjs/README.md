@@ -1,36 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FullAuth Next.js example
 
-## Getting Started
+This is a reference scaffold, not a ready-to-run authentication service. Its `package.json` points to local FullAuth `2.2.0` tarballs that are present in this repository. Those dependencies predate the current `2.2.1` package version. The app compiled with Next.js 15.5.6, but its build typecheck fails because the archived Next helper expects an `AuthOptions` argument while the current repository source accepts the secret string. The example source follows the current repository implementation; do not mix it with the older archive API.
 
-First, run the development server:
+Before using it:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Replace the placeholder credential callback with verification against your own user store and password-hash scheme. The example does not provide user storage or password verification.
+- Set `FULLAUTH_SECRET` on the server and `NEXT_PUBLIC_FULLAUTH_URL` to the backend origin used by browser helpers.
+- Review the token callback before allowing session updates. Only copy fields that the application has validated and intends to permit.
+- Do not use this project as a production security template.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`getServerSession` takes the secret string, so server examples pass `authOptions.secret`. No middleware integration is shown: the helper uses `next/headers`, and middleware compatibility is not established by this source or audit. Keep `authOptions` in a normal module; Next.js route files reject extra named exports.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The package archive references are intentionally left unchanged because package manifests and versions are outside this documentation refinement.

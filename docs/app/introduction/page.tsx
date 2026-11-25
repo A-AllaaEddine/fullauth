@@ -1,55 +1,8 @@
-const Introduction = () => {
-  return (
-    <div className="flex h-full flex-col items-start justify-start gap-6 px-16 py-6 ">
-      <p className="w-full text-start font-bold text-4xl text-gray-300">
-        Introduction
-      </p>{' '}
-      <p className="w-2/3 text-start">
-        Welcome to FullAuth, a versatile authentication library designed to
-        streamline user authentication and authorization across a variety of
-        platforms. Whether you are developing web applications, Next.js
-        projects, React applications, or React Native mobile apps, FullAuth
-        offers a unified and secure authentication experience.
-      </p>
-      <p className="text-2xl font-semibold text-gray-300 mt-10">Features</p>
-      <div className="w-2/3 h-full flex flex-col justify-start items-start gap-4 rounded-xl bg-[#1d1d1d] p-5">
-        <p>
-          <span className="font-semibold text-gray-300">
-            Universal Authentication:
-          </span>{' '}
-          FullAuth simplifies the implementation of authentication workflows,
-          ensuring a consistent experience across diverse platforms.
-        </p>
-        <p>
-          <span className="font-semibold text-gray-300">
-            Secure Authentication Methods:
-          </span>{' '}
-          Implement robust and secure authentication methods, enhancing the
-          overall security of user accounts.
-        </p>
-        <p>
-          <span className="font-semibold text-gray-300">
-            Cross-Platform Compatibility:
-          </span>{' '}
-          Seamlessly integrate authentication features into both web and mobile
-          applications.
-        </p>
-        <p>
-          <span className="font-semibold text-gray-300">
-            Next.js Integration:
-          </span>{' '}
-          Tailored support for Next.js applications, including server components
-          and API route authentication.
-        </p>
-        <p>
-          <span className="font-semibold text-gray-300">
-            React Native Integration:
-          </span>{' '}
-          Tailored support for React Native / Expo applications.
-        </p>
-      </div>
-    </div>
-  );
-};
+import Link from 'next/link';
+import { pageMetadata } from '@/lib/metadata';
 
-export default Introduction;
+export const metadata = pageMetadata({ path: '/introduction', title: 'Introduction', description: 'Learn how FullAuth packages its shared provider core, Next.js route handling, and React and React Native session utilities.' });
+
+export default function Introduction() {
+  return <><p className="docs-breadcrumb">FULLAUTH / DOCUMENTATION</p><h1>Introduction</h1><p>FullAuth is a TypeScript authentication library with packages for a shared provider core, Next.js route handling, and React or React Native session utilities. Configure the server integration, then use the client package that matches your application.</p><h2>What is included</h2><ul><li><code>@fullauth/core</code> defines provider and session types, with credentials and Google provider modules.</li><li><code>@fullauth/next</code> exports a Next.js route handler and server session helper.</li><li><code>@fullauth/react</code> provides session context, hooks, and sign-in/sign-out helpers.</li><li><code>@fullauth/react-native</code> provides corresponding mobile helpers and authentication headers.</li></ul><p>Start with the <Link href="/installation">installation guide</Link>, then follow the guide for your runtime. Google provider code is present in the package; review its guide and test your integration before relying on it in production.</p><h2>Security status</h2><p>FullAuth is under active maintenance and has known security and compatibility limitations. Configure a unique, high-entropy <code>FULLAUTH_SECRET</code> on every deployment; never rely on the package fallback or commit secrets. The current Google OAuth flow does not validate a one-time state value, so do not use it with production users until that issue is fixed and independently verified. Token expiration and session/API compatibility limitations are also under review; treat authentication behavior as unverified for security-sensitive production use. No substantive automated authentication test suite is currently provided. Review your deployment and contact the maintainers before relying on affected flows.</p><h2>Next steps</h2><p>See the <Link href="/next/installation">Next.js setup</Link>, <Link href="/react-native/installation">React Native setup</Link>, and <Link href="/examples">repository examples</Link>.</p></>;
+}

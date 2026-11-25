@@ -1,26 +1,26 @@
 import { signIn, signOut, useSession } from '@fullauth/react-native';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
+const baseUrl = process.env.EXPO_PUBLIC_FULLAUTH_URL!;
+
 const Home = () => {
   const { session, update } = useSession();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.text}>user: {session?.user?.name ?? ''}</Text>
-        <Text style={styles.text}>status: {session?.user?.status ?? ''}</Text>
+        <Text style={styles.text}>status: {session?.status ?? ''}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.pressable}>
-          <Text
-            style={styles.text}
-            onPress={async () => {
-              await signIn('credentials', {
-                email: 'test@test.com',
-                password: 'test12345',
-              });
-              await update();
-            }}
-          >
+        <Pressable style={styles.pressable} onPress={async () => {
+          await signIn({
+            baseUrl,
+            provider: 'credentials',
+            credentials: { email: 'replace-with-form-email', password: 'replace-with-form-password' },
+          });
+          await update();
+        }}>
+          <Text style={styles.text}>
             Sign In
           </Text>
         </Pressable>
@@ -28,7 +28,7 @@ const Home = () => {
           style={styles.pressable}
           onPress={async () => {
             await update({
-              name: 'lazydev',
+              name: 'replace-with-validated-name',
             });
           }}
         >
@@ -37,7 +37,7 @@ const Home = () => {
         <Pressable
           style={styles.pressable}
           onPress={async () => {
-            await signOut();
+            await signOut({ baseUrl });
             await update();
           }}
         >
